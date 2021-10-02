@@ -25,14 +25,14 @@ public class EmpleadoDAO {
     ResultSet rs; //Objeto que guarda el resultado de la consulta
 
     Empleado empleado = new Empleado();
-    
-    public boolean agregarEmpleado(Empleado empleado){
-        
-        String sql="INSERT INTO empleados(Cedula,Nombres,Apellidos,Fecha_Nacimiento,Telefono,Direccion,RH,EPS,ARL) VALUES('"
-                +empleado.getCedula()+"','"+empleado.getNombres()+"','"+empleado.getApellidos()+"','"
-                +empleado.getFechaNacimiento()+"','"+empleado.getTelefono()+"','"+empleado.getDireccion()+"','"
-                +empleado.getRh()+"','"+empleado.getEps()+"','"+empleado.getArl()+"')";
-        
+
+    public boolean agregarEmpleado(Empleado empleado) {
+
+        String sql = "INSERT INTO empleados(Cedula,Nombres,Apellidos,Fecha_Nacimiento,Telefono,Direccion,RH,EPS,ARL) VALUES('"
+                + empleado.getCedula() + "','" + empleado.getNombres() + "','" + empleado.getApellidos() + "','"
+                + empleado.getFechaNacimiento() + "','" + empleado.getTelefono() + "','" + empleado.getDireccion() + "','"
+                + empleado.getRh() + "','" + empleado.getEps() + "','" + empleado.getArl() + "')";
+
         //Conectarse a la base de datos
         con = cn.getConnection();
 
@@ -48,8 +48,8 @@ public class EmpleadoDAO {
 
         return true;
     }
-    
-    public boolean modificarEmpleado(){
-        
+
+    public boolean modificarEmpleado() {
+        return true;
     }
 }

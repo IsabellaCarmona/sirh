@@ -19,8 +19,8 @@ import vista.FrmEmpleados;
  *
  * @author SALA404-406
  */
-public class ControladorEmpleado implements ActionListener{
-    
+public class ControladorEmpleado implements ActionListener {
+
     FrmEmpleados frmempleados;
     Empleado empleado;
     EmpleadoDAO empleadodao;
@@ -29,7 +29,7 @@ public class ControladorEmpleado implements ActionListener{
         this.frmempleados = frmempleados;
         this.empleado = empleado;
         this.empleadodao = empleadodao;
-        
+
         this.frmempleados.jBtAgregar.addActionListener(this);
         this.frmempleados.jBtModificar.addActionListener(this);
         this.frmempleados.jBtEliminar.addActionListener(this);
@@ -40,14 +40,14 @@ public class ControladorEmpleado implements ActionListener{
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        
-        if(e.getSource()==frmempleados.jBtAgregar){
-            
-            String tipoID = (String)frmempleados.jCbTipoID.getSelectedItem();
+
+        if (e.getSource() == frmempleados.jBtAgregar) {
+
+            String tipoID = (String) frmempleados.jCbTipoID.getSelectedItem();
             String cedula = frmempleados.jTxNumeroID.getText();
             String nombres = frmempleados.jTxNombres.getText();
             String apellidos = frmempleados.jTxApellidos.getText();
-                    
+
             //Capturar fecha
             SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
             String fecha = format.format(frmempleados.jDtFechaNacimiento.getDate());
@@ -58,23 +58,22 @@ public class ControladorEmpleado implements ActionListener{
                 Logger.getLogger(ControladorEmpleado.class.getName()).log(Level.SEVERE, null, ex);
             }
             java.sql.Date fechasql = new java.sql.Date(fechaN.getTime());
-            
+
             String telefono = frmempleados.jTxTelefono.getText();
             String direccion = frmempleados.jTxDireccion.getText();
-            String rh = (String)frmempleados.jCbRH.getSelectedItem();
-            String eps = (String)frmempleados.jCbEPS.getSelectedItem();
-            String arl = (String)frmempleados.jCbARL.getSelectedItem();
-            
-            empleado = new Empleado(tipoID,cedula,nombres,apellidos,fechasql,telefono,direccion,rh,eps,arl);
-            
-            if (empleadodao.guardarDatos(empleado)) {
+            String rh = (String) frmempleados.jCbRH.getSelectedItem();
+            String eps = (String) frmempleados.jCbEPS.getSelectedItem();
+            String arl = (String) frmempleados.jCbARL.getSelectedItem();
+
+            empleado = new Empleado(tipoID, cedula, nombres, apellidos, fechasql, telefono, direccion, rh, eps, arl);
+
+            /*if (empleadodao.guardarDatos(empleado)) {
                 limpiarControles();
                 JOptionPane.showMessageDialog(frmvideop, "Producto registrado exitosamente");
             } else {
                 JOptionPane.showMessageDialog(frmvideop, "Error al registrar el producto");
-            }
+            }*/
         }
     }
-    
-    
+
 }
