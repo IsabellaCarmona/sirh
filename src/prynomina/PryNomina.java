@@ -20,11 +20,12 @@ public class PryNomina {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
+
         FrmInicio form1 = new FrmInicio();
         AdministradorDAO admindao = new AdministradorDAO();
         Administrador admin = new Administrador();
 
-        ControladorInicio control1 = new ControladorInicio(form1, admin, admindao);
+        ControladorInicio control = new ControladorInicio(form1, admin, admindao);
         form1.setVisible(true);
 
     }

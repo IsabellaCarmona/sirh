@@ -61,25 +61,25 @@ public class ControladorInicio implements ActionListener {
                     }
                 } while (x == 1);
             }
+        }
 
-            if (e.getSource() == frminicio.jBtInicioSesion) {
+        if (e.getSource() == frminicio.jBtInicioSesion) {
 
-                String usuario = frminicio.jTxUser.getText();
-                String contrasena = frminicio.jPassword.getText();
+            String usuario = frminicio.jTxUser.getText();
+            String contrasena = frminicio.jPassword.getText();
 
-                try {
-                    if (admindao.validarUsuario(usuario, contrasena)) {
-                        FrmPrincipal fmenu = new FrmPrincipal();
+            try {
+                if (admindao.validarUsuario(usuario, contrasena)) {
 
-                        fmenu.setVisible(true);
-                    } else {
-                        JOptionPane.showMessageDialog(frminicio, "Usuario y/o Contraseña incorrecto(s)");
-                    }
-                } catch (SQLException ex) {
-                    Logger.getLogger(ControladorInicio.class.getName()).log(Level.SEVERE, null, ex);
+                    FrmPrincipal fmenu = new FrmPrincipal();
+                    frminicio.setVisible(false);
+                    fmenu.setVisible(true);
+                } else {
+                    JOptionPane.showMessageDialog(frminicio, "Usuario y/o Contraseña incorrecto(s)");
                 }
+            } catch (SQLException ex) {
+                Logger.getLogger(ControladorInicio.class.getName()).log(Level.SEVERE, null, ex);
             }
-
         }
 
     }
