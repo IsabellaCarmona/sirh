@@ -28,10 +28,10 @@ public class EmpleadoDAO {
 
     public boolean agregarEmpleado(Empleado empleado) {
 
-        String sql = "INSERT INTO empleados(Cedula,Nombres,Apellidos,Fecha_Nacimiento,Telefono,Direccion,RH,EPS,ARL) VALUES('"
+        String sql = "INSERT INTO empleados(Cedula,Nombres,Apellidos,Fecha_Nacimiento,Telefono,Direccion,RH,EPS,ARL,SalarioBase) VALUES('"
                 + empleado.getCedula() + "','" + empleado.getNombres() + "','" + empleado.getApellidos() + "','"
                 + empleado.getFechaNacimiento() + "','" + empleado.getTelefono() + "','" + empleado.getDireccion() + "','"
-                + empleado.getRh() + "','" + empleado.getEps() + "','" + empleado.getArl() + "')";
+                + empleado.getRh() + "','" + empleado.getEps() + "','" + empleado.getArl() + "'," + empleado.getSalarioBase() + ")";
 
         //Conectarse a la base de datos
         con = cn.getConnection();

@@ -13,6 +13,7 @@ public class Administrador {
 
     private String user;
     private String password;
+    private String email;
 
     public Administrador() {
     }
@@ -31,6 +32,14 @@ public class Administrador {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 
 }

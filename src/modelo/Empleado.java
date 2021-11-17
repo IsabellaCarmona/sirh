@@ -23,11 +23,12 @@ public class Empleado {
     private String rh;
     private String eps;
     private String arl;
+    private int salarioBase;
 
     public Empleado() {
     }
 
-    public Empleado(String tipoId, String cedula, String nombres, String apellidos, Date fechaNacimiento, String telefono, String direccion, String rh, String eps, String arl) {
+    public Empleado(String tipoId, String cedula, String nombres, String apellidos, Date fechaNacimiento, String telefono, String direccion, String rh, String eps, String arl, int salarioBase) {
         this.tipoId = tipoId;
         this.cedula = cedula;
         this.nombres = nombres;
@@ -38,6 +39,7 @@ public class Empleado {
         this.rh = rh;
         this.eps = eps;
         this.arl = arl;
+        this.salarioBase = salarioBase;
     }
 
     public String getTipoId() {
@@ -47,8 +49,6 @@ public class Empleado {
     public void setTipoId(String tipoId) {
         this.tipoId = tipoId;
     }
-    
-    
 
     public String getCedula() {
         return cedula;
@@ -120,6 +120,14 @@ public class Empleado {
 
     public void setArl(String arl) {
         this.arl = arl;
+    }
+
+    public int getSalarioBase() {
+        return salarioBase;
+    }
+
+    public void setSalarioBase(int salarioBase) {
+        this.salarioBase = salarioBase;
     }
 
 }

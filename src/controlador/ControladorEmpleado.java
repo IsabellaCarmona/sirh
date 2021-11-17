@@ -11,6 +11,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 import modelo.Empleado;
 import modelo.EmpleadoDAO;
 import vista.FrmEmpleados;
@@ -31,10 +32,6 @@ public class ControladorEmpleado implements ActionListener {
         this.empleadodao = empleadodao;
 
         this.frmempleados.jBtAgregar.addActionListener(this);
-        this.frmempleados.jBtModificar.addActionListener(this);
-        this.frmempleados.jBtEliminar.addActionListener(this);
-        this.frmempleados.jBtConsultar.addActionListener(this);
-        this.frmempleados.jBtNuevo.addActionListener(this);
         this.frmempleados.jBtSalir.addActionListener(this);
     }
 
@@ -64,16 +61,38 @@ public class ControladorEmpleado implements ActionListener {
             String rh = (String) frmempleados.jCbRH.getSelectedItem();
             String eps = (String) frmempleados.jCbEPS.getSelectedItem();
             String arl = (String) frmempleados.jCbARL.getSelectedItem();
+            int salario = Integer.parseInt(frmempleados.jTxSalario.getText());
 
-            empleado = new Empleado(tipoID, cedula, nombres, apellidos, fechasql, telefono, direccion, rh, eps, arl);
+            empleado = new Empleado(tipoID, cedula, nombres, apellidos, fechasql, telefono, direccion, rh, eps, arl, salario);
 
-            /*if (empleadodao.guardarDatos(empleado)) {
+            if (empleadodao.agregarEmpleado(empleado)) {
                 limpiarControles();
-                JOptionPane.showMessageDialog(frmvideop, "Producto registrado exitosamente");
+                JOptionPane.showMessageDialog(frmempleados, "Empleado registrado exitosamente");
             } else {
-                JOptionPane.showMessageDialog(frmvideop, "Error al registrar el producto");
-            }*/
+                JOptionPane.showMessageDialog(frmempleados, "Error al registrar el Empleado");
+            }
         }
+        if (e.getSource() == frmempleados.jBtSalir) {
+            int respuesta = JOptionPane.showConfirmDialog(frmempleados, "¿Esta seguro de salir?", "Fin ingreso empleados", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+            if (respuesta == JOptionPane.YES_OPTION) {
+                frmempleados.dispose();
+            }
+        }
+    }
+
+    public void limpiarControles() {
+        java.sql.Date date = new java.sql.Date(new java.util.Date().getTime());
+
+        frmempleados.jTxNumeroID.setText("");
+        frmempleados.jTxNombres.setText("");
+        frmempleados.jTxApellidos.setText("");
+        frmempleados.jDtFechaNacimiento.setDate(date);
+        frmempleados.jTxTelefono.setText("");
+        frmempleados.jTxDireccion.setText("");
+        frmempleados.jTxSalario.setText("");
+
+        //Para que el cursor quede en ese campo de texto
+        frmempleados.jTxNumeroID.requestFocus();
     }
 
 }
