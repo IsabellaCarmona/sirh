@@ -9,6 +9,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -47,6 +48,27 @@ public class EmpleadoDAO {
         }
 
         return true;
+    }
+
+    public ArrayList traerDatos() throws SQLException {
+
+        ArrayList empleados = new ArrayList();
+        Empleado empleado = new Empleado();
+        String sql = "SELECT tipoDocumento,Cedula,Nombres,Apellidos from empleados";
+
+        con = cn.getConnection(); //Establece la conexion
+        ps = con.prepareStatement(sql); //Se prepara el codigo sql
+        rs = ps.executeQuery();
+
+        while (rs.next()) {
+            empleado.setTipoId(rs.getString("tipoDocumento"));
+            empleado.setCedula(rs.getString("Cedula"));
+            empleado.setNombres(rs.getString("Nombres"));
+            empleado.setApellidos(rs.getString("Apellidos"));
+            empleados.add(new Empleado(empleado.getTipoId(), empleado.getCedula(), empleado.getNombres(), empleado.getApellidos()));
+        }
+
+        return empleados;
     }
 
     public boolean modificarEmpleado() {

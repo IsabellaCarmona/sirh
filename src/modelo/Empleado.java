@@ -28,6 +28,13 @@ public class Empleado {
     public Empleado() {
     }
 
+    public Empleado(String tipoId, String cedula, String nombres, String apellidos) {
+        this.tipoId = tipoId;
+        this.cedula = cedula;
+        this.nombres = nombres;
+        this.apellidos = apellidos;
+    }
+
     public Empleado(String tipoId, String cedula, String nombres, String apellidos, Date fechaNacimiento, String telefono, String direccion, String rh, String eps, String arl, int salarioBase) {
         this.tipoId = tipoId;
         this.cedula = cedula;

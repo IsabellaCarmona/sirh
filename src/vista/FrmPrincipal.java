@@ -5,6 +5,14 @@
  */
 package vista;
 
+import controlador.ControladorEmpleado;
+import controlador.ControladorVisualizarEmpl;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import modelo.Empleado;
+import modelo.EmpleadoDAO;
+
 /**
  *
  * @author SALA404-406
@@ -16,7 +24,7 @@ public class FrmPrincipal extends javax.swing.JFrame {
      */
     public FrmPrincipal() {
         initComponents();
-        
+
         this.setExtendedState(MAXIMIZED_BOTH);
     }
 
@@ -36,6 +44,7 @@ public class FrmPrincipal extends javax.swing.JFrame {
         jMenuItem2 = new javax.swing.JMenuItem();
         jMenuItem3 = new javax.swing.JMenuItem();
         jMenuItem4 = new javax.swing.JMenuItem();
+        jMenuItem5 = new javax.swing.JMenuItem();
         jMenu3 = new javax.swing.JMenu();
         jMenu4 = new javax.swing.JMenu();
         jMenu5 = new javax.swing.JMenu();
@@ -66,13 +75,21 @@ public class FrmPrincipal extends javax.swing.JFrame {
         jMenuItem3.setText("Nomina");
         jMenu2.add(jMenuItem3);
 
-        jMenuItem4.setText("Empleados");
+        jMenuItem4.setText("Agregar");
         jMenuItem4.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jMenuItem4ActionPerformed(evt);
             }
         });
         jMenu2.add(jMenuItem4);
+
+        jMenuItem5.setText("Mostrar");
+        jMenuItem5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem5ActionPerformed(evt);
+            }
+        });
+        jMenu2.add(jMenuItem5);
 
         jMenuBar1.add(jMenu2);
 
@@ -103,9 +120,26 @@ public class FrmPrincipal extends javax.swing.JFrame {
 
     private void jMenuItem4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem4ActionPerformed
         FrmEmpleados frmEmpleados = new FrmEmpleados();
+        Empleado empleado = new Empleado();
+        EmpleadoDAO empleadod = new EmpleadoDAO();
+        ControladorEmpleado control = new ControladorEmpleado(frmEmpleados, empleado, empleadod);
         jDesktopPane1.add(frmEmpleados); //Crea un objeto de tipo form y sobrepone un panel sobre otro
         frmEmpleados.show();
     }//GEN-LAST:event_jMenuItem4ActionPerformed
+
+    private void jMenuItem5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem5ActionPerformed
+        FrmVisualizarEmpleados frmVisualizar = null;
+        try {
+            frmVisualizar = new FrmVisualizarEmpleados();
+        } catch (SQLException ex) {
+            Logger.getLogger(FrmPrincipal.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        Empleado empleado = new Empleado();
+        EmpleadoDAO empleadod = new EmpleadoDAO();
+        ControladorVisualizarEmpl control = new ControladorVisualizarEmpl(frmVisualizar, empleado, empleadod);
+        jDesktopPane1.add(frmVisualizar); //Crea un objeto de tipo form y sobrepone un panel sobre otro
+        frmVisualizar.show();
+    }//GEN-LAST:event_jMenuItem5ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -114,7 +148,7 @@ public class FrmPrincipal extends javax.swing.JFrame {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
+         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html
          */
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
@@ -153,5 +187,6 @@ public class FrmPrincipal extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JMenuItem jMenuItem3;
     private javax.swing.JMenuItem jMenuItem4;
+    public javax.swing.JMenuItem jMenuItem5;
     // End of variables declaration//GEN-END:variables
 }
