@@ -23,29 +23,33 @@ public class FrmVisualizarEmpleados extends javax.swing.JInternalFrame {
     public FrmVisualizarEmpleados() throws SQLException {
         initComponents();
 
-        Empleado empleado = new Empleado();
-        EmpleadoDAO empleadod = new EmpleadoDAO();
-        ArrayList empleados = null;
-        DefaultTableModel modelo = new DefaultTableModel();
+        /*if (jCbTipoID.getSelectedItem().equals("-SELECCIONE TIPO DE DOCUMENTO-")) {
 
-        modelo.addColumn("Código");
-        modelo.addColumn("Tipo");
-        modelo.addColumn("Nombre Producto");
-        modelo.addColumn("Fecha de lanzamiento");
-        this.jTbEmpleados.setModel(modelo);
+            limpiarJTable();
+            Empleado empleado = new Empleado();
+            EmpleadoDAO empleadod = new EmpleadoDAO();
+            ArrayList empleados = null;
+            DefaultTableModel modelo = new DefaultTableModel();
 
-        empleados = empleadod.traerDatos();
+            modelo.addColumn("Tipo de Documento");
+            modelo.addColumn("Numero");
+            modelo.addColumn("Nombres");
+            modelo.addColumn("Apellidos");
+            this.jTbEmpleados.setModel(modelo);
 
-        //Ciclo que llena la Table, despues de la consulta
-        for (int i = 0; i < empleados.size(); i++) {
-            String[] datos = new String[4];
-            empleado = (Empleado) empleados.get(i);
-            datos[0] = empleado.getTipoId();
-            datos[1] = empleado.getCedula();
-            datos[2] = empleado.getNombres();
-            datos[3] = empleado.getApellidos();
-            modelo.addRow(datos);
-        }
+            empleados = empleadod.traerDatos();
+
+            //Ciclo que llena la Table, despues de la consulta
+            for (int i = 0; i < empleados.size(); i++) {
+                String[] datos = new String[4];
+                empleado = (Empleado) empleados.get(i);
+                datos[0] = empleado.getTipoId();
+                datos[1] = empleado.getCedula();
+                datos[2] = empleado.getNombres();
+                datos[3] = empleado.getApellidos();
+                modelo.addRow(datos);
+            }
+        }*/
     }
 
     /**
@@ -61,9 +65,9 @@ public class FrmVisualizarEmpleados extends javax.swing.JInternalFrame {
         jTbEmpleados = new javax.swing.JTable();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
-        jComboBox1 = new javax.swing.JComboBox<>();
+        jCbTipoID = new javax.swing.JComboBox<>();
         jLabel3 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
+        jTxID = new javax.swing.JTextField();
 
         jTbEmpleados.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -83,7 +87,7 @@ public class FrmVisualizarEmpleados extends javax.swing.JInternalFrame {
 
         jLabel2.setText("Tipo Identificacion");
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Cedula de Ciudadania", "Cedula de Extranjeria", "PEP" }));
+        jCbTipoID.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "-SELECCIONE TIPO DE DOCUMENTO-", "Cedula de Ciudadania", "Cedula de Extranjeria", "PEP" }));
 
         jLabel3.setText("Numero");
 
@@ -103,12 +107,12 @@ public class FrmVisualizarEmpleados extends javax.swing.JInternalFrame {
                 .addGap(40, 40, 40)
                 .addComponent(jLabel2)
                 .addGap(18, 18, 18)
-                .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(58, 58, 58)
+                .addComponent(jCbTipoID, javax.swing.GroupLayout.PREFERRED_SIZE, 246, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(67, 67, 67)
                 .addComponent(jLabel3)
-                .addGap(38, 38, 38)
-                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 211, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(126, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
+                .addComponent(jTxID, javax.swing.GroupLayout.PREFERRED_SIZE, 211, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(43, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -118,9 +122,9 @@ public class FrmVisualizarEmpleados extends javax.swing.JInternalFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 44, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
-                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jCbTipoID, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel3)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jTxID, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(24, 24, 24)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 386, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
@@ -130,12 +134,12 @@ public class FrmVisualizarEmpleados extends javax.swing.JInternalFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JComboBox<String> jComboBox1;
+    public javax.swing.JComboBox<String> jCbTipoID;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JScrollPane jScrollPane1;
     public javax.swing.JTable jTbEmpleados;
-    private javax.swing.JTextField jTextField1;
+    public javax.swing.JTextField jTxID;
     // End of variables declaration//GEN-END:variables
 }

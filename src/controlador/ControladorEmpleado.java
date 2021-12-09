@@ -59,7 +59,7 @@ public class ControladorEmpleado implements ActionListener {
             String telefono = frmempleados.jTxTelefono.getText();
             String direccion = frmempleados.jTxDireccion.getText();
             String rh = (String) frmempleados.jCbRH.getSelectedItem();
-            String eps = (String) frmempleados.jCbEPS.getSelectedItem();
+            String eps = (String) frmempleados.jTxEPS.getText();
             String arl = (String) frmempleados.jCbARL.getSelectedItem();
             int salario = Integer.parseInt(frmempleados.jTxSalario.getText());
 

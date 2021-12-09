@@ -54,7 +54,7 @@ public class EmpleadoDAO {
 
         ArrayList empleados = new ArrayList();
         Empleado empleado = new Empleado();
-        String sql = "SELECT tipoDocumento,Cedula,Nombres,Apellidos from empleados";
+        String sql = "SELECT tipoDocumento,Cedula,Nombres,Apellidos FROM empleados";
 
         con = cn.getConnection(); //Establece la conexion
         ps = con.prepareStatement(sql); //Se prepara el codigo sql
@@ -71,7 +71,45 @@ public class EmpleadoDAO {
         return empleados;
     }
 
-    public boolean modificarEmpleado() {
-        return true;
+    public ArrayList traerDatosTipoID(String tipoId) throws SQLException {
+
+        ArrayList empleados = new ArrayList();
+        Empleado empleado = new Empleado();
+        String sql = "SELECT tipoDocumento,Cedula,Nombres,Apellidos FROM empleados WHERE tipoDocumento='" + tipoId + "'";
+
+        con = cn.getConnection(); //Establece la conexion
+        ps = con.prepareStatement(sql); //Se prepara el codigo sql
+        rs = ps.executeQuery();
+
+        while (rs.next()) {
+            empleado.setTipoId(rs.getString("tipoDocumento"));
+            empleado.setCedula(rs.getString("Cedula"));
+            empleado.setNombres(rs.getString("Nombres"));
+            empleado.setApellidos(rs.getString("Apellidos"));
+            empleados.add(new Empleado(empleado.getTipoId(), empleado.getCedula(), empleado.getNombres(), empleado.getApellidos()));
+        }
+
+        return empleados;
+    }
+
+    public ArrayList traerDatosID(String Id) throws SQLException {
+
+        ArrayList empleados = new ArrayList();
+        Empleado empleado = new Empleado();
+        String sql = "SELECT tipoDocumento,Cedula,Nombres,Apellidos FROM empleados WHERE Cedula='" + Id + "'";
+
+        con = cn.getConnection(); //Establece la conexion
+        ps = con.prepareStatement(sql); //Se prepara el codigo sql
+        rs = ps.executeQuery();
+
+        while (rs.next()) {
+            empleado.setTipoId(rs.getString("tipoDocumento"));
+            empleado.setCedula(rs.getString("Cedula"));
+            empleado.setNombres(rs.getString("Nombres"));
+            empleado.setApellidos(rs.getString("Apellidos"));
+            empleados.add(new Empleado(empleado.getTipoId(), empleado.getCedula(), empleado.getNombres(), empleado.getApellidos()));
+        }
+
+        return empleados;
     }
 }
