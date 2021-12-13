@@ -29,8 +29,8 @@ public class EmpleadoDAO {
 
     public boolean agregarEmpleado(Empleado empleado) {
 
-        String sql = "INSERT INTO empleados(Cedula,Nombres,Apellidos,Fecha_Nacimiento,Telefono,Direccion,RH,EPS,ARL,SalarioBase) VALUES('"
-                + empleado.getCedula() + "','" + empleado.getNombres() + "','" + empleado.getApellidos() + "','"
+        String sql = "INSERT INTO empleados(tipoDocumento,Cedula,Nombres,Apellidos,Fecha_Nacimiento,Telefono,Direccion,RH,EPS,ARL,SalarioBase) VALUES('"
+                + empleado.getTipoId() + "','" + empleado.getCedula() + "','" + empleado.getNombres() + "','" + empleado.getApellidos() + "','"
                 + empleado.getFechaNacimiento() + "','" + empleado.getTelefono() + "','" + empleado.getDireccion() + "','"
                 + empleado.getRh() + "','" + empleado.getEps() + "','" + empleado.getArl() + "'," + empleado.getSalarioBase() + ")";
 
@@ -92,11 +92,11 @@ public class EmpleadoDAO {
         return empleados;
     }
 
-    public ArrayList traerDatosID(String Id) throws SQLException {
+    public ArrayList<Empleado> traerDatosID(String Id, String doc) throws SQLException {
 
-        ArrayList empleados = new ArrayList();
+        ArrayList<Empleado> empleados = new ArrayList<>();
         Empleado empleado = new Empleado();
-        String sql = "SELECT tipoDocumento,Cedula,Nombres,Apellidos FROM empleados WHERE Cedula='" + Id + "'";
+        String sql = "SELECT tipoDocumento,Cedula,Nombres,Apellidos FROM empleados WHERE Cedula LIKE '" + Id + "%' AND tipoDocumento='" + doc + "'";
 
         con = cn.getConnection(); //Establece la conexion
         ps = con.prepareStatement(sql); //Se prepara el codigo sql

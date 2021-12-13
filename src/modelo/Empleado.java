@@ -49,6 +49,20 @@ public class Empleado {
         this.salarioBase = salarioBase;
     }
 
+    public boolean empiezaPor(String inicio) {
+        if (inicio.length() > cedula.length()) {
+            return false;
+        }
+
+        for (int i = 0; i < inicio.length(); i++) {
+            if (inicio.charAt(i) != cedula.charAt(i)) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
     public String getTipoId() {
         return tipoId;
     }

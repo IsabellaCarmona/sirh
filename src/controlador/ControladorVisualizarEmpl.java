@@ -7,6 +7,8 @@ package controlador;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.logging.Level;
@@ -21,7 +23,7 @@ import vista.FrmVisualizarEmpleados;
  *
  * @author ISABELLA CARMONA C
  */
-public class ControladorVisualizarEmpl implements ActionListener {
+public class ControladorVisualizarEmpl implements ActionListener, KeyListener {
 
     private FrmVisualizarEmpleados fvisualizar;
     private Empleado empleado;
@@ -39,7 +41,7 @@ public class ControladorVisualizarEmpl implements ActionListener {
         fvisualizar.jTbEmpleados.setModel(modelo);
 
         this.fvisualizar.jCbTipoID.addActionListener(this);
-        this.fvisualizar.jTxID.addActionListener(this);
+        this.fvisualizar.jTxID.addKeyListener(this);
     }
 
     public void limpiarJTable() {
@@ -73,61 +75,52 @@ public class ControladorVisualizarEmpl implements ActionListener {
                     datos[3] = empleado.getApellidos();
                     modelo.addRow(datos);
                 }
+            }
 
-                if (!fvisualizar.jTxID.getText().equals("")) {
+        }
 
-                    limpiarJTable();
-                    String documento = fvisualizar.jTxID.getText();
-                    ArrayList listEmpleados = null;
+    }
 
-                    try {
-                        listaEmpleados = empleadodao.traerDatosID(documento);
-                    } catch (SQLException ex) {
-                        Logger.getLogger(ControladorVisualizarEmpl.class.getName()).log(Level.SEVERE, null, ex);
-                    }
+    @Override
+    public void keyTyped(KeyEvent e) {
 
-                    for (int i = 0; i < listEmpleados.size(); i++) {
-                        String[] datos = new String[4];
-                        empleado = (Empleado) listEmpleados.get(i);
-                        datos[0] = empleado.getTipoId();
-                        datos[1] = documento;
-                        datos[2] = empleado.getNombres();
-                        datos[3] = empleado.getApellidos();
-                        modelo.addRow(datos);
-                    }
-                }
-            } else if (fvisualizar.jCbTipoID.getSelectedItem().equals("-SELECCIONE TIPO DE DOCUMENTO-")) {
-                limpiarJTable();
-                Empleado empleado = new Empleado();
-                EmpleadoDAO empleadod = new EmpleadoDAO();
-                ArrayList empleados = null;
-                DefaultTableModel modelo = new DefaultTableModel();
+    }
 
-                modelo.addColumn("Tipo de Documento");
-                modelo.addColumn("Numero");
-                modelo.addColumn("Nombres");
-                modelo.addColumn("Apellidos");
-                fvisualizar.jTbEmpleados.setModel(modelo);
+    @Override
+    public void keyPressed(KeyEvent e) {
 
-                try {
-                    empleados = empleadod.traerDatos();
-                } catch (SQLException ex) {
-                    Logger.getLogger(ControladorVisualizarEmpl.class.getName()).log(Level.SEVERE, null, ex);
-                }
+    }
 
-                //Ciclo que llena la Table, despues de la consulta
-                for (int i = 0; i < empleados.size(); i++) {
+    @Override
+    public void keyReleased(KeyEvent e) {
+
+        ArrayList<Empleado> listEmpleados = new ArrayList();
+        String documento = fvisualizar.jTxID.getText();
+        String doc = (String) fvisualizar.jCbTipoID.getSelectedItem();
+
+        try {
+            listEmpleados = empleadodao.traerDatosID(documento, doc);
+        } catch (SQLException ex) {
+            Logger.getLogger(ControladorVisualizarEmpl.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        if (e.getSource() == fvisualizar.jTxID) {
+
+            limpiarJTable();
+
+            for (int i = 0; i < listEmpleados.size(); i++) {
+                if (listEmpleados.get(i).empiezaPor(fvisualizar.jTxID.getText())) {
+
                     String[] datos = new String[4];
-                    empleado = (Empleado) empleados.get(i);
-                    datos[0] = empleado.getTipoId();
-                    datos[1] = empleado.getCedula();
-                    datos[2] = empleado.getNombres();
-                    datos[3] = empleado.getApellidos();
+                    datos[0] = doc;
+                    datos[1] = listEmpleados.get(i).getCedula();
+                    datos[2] = listEmpleados.get(i).getNombres();
+                    datos[3] = listEmpleados.get(i).getApellidos();
                     modelo.addRow(datos);
+
                 }
             }
         }
-
     }
 
 }

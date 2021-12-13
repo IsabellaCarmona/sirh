@@ -23,33 +23,30 @@ public class FrmVisualizarEmpleados extends javax.swing.JInternalFrame {
     public FrmVisualizarEmpleados() throws SQLException {
         initComponents();
 
-        /*if (jCbTipoID.getSelectedItem().equals("-SELECCIONE TIPO DE DOCUMENTO-")) {
+        Empleado empleado = new Empleado();
+        EmpleadoDAO empleadod = new EmpleadoDAO();
+        ArrayList empleados = null;
+        DefaultTableModel modelo = new DefaultTableModel();
 
-            limpiarJTable();
-            Empleado empleado = new Empleado();
-            EmpleadoDAO empleadod = new EmpleadoDAO();
-            ArrayList empleados = null;
-            DefaultTableModel modelo = new DefaultTableModel();
+        modelo.addColumn("Tipo de Documento");
+        modelo.addColumn("Numero");
+        modelo.addColumn("Nombres");
+        modelo.addColumn("Apellidos");
+        jTbEmpleados.setModel(modelo);
 
-            modelo.addColumn("Tipo de Documento");
-            modelo.addColumn("Numero");
-            modelo.addColumn("Nombres");
-            modelo.addColumn("Apellidos");
-            this.jTbEmpleados.setModel(modelo);
+        empleados = empleadod.traerDatos();
 
-            empleados = empleadod.traerDatos();
+        //Ciclo que llena la Table, despues de la consulta
+        for (int i = 0; i < empleados.size(); i++) {
+            String[] datos = new String[4];
+            empleado = (Empleado) empleados.get(i);
+            datos[0] = empleado.getTipoId();
+            datos[1] = empleado.getCedula();
+            datos[2] = empleado.getNombres();
+            datos[3] = empleado.getApellidos();
+            modelo.addRow(datos);
+        }
 
-            //Ciclo que llena la Table, despues de la consulta
-            for (int i = 0; i < empleados.size(); i++) {
-                String[] datos = new String[4];
-                empleado = (Empleado) empleados.get(i);
-                datos[0] = empleado.getTipoId();
-                datos[1] = empleado.getCedula();
-                datos[2] = empleado.getNombres();
-                datos[3] = empleado.getApellidos();
-                modelo.addRow(datos);
-            }
-        }*/
     }
 
     /**
