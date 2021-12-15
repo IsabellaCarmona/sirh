@@ -13,6 +13,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import modelo.Empleado;
 import modelo.EmpleadoDAO;
@@ -41,7 +42,26 @@ public class ControladorVisualizarEmpl implements ActionListener, KeyListener {
         fvisualizar.jTbEmpleados.setModel(modelo);
 
         this.fvisualizar.jCbTipoID.addActionListener(this);
+        this.fvisualizar.jBtSalir.addActionListener(this);
         this.fvisualizar.jTxID.addKeyListener(this);
+
+        ArrayList listaEmpleados = null;
+
+        try {
+            listaEmpleados = empleadodao.traerDatos();
+        } catch (SQLException ex) {
+            Logger.getLogger(ControladorVisualizarEmpl.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        for (int i = 0; i < listaEmpleados.size(); i++) {
+            String[] datos = new String[4];
+            empleado = (Empleado) listaEmpleados.get(i);
+            datos[0] = empleado.getTipoId();
+            datos[1] = empleado.getCedula();
+            datos[2] = empleado.getNombres();
+            datos[3] = empleado.getApellidos();
+            modelo.addRow(datos);
+        }
     }
 
     public void limpiarJTable() {
@@ -77,6 +97,12 @@ public class ControladorVisualizarEmpl implements ActionListener, KeyListener {
                 }
             }
 
+        }
+        if (e.getSource() == fvisualizar.jBtSalir) {
+            int respuesta = JOptionPane.showConfirmDialog(fvisualizar, "¿Esta seguro de salir?", "Fin mostrar empleados", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+            if (respuesta == JOptionPane.YES_OPTION) {
+                fvisualizar.dispose();
+            }
         }
 
     }

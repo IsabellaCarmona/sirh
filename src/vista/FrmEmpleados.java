@@ -58,7 +58,6 @@ public class FrmEmpleados extends javax.swing.JInternalFrame {
         jTxEPS = new javax.swing.JTextField();
 
         setBackground(new java.awt.Color(204, 204, 204));
-        setMaximizable(true);
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(0, 0, 0));
@@ -101,9 +100,9 @@ public class FrmEmpleados extends javax.swing.JInternalFrame {
         jLabel10.setForeground(new java.awt.Color(0, 0, 0));
         jLabel10.setText("ARL:");
 
-        jCbTipoID.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Cedula de Ciudadania", "Cedula de Extranjeria", "PEP" }));
+        jCbTipoID.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "-SELECCIONE TIPO DE DOCUMENTO-", "Cedula de Ciudadania", "Cedula de Extranjeria", "PEP" }));
 
-        jCbRH.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "A+", "B+", "AB+", "O+", "A-", "B-", "AB-", "O-" }));
+        jCbRH.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "-SELECCIONE RH-", "A+", "B+", "AB+", "O+", "A-", "B-", "AB-", "O-" }));
 
         jCbARL.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "SURA" }));
 

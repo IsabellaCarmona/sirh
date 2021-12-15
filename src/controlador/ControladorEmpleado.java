@@ -83,6 +83,8 @@ public class ControladorEmpleado implements ActionListener {
     public void limpiarControles() {
         java.sql.Date date = new java.sql.Date(new java.util.Date().getTime());
 
+        frmempleados.jCbTipoID.setSelectedIndex(0);
+        frmempleados.jCbRH.setSelectedIndex(0);
         frmempleados.jTxNumeroID.setText("");
         frmempleados.jTxNombres.setText("");
         frmempleados.jTxApellidos.setText("");
@@ -90,6 +92,7 @@ public class ControladorEmpleado implements ActionListener {
         frmempleados.jTxTelefono.setText("");
         frmempleados.jTxDireccion.setText("");
         frmempleados.jTxSalario.setText("");
+        frmempleados.jTxEPS.setText("");
 
         //Para que el cursor quede en ese campo de texto
         frmempleados.jTxNumeroID.requestFocus();

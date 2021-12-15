@@ -35,33 +35,10 @@ public class ControladorInicio implements ActionListener {
         this.frminicio.jTxUser.addActionListener(this);
         this.frminicio.jPassword.addActionListener(this);
         this.frminicio.jBtInicioSesion.addActionListener(this);
-        this.frminicio.jBtCambiarPw.addActionListener(this);
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
-
-        if (e.getSource() == frminicio.jBtCambiarPw) {
-
-            int x = 0;
-            int respuesta = JOptionPane.showConfirmDialog(null, "¿Esta seguro de querer cambiar su contraseña?", "Fin productos", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
-
-            if (respuesta == JOptionPane.YES_OPTION) {
-
-                do {
-                    String newPassword = JOptionPane.showInputDialog("Porfavor ingrese la nueva contraseña");
-
-                    if (admindao.cambiarPassword(newPassword)) {
-                        //limpiarControles();
-                        JOptionPane.showMessageDialog(frminicio, "Contraseña actualizada con exito");
-                        x = 0;
-                    } else {
-                        JOptionPane.showMessageDialog(frminicio, "Error al cambiar la contraseña");
-                        x = 1;
-                    }
-                } while (x == 1);
-            }
-        }
 
         if (e.getSource() == frminicio.jBtInicioSesion) {
 

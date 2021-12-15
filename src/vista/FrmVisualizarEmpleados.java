@@ -23,30 +23,6 @@ public class FrmVisualizarEmpleados extends javax.swing.JInternalFrame {
     public FrmVisualizarEmpleados() throws SQLException {
         initComponents();
 
-        Empleado empleado = new Empleado();
-        EmpleadoDAO empleadod = new EmpleadoDAO();
-        ArrayList empleados = null;
-        DefaultTableModel modelo = new DefaultTableModel();
-
-        modelo.addColumn("Tipo de Documento");
-        modelo.addColumn("Numero");
-        modelo.addColumn("Nombres");
-        modelo.addColumn("Apellidos");
-        jTbEmpleados.setModel(modelo);
-
-        empleados = empleadod.traerDatos();
-
-        //Ciclo que llena la Table, despues de la consulta
-        for (int i = 0; i < empleados.size(); i++) {
-            String[] datos = new String[4];
-            empleado = (Empleado) empleados.get(i);
-            datos[0] = empleado.getTipoId();
-            datos[1] = empleado.getCedula();
-            datos[2] = empleado.getNombres();
-            datos[3] = empleado.getApellidos();
-            modelo.addRow(datos);
-        }
-
     }
 
     /**
@@ -65,6 +41,7 @@ public class FrmVisualizarEmpleados extends javax.swing.JInternalFrame {
         jCbTipoID = new javax.swing.JComboBox<>();
         jLabel3 = new javax.swing.JLabel();
         jTxID = new javax.swing.JTextField();
+        jBtSalir = new javax.swing.JButton();
 
         jTbEmpleados.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -80,6 +57,7 @@ public class FrmVisualizarEmpleados extends javax.swing.JInternalFrame {
         jScrollPane1.setViewportView(jTbEmpleados);
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
+        jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel1.setText("EMPLEADOS");
 
         jLabel2.setText("Tipo Identificacion");
@@ -88,18 +66,15 @@ public class FrmVisualizarEmpleados extends javax.swing.JInternalFrame {
 
         jLabel3.setText("Numero");
 
+        jBtSalir.setBackground(new java.awt.Color(102, 102, 102));
+        jBtSalir.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
+        jBtSalir.setForeground(new java.awt.Color(255, 255, 255));
+        jBtSalir.setText("Salir");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(291, 291, 291))
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jScrollPane1)
-                .addContainerGap())
             .addGroup(layout.createSequentialGroup()
                 .addGap(40, 40, 40)
                 .addComponent(jLabel2)
@@ -109,28 +84,41 @@ public class FrmVisualizarEmpleados extends javax.swing.JInternalFrame {
                 .addComponent(jLabel3)
                 .addGap(18, 18, 18)
                 .addComponent(jTxID, javax.swing.GroupLayout.PREFERRED_SIZE, 211, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(43, Short.MAX_VALUE))
+                .addContainerGap(47, Short.MAX_VALUE))
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING))
+                .addContainerGap())
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jBtSalir)
+                .addGap(26, 26, 26))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 44, Short.MAX_VALUE)
+                .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
                     .addComponent(jCbTipoID, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel3)
                     .addComponent(jTxID, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(24, 24, 24)
+                .addGap(18, 18, 18)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 386, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jBtSalir)
+                .addContainerGap(12, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    public javax.swing.JButton jBtSalir;
     public javax.swing.JComboBox<String> jCbTipoID;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;

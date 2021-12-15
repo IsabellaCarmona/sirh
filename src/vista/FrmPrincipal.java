@@ -7,9 +7,11 @@ package vista;
 
 import controlador.ControladorEmpleado;
 import controlador.ControladorVisualizarEmpl;
+import java.awt.Dimension;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 import modelo.Empleado;
 import modelo.EmpleadoDAO;
 
@@ -100,6 +102,11 @@ public class FrmPrincipal extends javax.swing.JFrame {
         jMenuBar1.add(jMenu4);
 
         jMenu5.setText("Salir");
+        jMenu5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenu5ActionPerformed(evt);
+            }
+        });
         jMenuBar1.add(jMenu5);
 
         setJMenuBar(jMenuBar1);
@@ -124,6 +131,10 @@ public class FrmPrincipal extends javax.swing.JFrame {
         EmpleadoDAO empleadod = new EmpleadoDAO();
         ControladorEmpleado control = new ControladorEmpleado(frmEmpleados, empleado, empleadod);
         jDesktopPane1.add(frmEmpleados); //Crea un objeto de tipo form y sobrepone un panel sobre otro
+
+        Dimension desktopSize = jDesktopPane1.getSize();
+        Dimension FrameSize = frmEmpleados.getSize();
+        frmEmpleados.setLocation((desktopSize.width - FrameSize.width) / 2, (desktopSize.height - FrameSize.height) / 2);
         frmEmpleados.show();
     }//GEN-LAST:event_jMenuItem4ActionPerformed
 
@@ -138,8 +149,19 @@ public class FrmPrincipal extends javax.swing.JFrame {
         EmpleadoDAO empleadod = new EmpleadoDAO();
         ControladorVisualizarEmpl control = new ControladorVisualizarEmpl(frmVisualizar, empleado, empleadod);
         jDesktopPane1.add(frmVisualizar); //Crea un objeto de tipo form y sobrepone un panel sobre otro
+
+        Dimension desktopSize = jDesktopPane1.getSize();
+        Dimension FrameSize = frmVisualizar.getSize();
+        frmVisualizar.setLocation((desktopSize.width - FrameSize.width) / 2, (desktopSize.height - FrameSize.height) / 2);
         frmVisualizar.show();
     }//GEN-LAST:event_jMenuItem5ActionPerformed
+
+    private void jMenu5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenu5ActionPerformed
+        int respuesta = JOptionPane.showConfirmDialog(this, "¿Esta seguro de salir?", "Vuelva pronto", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+        if (respuesta == JOptionPane.YES_OPTION) {
+            System.exit(0);
+        }
+    }//GEN-LAST:event_jMenu5ActionPerformed
 
     /**
      * @param args the command line arguments
