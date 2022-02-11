@@ -7,6 +7,7 @@ package vista;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import modelo.Empleado;
 import modelo.EmpleadoDAO;
@@ -54,6 +55,11 @@ public class FrmVisualizarEmpleados extends javax.swing.JInternalFrame {
 
             }
         ));
+        jTbEmpleados.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                jTbEmpleadosMousePressed(evt);
+            }
+        });
         jScrollPane1.setViewportView(jTbEmpleados);
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
@@ -116,6 +122,22 @@ public class FrmVisualizarEmpleados extends javax.swing.JInternalFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void jTbEmpleadosMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTbEmpleadosMousePressed
+        int fila = this.jTbEmpleados.getSelectedRow();
+        System.out.println(fila);
+
+        DefaultTableModel modelo = (DefaultTableModel) jTbEmpleados.getModel();
+        String nombre = (String) modelo.getValueAt(fila, 2);
+        String apellidos = (String) modelo.getValueAt(fila, 3);
+        String empleado = nombre + " " + apellidos;
+
+        int respuesta = JOptionPane.showConfirmDialog(this, "¿Desea ingresar el turno de: " + empleado + "?", "Asignación de turnos", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+        if (respuesta == JOptionPane.YES_OPTION) {
+            FrmTurnos formT = new FrmTurnos();
+            formT.setVisible(true);
+        }
+    }//GEN-LAST:event_jTbEmpleadosMousePressed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     public javax.swing.JButton jBtSalir;

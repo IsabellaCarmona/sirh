@@ -20,6 +20,7 @@ public class Empleado {
     private Date fechaNacimiento;
     private String telefono;
     private String direccion;
+    private String cargo;
     private String rh;
     private String eps;
     private String arl;
@@ -35,7 +36,8 @@ public class Empleado {
         this.apellidos = apellidos;
     }
 
-    public Empleado(String tipoId, String cedula, String nombres, String apellidos, Date fechaNacimiento, String telefono, String direccion, String rh, String eps, String arl, int salarioBase) {
+    public Empleado(String tipoId, String cedula, String nombres, String apellidos, Date fechaNacimiento,
+            String telefono, String direccion, String cargo, String rh, String eps, String arl, int salarioBase) {
         this.tipoId = tipoId;
         this.cedula = cedula;
         this.nombres = nombres;
@@ -43,6 +45,7 @@ public class Empleado {
         this.fechaNacimiento = fechaNacimiento;
         this.telefono = telefono;
         this.direccion = direccion;
+        this.cargo = cargo;
         this.rh = rh;
         this.eps = eps;
         this.arl = arl;
@@ -117,6 +120,14 @@ public class Empleado {
 
     public void setDireccion(String direccion) {
         this.direccion = direccion;
+    }
+
+    public String getCargo() {
+        return cargo;
+    }
+
+    public void setCargo(String cargo) {
+        this.cargo = cargo;
     }
 
     public String getRh() {

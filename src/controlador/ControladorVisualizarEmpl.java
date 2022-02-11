@@ -29,7 +29,18 @@ public class ControladorVisualizarEmpl implements ActionListener, KeyListener {
     private FrmVisualizarEmpleados fvisualizar;
     private Empleado empleado;
     private EmpleadoDAO empleadodao;
-    DefaultTableModel modelo = new DefaultTableModel();
+    DefaultTableModel modelo = new DefaultTableModel() {
+
+        @Override
+        public boolean isCellEditable(int row, int column) {
+
+            //Yo creo que este codigo no va aqui a
+            if (column == 1) {
+                return false;
+            }
+            return true;
+        }
+    };
 
     public ControladorVisualizarEmpl(FrmVisualizarEmpleados fvisualizar, Empleado empleado, EmpleadoDAO empleadodao) {
         this.fvisualizar = fvisualizar;

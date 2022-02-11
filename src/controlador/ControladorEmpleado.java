@@ -7,6 +7,7 @@ package controlador;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.logging.Level;
@@ -15,6 +16,8 @@ import javax.swing.JOptionPane;
 import modelo.Empleado;
 import modelo.EmpleadoDAO;
 import vista.FrmEmpleados;
+import javafx.stage.FileChooser;
+import vista.FrmPrincipal;
 
 /**
  *
@@ -58,25 +61,45 @@ public class ControladorEmpleado implements ActionListener {
 
             String telefono = frmempleados.jTxTelefono.getText();
             String direccion = frmempleados.jTxDireccion.getText();
+            String cargo = frmempleados.jTxCargo.getText();
             String rh = (String) frmempleados.jCbRH.getSelectedItem();
             String eps = (String) frmempleados.jTxEPS.getText();
             String arl = (String) frmempleados.jCbARL.getSelectedItem();
             int salario = Integer.parseInt(frmempleados.jTxSalario.getText());
 
-            empleado = new Empleado(tipoID, cedula, nombres, apellidos, fechasql, telefono, direccion, rh, eps, arl, salario);
+            empleado = new Empleado(tipoID, cedula, nombres, apellidos, fechasql, telefono, direccion, cargo, rh, eps, arl, salario);
 
             if (empleadodao.agregarEmpleado(empleado)) {
                 limpiarControles();
                 JOptionPane.showMessageDialog(frmempleados, "Empleado registrado exitosamente");
             } else {
-                JOptionPane.showMessageDialog(frmempleados, "Error al registrar el Empleado");
+                JOptionPane.showMessageDialog(frmempleados, "Error al registrar el Empleado", "Error", JOptionPane.ERROR_MESSAGE);
             }
         }
+
         if (e.getSource() == frmempleados.jBtSalir) {
             int respuesta = JOptionPane.showConfirmDialog(frmempleados, "¿Esta seguro de salir?", "Fin ingreso empleados", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
             if (respuesta == JOptionPane.YES_OPTION) {
                 frmempleados.dispose();
             }
+        }
+
+        if (e.getSource() == frmempleados.jBtAgregarArchivos) {
+
+            /*FrmPrincipal fprincipal = new FrmPrincipal();
+           FileChooser fc = new FileChooser();
+            int returnVal = fc.showOpenDialog(fprincipal);
+            if (returnVal == fc.APPROVE_OPTION) {
+            File file = fc.getSelectedFile();
+                try {
+                  // return the file path
+                } catch (Exception ex) {
+                  System.out.println("problem accessing file"+file.getAbsolutePath());
+                }
+            }
+            else {
+                System.out.println("File access cancelled by user.");
+            }      */
         }
     }
 
