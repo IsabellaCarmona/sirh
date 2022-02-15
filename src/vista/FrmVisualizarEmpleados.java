@@ -29,6 +29,8 @@ public class FrmVisualizarEmpleados extends javax.swing.JInternalFrame {
 
     }
 
+    public static String texto = "";
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -133,6 +135,7 @@ public class FrmVisualizarEmpleados extends javax.swing.JInternalFrame {
         String nombre = (String) modelo.getValueAt(fila, 2);
         String apellidos = (String) modelo.getValueAt(fila, 3);
         String empleado = nombre + " " + apellidos;
+        String id = (String) modelo.getValueAt(fila, 1);
 
         int respuesta = JOptionPane.showConfirmDialog(this, "¿Desea ingresar el horario de: " + empleado + "?", "Configuración de horarios",
                 JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
@@ -141,9 +144,12 @@ public class FrmVisualizarEmpleados extends javax.swing.JInternalFrame {
             TurnosDAO turnosdao = new TurnosDAO();
             Turnos turnos = new Turnos();
 
+            formT.jTxNombreEmpleado.setText(empleado);
+            formT.jTxID.setText(id);
             ControladorTurnos control = new ControladorTurnos(formT, turnos, turnosdao);
             formT.setVisible(true);
         }
+
     }//GEN-LAST:event_jTbEmpleadosMousePressed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
