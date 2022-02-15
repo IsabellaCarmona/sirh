@@ -5,12 +5,15 @@
  */
 package vista;
 
+import controlador.ControladorTurnos;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import modelo.Empleado;
 import modelo.EmpleadoDAO;
+import modelo.Turnos;
+import modelo.TurnosDAO;
 
 /**
  *
@@ -125,16 +128,20 @@ public class FrmVisualizarEmpleados extends javax.swing.JInternalFrame {
 
     private void jTbEmpleadosMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTbEmpleadosMousePressed
         int fila = this.jTbEmpleados.getSelectedRow();
-        System.out.println(fila);
 
         DefaultTableModel modelo = (DefaultTableModel) jTbEmpleados.getModel();
         String nombre = (String) modelo.getValueAt(fila, 2);
         String apellidos = (String) modelo.getValueAt(fila, 3);
         String empleado = nombre + " " + apellidos;
 
-        int respuesta = JOptionPane.showConfirmDialog(this, "¿Desea ingresar el turno de: " + empleado + "?", "Asignación de turnos", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+        int respuesta = JOptionPane.showConfirmDialog(this, "¿Desea ingresar el horario de: " + empleado + "?", "Configuración de horarios",
+                JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
         if (respuesta == JOptionPane.YES_OPTION) {
             FrmTurnos formT = new FrmTurnos();
+            TurnosDAO turnosdao = new TurnosDAO();
+            Turnos turnos = new Turnos();
+
+            ControladorTurnos control = new ControladorTurnos(formT, turnos, turnosdao);
             formT.setVisible(true);
         }
     }//GEN-LAST:event_jTbEmpleadosMousePressed
