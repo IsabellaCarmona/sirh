@@ -19,9 +19,17 @@ public class Turnos {
     private Date fechaFin;
     private Time horaInicio;
     private Time horaFin;
-    private Empleado idEmpleado;
+    private String idEmpleado;
 
     public Turnos() {
+    }
+
+    public Turnos(Date fechaInicio, Date fechaFin, Time horaInicio, Time horaFin, String idEmpleado) {
+        this.fechaInicio = fechaInicio;
+        this.fechaFin = fechaFin;
+        this.horaInicio = horaInicio;
+        this.horaFin = horaFin;
+        this.idEmpleado = idEmpleado;
     }
 
     public int getIdTurno() {
@@ -64,11 +72,11 @@ public class Turnos {
         this.horaFin = horaFin;
     }
 
-    public Empleado getIdEmpleado() {
+    public String getIdEmpleado() {
         return idEmpleado;
     }
 
-    public void setIdEmpleado(Empleado idEmpleado) {
+    public void setIdEmpleado(String idEmpleado) {
         this.idEmpleado = idEmpleado;
     }
 

@@ -7,6 +7,15 @@ package controlador;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.Time;
+import java.sql.Timestamp;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 import modelo.Turnos;
 import modelo.TurnosDAO;
 import vista.FrmTurnos;
@@ -29,52 +38,67 @@ public class ControladorTurnos implements ActionListener {
 
         this.fTurnos.BtGuardar.addActionListener(this);
         this.fTurnos.BtSalir.addActionListener(this);
-        this.fTurnos.jCbTiposTurnos.addActionListener(this);
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
 
-        if (e.getSource() == fTurnos.jCbTiposTurnos) {
-            //6:30am - 3:30pm 9 horas
-            //7:00am - 4:00pm 9 horas
-            //8:00am - 4:30pm 8 horas y media
-            //9:00am - 5:30pm 8 horas y media
+        if (e.getSource() == fTurnos.BtGuardar) {
 
-            String tipoTurno = (String) fTurnos.jCbTiposTurnos.getSelectedItem();
+            SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+            String fecha = format.format(fTurnos.jDtFechaInicio.getDate());
+            java.util.Date fechaN = null;
+            try {
+                fechaN = format.parse(fecha);
+            } catch (ParseException ex) {
+                Logger.getLogger(ControladorTurnos.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            java.sql.Date fechaInicio = new java.sql.Date(fechaN.getTime());
 
-            if (tipoTurno.equalsIgnoreCase("Turno 1")) {
+            SimpleDateFormat format2 = new SimpleDateFormat("yyyy-MM-dd");
+            String fecha2 = format2.format(fTurnos.jDtFechaFin.getDate());
+            java.util.Date fechaN2 = null;
+            try {
+                fechaN2 = format.parse(fecha2);
+            } catch (ParseException ex) {
+                Logger.getLogger(ControladorTurnos.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            java.sql.Date fechaFin = new java.sql.Date(fechaN2.getTime());
 
-                fTurnos.jTxHoraInicio.setText("6:30 am");
-                fTurnos.jTxHoraFin.setText("3:30 pm");
+            String horaI = fTurnos.jFTxHoraInicio.getText() + ":00";
+            Time horaInicio = java.sql.Time.valueOf(horaI);
 
-            } else if (tipoTurno.equalsIgnoreCase("Turno 2")) {
+            String horaF = fTurnos.jFTxHoraFin.getText() + ":00";
+            Time horaFin = java.sql.Time.valueOf(horaF);
 
-                fTurnos.jTxHoraInicio.setText("7:00 am");
-                fTurnos.jTxHoraFin.setText("4:00 pm");
+            String id = fTurnos.jTxID.getText();
 
-            } else if (tipoTurno.equalsIgnoreCase("Turno 3")) {
+            turnos = new Turnos(fechaInicio, fechaFin, horaInicio, horaFin, id);
 
-                fTurnos.jTxHoraInicio.setText("8:00 am");
-                fTurnos.jTxHoraFin.setText("4:30 pm");
-
-            } else if (tipoTurno.equalsIgnoreCase("Turno 4")) {
-
-                fTurnos.jTxHoraInicio.setText("9:00 am");
-                fTurnos.jTxHoraFin.setText("5:30 pm");
-
+            if (turnosdao.asignarTurno(turnos)) {
+                limpiarControles();
+                JOptionPane.showMessageDialog(fTurnos, "Turno registrado");
             } else {
-
-                fTurnos.jTxHoraInicio.setText(" ");
-                fTurnos.jTxHoraFin.setText(" ");
-
+                JOptionPane.showMessageDialog(fTurnos, "Error al registrar el Turno", "Error", JOptionPane.ERROR_MESSAGE);
             }
 
         }
-        if (e.getSource() == fTurnos.BtGuardar) {
-
+        if (e.getSource() == fTurnos.BtSalir) {
+            int respuesta = JOptionPane.showConfirmDialog(fTurnos, "¿Esta seguro de salir?", "Fin ingreso Turnos", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+            if (respuesta == JOptionPane.YES_OPTION) {
+                fTurnos.dispose();
+            }
         }
 
     }
 
+    public void limpiarControles() {
+        java.sql.Date date = new java.sql.Date(new java.util.Date().getTime());
+
+        fTurnos.jDtFechaInicio.setDate(date);
+        fTurnos.jDtFechaFin.setDate(date);
+        fTurnos.jFTxHoraInicio.setText("00:00");
+        fTurnos.jFTxHoraFin.setText("00:00");
+
+    }
 }
