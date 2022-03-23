@@ -13,6 +13,7 @@ import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import modelo.Administrador;
 import modelo.AdministradorDAO;
+import vista.FrmCrearCuenta;
 import vista.FrmInicio;
 import vista.FrmPrincipal;
 
@@ -34,27 +35,38 @@ public class ControladorInicio implements ActionListener {
         //Escuchar los botones
         this.frminicio.jTxUser.addActionListener(this);
         this.frminicio.jPassword.addActionListener(this);
+        this.frminicio.jBtCrearCuenta.addActionListener(this);
         this.frminicio.jBtInicioSesion.addActionListener(this);
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
 
+        if (e.getSource() == frminicio.jBtCrearCuenta) {
+            Administrador admin = new Administrador();
+            AdministradorDAO admindao = new AdministradorDAO();
+
+            FrmCrearCuenta form1 = new FrmCrearCuenta();
+
+            ControladorCrearCuenta control1 = new ControladorCrearCuenta(form1, frminicio, admin, admindao);
+            form1.setVisible(true);
+        }
+
         if (e.getSource() == frminicio.jBtInicioSesion) {
 
             String usuario = frminicio.jTxUser.getText();
-            String contrasena = frminicio.jPassword.getText();
+            String contraseña = frminicio.jPassword.getText();
 
             try {
-                if (admindao.validarUsuario(usuario, contrasena)) {
-
+                if (admindao.validarUsuario(usuario, contraseña)) {
+                    admindao.abrirCuenta(usuario);
                     FrmPrincipal fmenu = new FrmPrincipal();
+
                     frminicio.setVisible(false);
                     fmenu.setVisible(true);
-                } else {
-                    JOptionPane.showMessageDialog(frminicio, "Usuario y/o Contraseña incorrecto(s)");
                 }
             } catch (SQLException ex) {
+                JOptionPane.showMessageDialog(frminicio, "Usuario y/o Contraseña incorrecto(s)");
                 Logger.getLogger(ControladorInicio.class.getName()).log(Level.SEVERE, null, ex);
             }
         }

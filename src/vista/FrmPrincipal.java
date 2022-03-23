@@ -8,10 +8,19 @@ package vista;
 import controlador.ControladorEmpleado;
 import controlador.ControladorVisualizarEmpl;
 import java.awt.Dimension;
+import java.awt.HeadlessException;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JDesktopPane;
+import javax.swing.JFrame;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
+import modelo.AdministradorDAO;
 import modelo.Empleado;
 import modelo.EmpleadoDAO;
 
@@ -26,7 +35,7 @@ public class FrmPrincipal extends javax.swing.JFrame {
      */
     public FrmPrincipal() {
         initComponents();
-
+        cerrar();
         this.setExtendedState(MAXIMIZED_BOTH);
     }
 
@@ -51,7 +60,7 @@ public class FrmPrincipal extends javax.swing.JFrame {
         jMenu4 = new javax.swing.JMenu();
         jMenu5 = new javax.swing.JMenu();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
 
         jDesktopPane1.setBackground(new java.awt.Color(82, 81, 80));
 
@@ -163,6 +172,26 @@ public class FrmPrincipal extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_jMenu5ActionPerformed
 
+    public void cerrar() {
+        this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+        addWindowListener(new WindowAdapter() {
+            public void windowClosing(WindowEvent e) {
+                confirmarSalida();
+            }
+        });
+        //this.setVisible(true);
+    }
+
+    public void confirmarSalida() {
+        int respuesta = JOptionPane.showConfirmDialog(this, "¿Esta seguro de salir?", "Fin SIRH", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+        if (respuesta == JOptionPane.YES_OPTION) {
+            JOptionPane.showMessageDialog(null, "Gracias por utilizar el SIRH,\n Hasta pronto", "Agradecimiento", JOptionPane.INFORMATION_MESSAGE);
+            AdministradorDAO admindao = new AdministradorDAO();
+            admindao.cerrarCuenta();
+            System.exit(0);
+        }
+    }
+
     /**
      * @param args the command line arguments
      */
@@ -199,7 +228,7 @@ public class FrmPrincipal extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JDesktopPane jDesktopPane1;
+    public javax.swing.JDesktopPane jDesktopPane1;
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenu jMenu3;
     private javax.swing.JMenu jMenu4;

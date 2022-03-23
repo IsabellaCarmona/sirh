@@ -6,8 +6,11 @@
 package vista;
 
 import controlador.ControladorTurnos;
+import java.awt.Dimension;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import modelo.Empleado;
@@ -126,18 +129,21 @@ public class FrmVisualizarEmpleados extends javax.swing.JInternalFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    //Evento para re dirigir al usuario a la opcion que escoja al hacer click en los datos de un empleado registrado
     private void jTbEmpleadosMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTbEmpleadosMousePressed
         int fila = this.jTbEmpleados.getSelectedRow();
 
+        String[] botones = {"Asignar Turnos", "Actualizar Empleado"};
         DefaultTableModel modelo = (DefaultTableModel) jTbEmpleados.getModel();
         String nombre = (String) modelo.getValueAt(fila, 2);
         String apellidos = (String) modelo.getValueAt(fila, 3);
         String empleado = nombre + " " + apellidos;
         String id = (String) modelo.getValueAt(fila, 1);
 
-        int respuesta = JOptionPane.showConfirmDialog(this, "¿Desea ingresar el horario de: " + empleado + "?", "Configuración de horarios",
-                JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+        int respuesta = JOptionPane.showOptionDialog(this, "¿Que acción desea realizar?", "Configuración",
+                JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, botones, botones[0]);
         if (respuesta == JOptionPane.YES_OPTION) {
+
             FrmTurnos formT = new FrmTurnos();
             TurnosDAO turnosdao = new TurnosDAO();
             Turnos turnos = new Turnos();
@@ -145,7 +151,52 @@ public class FrmVisualizarEmpleados extends javax.swing.JInternalFrame {
             formT.jTxNombreEmpleado.setText(empleado);
             formT.jTxID.setText(id);
             ControladorTurnos control = new ControladorTurnos(formT, turnos, turnosdao);
+
             formT.setVisible(true);
+        } else if (respuesta == JOptionPane.NO_OPTION) {
+
+            FrmActualizarEmpl formA = new FrmActualizarEmpl();
+            formA.jCbTipoID.setEnabled(false);
+            formA.jTxNumeroID.setEnabled(false);
+
+            Empleado empl = new Empleado();
+            EmpleadoDAO empldao = new EmpleadoDAO();
+            ArrayList<Empleado> listEmpleados = new ArrayList();
+
+            try {
+                listEmpleados = empldao.datosEmpleado(id);
+
+                for (int j = 0; j < listEmpleados.size(); j++) {
+                    System.out.println(listEmpleados.get(j));
+                }
+
+                for (int j = 0; j < listEmpleados.size(); j++) {
+                    for (int i = 0; i < formA.jCbTipoID.getItemCount(); i++) {
+                        if (formA.jCbTipoID.getItemAt(i).equals(listEmpleados.get(j).getTipoId())) {
+                            formA.jCbTipoID.setSelectedIndex(i);
+                        }
+                    }
+                    for (int x = 0; x < formA.jCbRH.getItemCount(); x++) {
+                        if (formA.jCbRH.getItemAt(x).equals(listEmpleados.get(j).getRh())) {
+                            formA.jCbRH.setSelectedIndex(x);
+                        }
+                    }
+                    formA.jTxNumeroID.setText(listEmpleados.get(j).getCedula());
+                    formA.jTxNombres.setText(listEmpleados.get(j).getNombres());
+                    formA.jTxApellidos.setText(listEmpleados.get(j).getApellidos());
+                    formA.jDtFechaNacimiento.setDate(listEmpleados.get(j).getFechaNacimiento());
+                    formA.jTxTelefono.setText(listEmpleados.get(j).getTelefono());
+                    formA.jTxDireccion.setText(listEmpleados.get(j).getDireccion());
+                    formA.jTxCargo.setText(listEmpleados.get(j).getCargo());
+                    formA.jCbARL.setSelectedIndex(0);
+                    formA.jTxEPS.setText(listEmpleados.get(j).getEps());
+                    formA.jTxSalario.setText(String.valueOf(listEmpleados.get(j).getSalarioBase()));
+                }
+
+            } catch (SQLException ex) {
+                Logger.getLogger(FrmVisualizarEmpleados.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            formA.setVisible(true);
         }
 
     }//GEN-LAST:event_jTbEmpleadosMousePressed

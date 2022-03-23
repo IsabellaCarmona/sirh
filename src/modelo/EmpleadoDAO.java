@@ -29,9 +29,9 @@ public class EmpleadoDAO {
 
     public boolean agregarEmpleado(Empleado empleado) {
 
-        String sql = "INSERT INTO empleados(tipoDocumento,Cedula,Nombres,Apellidos,Fecha_Nacimiento,Telefono,Direccion,RH,EPS,ARL,SalarioBase) VALUES('"
+        String sql = "INSERT INTO empleados(tipoDocumento,Cedula,Nombres,Apellidos,Fecha_Nacimiento,Telefono,Direccion,Cargo,RH,EPS,ARL,SalarioBase) VALUES('"
                 + empleado.getTipoId() + "','" + empleado.getCedula() + "','" + empleado.getNombres() + "','" + empleado.getApellidos() + "','"
-                + empleado.getFechaNacimiento() + "','" + empleado.getTelefono() + "','" + empleado.getDireccion() + "','"
+                + empleado.getFechaNacimiento() + "','" + empleado.getTelefono() + "','" + empleado.getDireccion() + "','" + empleado.getCargo() + "','"
                 + empleado.getRh() + "','" + empleado.getEps() + "','" + empleado.getArl() + "'," + empleado.getSalarioBase() + ")";
 
         //Conectarse a la base de datos
@@ -108,6 +108,38 @@ public class EmpleadoDAO {
             empleado.setNombres(rs.getString("Nombres"));
             empleado.setApellidos(rs.getString("Apellidos"));
             empleados.add(new Empleado(empleado.getTipoId(), empleado.getCedula(), empleado.getNombres(), empleado.getApellidos()));
+        }
+
+        return empleados;
+    }
+
+    public ArrayList datosEmpleado(String Id) throws SQLException {
+
+        ArrayList empleados = new ArrayList();
+        Empleado empleado = new Empleado();
+        String sql = "SELECT * FROM empleados WHERE Cedula='" + Id + "'";
+
+        con = cn.getConnection(); //Establece la conexion
+        ps = con.prepareStatement(sql); //Se prepara el codigo sql
+        rs = ps.executeQuery();
+
+        while (rs.next()) {
+            empleado.setTipoId(rs.getString("tipoDocumento"));
+            empleado.setCedula(rs.getString("Cedula"));
+            empleado.setNombres(rs.getString("Nombres"));
+            empleado.setApellidos(rs.getString("Apellidos"));
+            empleado.setFechaNacimiento(rs.getDate("Fecha_Nacimiento"));
+            empleado.setTelefono(rs.getString("Telefono"));
+            empleado.setDireccion(rs.getString("Direccion"));
+            empleado.setCargo(rs.getString("Cargo"));
+            empleado.setRh(rs.getString("RH"));
+            empleado.setEps(rs.getString("EPS"));
+            empleado.setArl(rs.getString("ARL"));
+            empleado.setSalarioBase(rs.getInt("SalarioBase"));
+
+            empleados.add(new Empleado(empleado.getTipoId(), empleado.getCedula(), empleado.getNombres(), empleado.getApellidos(),
+                    empleado.getFechaNacimiento(), empleado.getTelefono(), empleado.getDireccion(), empleado.getCargo(), empleado.getRh(),
+                    empleado.getEps(), empleado.getArl(), empleado.getSalarioBase()));
         }
 
         return empleados;

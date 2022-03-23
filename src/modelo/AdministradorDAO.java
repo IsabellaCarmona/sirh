@@ -64,4 +64,55 @@ public class AdministradorDAO {
         }
         return false;
     }
+
+    public void abrirCuenta(String user) {
+        String sql = "UPDATE administrador SET estado= 'open' WHERE user='" + user + "'";
+
+        con = cn.getConnection();
+
+        try {
+            ps = con.prepareStatement(sql); //Envia la instruccion en comando sql
+            ps.executeUpdate(); //Ejecuta la instruccion
+        } catch (SQLException ex) {
+            //Muestra el error en caso de haberlo
+            Logger.getLogger(AdministradorDAO.class.getName()).log(Level.SEVERE, null, ex);
+            System.out.println(ex);
+        }
+    }
+
+    public void cerrarCuenta() {
+        String sql = "UPDATE administrador SET estado='close' WHERE estado='open'";
+
+        con = cn.getConnection();
+
+        try {
+            ps = con.prepareStatement(sql); //Envia la instruccion en comando sql
+            ps.executeUpdate(); //Ejecuta la instruccion
+        } catch (SQLException ex) {
+            //Muestra el error en caso de haberlo
+            Logger.getLogger(AdministradorDAO.class.getName()).log(Level.SEVERE, null, ex);
+            System.out.println(ex);
+        }
+    }
+
+    public boolean CrearCuenta(String User, String Password, String docu) {
+
+        //AgregarCuenta();
+        String sql = "INSERT INTO administrador VALUES ('" + User + "', '" + Password + "', '" + docu + "', 'open')";
+
+        //Conectarse a la base de datos
+        con = cn.getConnection();
+
+        try {
+            ps = con.prepareStatement(sql); //Envia la instruccion en comando sql
+            ps.executeUpdate(); //Ejecuta la instruccion
+        } catch (SQLException ex) {
+            //Muestra el error en caso de haberlo
+            Logger.getLogger(AdministradorDAO.class.getName()).log(Level.SEVERE, null, ex);
+            System.out.println(ex);
+            return false;
+        }
+
+        return true;
+    }
 }
