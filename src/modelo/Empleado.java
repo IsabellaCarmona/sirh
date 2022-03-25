@@ -36,6 +36,21 @@ public class Empleado {
         this.apellidos = apellidos;
     }
 
+    public Empleado(String cedula, String nombres, String apellidos, Date fechaNacimiento,
+            String telefono, String direccion, String cargo, String rh, String eps, String arl, int salarioBase) {
+        this.cedula = cedula;
+        this.nombres = nombres;
+        this.apellidos = apellidos;
+        this.fechaNacimiento = fechaNacimiento;
+        this.telefono = telefono;
+        this.direccion = direccion;
+        this.cargo = cargo;
+        this.rh = rh;
+        this.eps = eps;
+        this.arl = arl;
+        this.salarioBase = salarioBase;
+    }
+
     public Empleado(String tipoId, String cedula, String nombres, String apellidos, Date fechaNacimiento,
             String telefono, String direccion, String cargo, String rh, String eps, String arl, int salarioBase) {
         this.tipoId = tipoId;

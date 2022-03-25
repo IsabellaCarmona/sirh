@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 15-12-2021 a las 05:51:14
+-- Tiempo de generación: 24-03-2022 a las 03:18:07
 -- Versión del servidor: 10.4.19-MariaDB
 -- Versión de PHP: 8.0.6
 
@@ -28,17 +28,18 @@ SET time_zone = "+00:00";
 --
 
 CREATE TABLE `administrador` (
-  `user` varchar(10) NOT NULL,
+  `user` varchar(13) NOT NULL,
   `password` varchar(13) NOT NULL,
-  `email` varchar(30) NOT NULL
+  `documento` varchar(13) NOT NULL,
+  `estado` varchar(7) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Volcado de datos para la tabla `administrador`
 --
 
-INSERT INTO `administrador` (`user`, `password`, `email`) VALUES
-('1000401084', '1000401084', 'isa.carmonacastro@gmail.com');
+INSERT INTO `administrador` (`user`, `password`, `documento`, `estado`) VALUES
+('isabella', '1000401084', '1000401084', 'close');
 
 -- --------------------------------------------------------
 
@@ -54,6 +55,7 @@ CREATE TABLE `empleados` (
   `Fecha_Nacimiento` date DEFAULT NULL,
   `Telefono` varchar(10) DEFAULT NULL,
   `Direccion` varchar(20) DEFAULT NULL,
+  `Cargo` varchar(25) NOT NULL,
   `RH` varchar(3) DEFAULT NULL,
   `EPS` varchar(30) DEFAULT NULL,
   `ARL` varchar(30) DEFAULT NULL,
@@ -64,14 +66,15 @@ CREATE TABLE `empleados` (
 -- Volcado de datos para la tabla `empleados`
 --
 
-INSERT INTO `empleados` (`tipoDocumento`, `Cedula`, `Nombres`, `Apellidos`, `Fecha_Nacimiento`, `Telefono`, `Direccion`, `RH`, `EPS`, `ARL`, `SalarioBase`) VALUES
-('Cedula de Ciudadania', '1000401084', 'Isabella', 'Carmona Castro', '2001-11-16', '2587391', 'Calle 20', 'O+', 'Sanitas', 'SURA', 5000000),
-('Cedula de Extranjeria', '34876912', 'Marta', 'Hurtado Bernal', '1971-07-22', '3006218422', 'Carrera 81', 'AB+', 'SURA', 'SURA', 1000000),
-('PEP', '439391', 'Mariana', 'Perez Vanegas', '1979-10-26', '5687214', 'Carrera 106', 'AB-', 'Compensar', 'SURA', 1000000),
-('Cedula de Extranjeria', '442113', 'Edgar', 'Martinez Colorado', '1960-08-10', '3146529732', 'Calle 32B', 'B+', 'CafeSalud', 'SURA', 1200000),
-('Cedula de Ciudadania', '76238632', 'Luisa Fernanda', 'Ramirez Gonzalez', '1978-02-28', '3516732238', 'Avenida 33', 'B-', 'Salud Total', 'SURA', 2000000),
-('Cedula de Ciudadania', '79321756', 'Fernando', 'Gomez', '1976-08-12', '3004658712', 'Calle 32', 'O+', 'Sanitas', 'SURA', 1200000),
-('PEP', '98152630', 'Hernan', 'Toro Velez', '1966-12-02', '2817634', 'Calle 54', 'A-', 'Colmena', 'SURA', 1200000);
+INSERT INTO `empleados` (`tipoDocumento`, `Cedula`, `Nombres`, `Apellidos`, `Fecha_Nacimiento`, `Telefono`, `Direccion`, `Cargo`, `RH`, `EPS`, `ARL`, `SalarioBase`) VALUES
+('Cedula de Ciudadania', '1000401084', 'Isabella', 'Carmona Castro', '2001-11-16', '2587391', 'Calle 20', '', 'O+', 'Sanitas', 'SURA', 5000000),
+('Cedula de Extranjeria', '125463', 'Liliana', 'Gomez', '1980-01-10', '3254675', 'Calle 41', '', 'AB+', 'Sanitas', 'SURA', 1200000),
+('Cedula de Extranjeria', '34876912', 'Marta', 'Hurtado Bernal', '1971-07-22', '3006218422', 'Carrera 81', '', 'AB+', 'SURA', 'SURA', 1000000),
+('PEP', '439391', 'Mariana', 'Perez Vanegas', '1979-10-26', '5687214', 'Carrera 106', '', 'AB-', 'Compensar', 'SURA', 1000000),
+('Cedula de Extranjeria', '442113', 'Edgar', 'Martinez Colorado', '1960-08-10', '3146529732', 'Calle 32B', '', 'B+', 'CafeSalud', 'SURA', 1200000),
+('Cedula de Ciudadania', '76238632', 'Luisa Fernanda', 'Ramirez Gonzalez', '1978-02-28', '3516732238', 'Avenida 33', '', 'B-', 'Salud Total', 'SURA', 2000000),
+('Cedula de Ciudadania', '79321756', 'Fernando', 'Gomez', '1976-08-12', '3004658712', 'Calle 32', '', 'O+', 'Sanitas', 'SURA', 1200000),
+('PEP', '98152630', 'Hernan', 'Toro Velez', '1966-12-02', '2817634', 'Calle 54', '', 'A-', 'Colmena', 'SURA', 1200000);
 
 -- --------------------------------------------------------
 
@@ -83,7 +86,10 @@ CREATE TABLE `novedades` (
   `Id_Novedades` int(11) NOT NULL,
   `Descripcion` text DEFAULT NULL,
   `Fecha_Novedad` date DEFAULT NULL,
-  `Id_Empleado` varchar(40) DEFAULT NULL
+  `Id_Empleado` varchar(40) DEFAULT NULL,
+  `tipoNovedad` varchar(30) NOT NULL,
+  `tipoDocumento` varchar(30) NOT NULL,
+  `archivoNovedad` longblob NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
@@ -117,8 +123,28 @@ CREATE TABLE `turnos` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
+-- Volcado de datos para la tabla `turnos`
+--
+
+INSERT INTO `turnos` (`Id_Turno`, `Fecha_Inicio`, `Fecha_Fin`, `Hora_Inicio`, `Hora_Fin`, `Id_Empleado`) VALUES
+(1, '2022-02-01', '2022-02-01', '19:00:00', '19:00:00', '125463'),
+(2, '2022-02-01', '2022-02-01', '00:00:00', '19:00:00', '1000401084'),
+(3, '2022-02-04', '2022-02-04', '00:00:00', '19:00:00', '439391'),
+(4, '2022-02-05', '2022-02-05', '00:00:00', '19:00:00', '98152630'),
+(5, '2022-02-06', '2022-02-06', '00:00:00', '19:00:00', '439391'),
+(6, '2022-02-06', '2022-02-06', '07:30:00', '00:00:00', '1000401084'),
+(7, '2022-02-09', '2022-02-09', '09:00:00', '18:00:00', '98152630'),
+(8, '2022-02-02', '2022-02-02', '10:00:00', '17:00:00', '442113');
+
+--
 -- Índices para tablas volcadas
 --
+
+--
+-- Indices de la tabla `administrador`
+--
+ALTER TABLE `administrador`
+  ADD PRIMARY KEY (`documento`);
 
 --
 -- Indices de la tabla `empleados`
@@ -167,7 +193,7 @@ ALTER TABLE `salario`
 -- AUTO_INCREMENT de la tabla `turnos`
 --
 ALTER TABLE `turnos`
-  MODIFY `Id_Turno` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `Id_Turno` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- Restricciones para tablas volcadas

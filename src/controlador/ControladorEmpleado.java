@@ -71,7 +71,7 @@ public class ControladorEmpleado implements ActionListener {
 
             if (empleadodao.agregarEmpleado(empleado)) {
                 limpiarControles();
-                JOptionPane.showMessageDialog(frmempleados, "Empleado registrado exitosamente");
+                JOptionPane.showMessageDialog(frmempleados, "Empleado(a)" + nombres + apellidos + "registrado exitosamente");
             } else {
                 JOptionPane.showMessageDialog(frmempleados, "Error al registrar el Empleado", "Error", JOptionPane.ERROR_MESSAGE);
             }

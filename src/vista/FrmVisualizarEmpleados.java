@@ -5,6 +5,7 @@
  */
 package vista;
 
+import controlador.ControladorActualizarEmpl;
 import controlador.ControladorTurnos;
 import java.awt.Dimension;
 import java.sql.SQLException;
@@ -167,10 +168,6 @@ public class FrmVisualizarEmpleados extends javax.swing.JInternalFrame {
                 listEmpleados = empldao.datosEmpleado(id);
 
                 for (int j = 0; j < listEmpleados.size(); j++) {
-                    System.out.println(listEmpleados.get(j));
-                }
-
-                for (int j = 0; j < listEmpleados.size(); j++) {
                     for (int i = 0; i < formA.jCbTipoID.getItemCount(); i++) {
                         if (formA.jCbTipoID.getItemAt(i).equals(listEmpleados.get(j).getTipoId())) {
                             formA.jCbTipoID.setSelectedIndex(i);
@@ -196,6 +193,8 @@ public class FrmVisualizarEmpleados extends javax.swing.JInternalFrame {
             } catch (SQLException ex) {
                 Logger.getLogger(FrmVisualizarEmpleados.class.getName()).log(Level.SEVERE, null, ex);
             }
+
+            ControladorActualizarEmpl control = new ControladorActualizarEmpl(formA, empl, empldao);
             formA.setVisible(true);
         }
 

@@ -144,4 +144,45 @@ public class EmpleadoDAO {
 
         return empleados;
     }
+
+    public Boolean ActualizarDatos(Empleado empl) {
+
+        String sql = "UPDATE empleados SET Nombres='" + empl.getNombres() + "', Apellidos='" + empl.getApellidos()
+                + "', Fecha_Nacimiento='" + empl.getFechaNacimiento() + "', Telefono='" + empl.getTelefono()
+                + "', Direccion='" + empl.getDireccion() + "', Cargo='" + empl.getCargo() + "', RH='" + empl.getRh()
+                + "', EPS='" + empl.getEps() + "', ARL='" + empl.getArl() + "', SalarioBase=" + empl.getSalarioBase()
+                + " WHERE Cedula='" + empl.getCedula() + "'";
+
+        //Conectarse a la base de datos
+        con = cn.getConnection();
+
+        try {
+            ps = con.prepareStatement(sql); //Envia la instruccion en comando sql
+            ps.executeUpdate(); //Ejecuta la instruccion
+        } catch (SQLException ex) {
+            //Muestra el error en caso de haberlo
+            Logger.getLogger(EmpleadoDAO.class.getName()).log(Level.SEVERE, null, ex);
+            System.out.println(ex);
+            return false;
+        }
+
+        return true;
+    }
+
+    public Boolean EliminarEmpleado(String doc) {
+
+        String sql = "DELETE FROM empleados WHERE cedula='" + doc + "'";
+
+        //Conectarse a BD
+        con = cn.getConnection();
+        try {
+            ps = con.prepareStatement(sql);
+            ps.executeUpdate();
+        } catch (SQLException ex) {
+            Logger.getLogger(EmpleadoDAO.class.getName()).log(Level.SEVERE, null, ex);
+            System.out.println(ex);
+            return false;
+        }
+        return true;
+    }
 }
