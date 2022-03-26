@@ -27,27 +27,6 @@ public class AdministradorDAO {
 
     Administrador admin = new Administrador();
 
-    public boolean cambiarPassword(String newPassword) {
-
-        Administrador admin = new Administrador();
-        String sql = "UPDATE administrador SET password='" + newPassword + "' WHERE password='" + admin.getPassword() + "'";
-
-        //Conectarse a la base de datos
-        con = cn.getConnection();
-
-        try {
-            ps = con.prepareStatement(sql); //Envia la instruccion en comando sql
-            ps.executeUpdate(); //Ejecuta la instruccion
-        } catch (SQLException ex) {
-            //Muestra el error en caso de haberlo
-            Logger.getLogger(AdministradorDAO.class.getName()).log(Level.SEVERE, null, ex);
-            System.out.println(ex);
-            return false;
-        }
-
-        return true;
-    }
-
     public boolean validarUsuario(String usuario, String contrasena) throws SQLException {
 
         String sql = "SELECT *FROM administrador";
@@ -95,12 +74,28 @@ public class AdministradorDAO {
         }
     }
 
-    public boolean CrearCuenta(String User, String Password, String docu) {
+    public Administrador traerDatos() throws SQLException {
 
-        //AgregarCuenta();
-        String sql = "INSERT INTO administrador VALUES ('" + User + "', '" + Password + "', '" + docu + "', 'open')";
+        String sql = "SELECT *FROM administrador WHERE estado='open'";
 
         //Conectarse a la base de datos
+        con = cn.getConnection();
+        ps = con.prepareStatement(sql); //Se prepara el codigo sql
+        rs = ps.executeQuery();
+
+        while (rs.next()) {
+            admin.setUser(rs.getString("user"));
+            admin.setPassword(rs.getString("password"));
+            admin.setDocumento(rs.getString("documento"));
+        }
+        return admin;
+    }
+
+    public Boolean actualizarUsuario(Administrador admin) {
+
+        String sql = "UPDATE administrador SET user='" + admin.getUser() + "', password='"
+                + admin.getPassword() + "' WHERE documento='" + admin.getDocumento() + "'";
+
         con = cn.getConnection();
 
         try {
@@ -112,7 +107,6 @@ public class AdministradorDAO {
             System.out.println(ex);
             return false;
         }
-
         return true;
     }
 }

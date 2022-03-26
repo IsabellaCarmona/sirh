@@ -13,9 +13,15 @@ public class Administrador {
 
     private String user;
     private String password;
-    private String email;
+    private String documento;
 
     public Administrador() {
+    }
+
+    public Administrador(String user, String password, String documento) {
+        this.user = user;
+        this.password = password;
+        this.documento = documento;
     }
 
     public String getUser() {
@@ -34,12 +40,12 @@ public class Administrador {
         this.password = password;
     }
 
-    public String getEmail() {
-        return email;
+    public String getDocumento() {
+        return documento;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
+    public void setDocumento(String documento) {
+        this.documento = documento;
     }
 
 }

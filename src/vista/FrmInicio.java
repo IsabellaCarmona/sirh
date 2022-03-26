@@ -47,7 +47,6 @@ public class FrmInicio extends javax.swing.JFrame {
         jLabel11 = new javax.swing.JLabel();
         jTxUser = new javax.swing.JTextField();
         jLabel12 = new javax.swing.JLabel();
-        jBtCrearCuenta = new javax.swing.JButton();
         jLabel13 = new javax.swing.JLabel();
         jPassword = new javax.swing.JPasswordField();
         jSeparator1 = new javax.swing.JSeparator();
@@ -152,11 +151,6 @@ public class FrmInicio extends javax.swing.JFrame {
         jLabel12.setText("Contraseña");
         jPanel5.add(jLabel12, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 350, 330, -1));
 
-        jBtCrearCuenta.setBackground(new java.awt.Color(0, 0, 0));
-        jBtCrearCuenta.setForeground(new java.awt.Color(255, 255, 255));
-        jBtCrearCuenta.setText("Crear Cuenta");
-        jPanel5.add(jBtCrearCuenta, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 420, 124, 41));
-
         jLabel13.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/Photo from Haru_ (1) (1).jpg"))); // NOI18N
         jPanel5.add(jLabel13, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 70, -1, -1));
 
@@ -173,7 +167,7 @@ public class FrmInicio extends javax.swing.JFrame {
         jBtInicioSesion.setBackground(new java.awt.Color(0, 0, 0));
         jBtInicioSesion.setForeground(new java.awt.Color(255, 255, 255));
         jBtInicioSesion.setText("Iniciar Sesion");
-        jPanel5.add(jBtInicioSesion, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 420, 124, 41));
+        jPanel5.add(jBtInicioSesion, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 420, 124, 41));
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
@@ -232,7 +226,6 @@ public class FrmInicio extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    public javax.swing.JButton jBtCrearCuenta;
     public javax.swing.JButton jBtInicioSesion;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;

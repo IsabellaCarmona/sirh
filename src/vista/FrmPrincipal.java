@@ -5,6 +5,7 @@
  */
 package vista;
 
+import controlador.ControladorEditarPerfil;
 import controlador.ControladorEmpleado;
 import controlador.ControladorVisualizarEmpl;
 import java.awt.Dimension;
@@ -20,6 +21,7 @@ import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
+import modelo.Administrador;
 import modelo.AdministradorDAO;
 import modelo.Empleado;
 import modelo.EmpleadoDAO;
@@ -58,6 +60,7 @@ public class FrmPrincipal extends javax.swing.JFrame {
         jMenuItem5 = new javax.swing.JMenuItem();
         jMenu3 = new javax.swing.JMenu();
         jMenu4 = new javax.swing.JMenu();
+        jMenuItem6 = new javax.swing.JMenuItem();
         jMenu5 = new javax.swing.JMenu();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
@@ -108,6 +111,15 @@ public class FrmPrincipal extends javax.swing.JFrame {
         jMenuBar1.add(jMenu3);
 
         jMenu4.setText("Perfil");
+
+        jMenuItem6.setText("Editar Perfil");
+        jMenuItem6.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem6ActionPerformed(evt);
+            }
+        });
+        jMenu4.add(jMenuItem6);
+
         jMenuBar1.add(jMenu4);
 
         jMenu5.setText("Salir");
@@ -171,6 +183,24 @@ public class FrmPrincipal extends javax.swing.JFrame {
             System.exit(0);
         }
     }//GEN-LAST:event_jMenu5ActionPerformed
+
+    private void jMenuItem6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem6ActionPerformed
+        Administrador admin = new Administrador();
+        AdministradorDAO admindao = new AdministradorDAO();
+
+        FrmEditarPerfil form1 = new FrmEditarPerfil();
+
+        ControladorEditarPerfil control1 = new ControladorEditarPerfil(form1, admin, admindao);
+        try {
+            admin = admindao.traerDatos();
+        } catch (SQLException ex) {
+            Logger.getLogger(ControladorEditarPerfil.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        form1.jTxNewUser.setText(admin.getUser());
+        form1.jPFNewPassword.setText(admin.getPassword());
+        form1.setVisible(true);
+    }//GEN-LAST:event_jMenuItem6ActionPerformed
 
     public void cerrar() {
         this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
@@ -239,5 +269,6 @@ public class FrmPrincipal extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItem3;
     private javax.swing.JMenuItem jMenuItem4;
     public javax.swing.JMenuItem jMenuItem5;
+    private javax.swing.JMenuItem jMenuItem6;
     // End of variables declaration//GEN-END:variables
 }
