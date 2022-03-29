@@ -10,6 +10,8 @@ import java.awt.event.ActionListener;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.Icon;
+import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import modelo.Administrador;
 import modelo.AdministradorDAO;
@@ -35,6 +37,7 @@ public class ControladorInicio implements ActionListener {
         this.frminicio.jTxUser.addActionListener(this);
         this.frminicio.jPassword.addActionListener(this);
         this.frminicio.jBtInicioSesion.addActionListener(this);
+        this.frminicio.jBtVisibilidadPsw.addActionListener(this);
     }
 
     @Override
@@ -43,10 +46,19 @@ public class ControladorInicio implements ActionListener {
         if (e.getSource() == frminicio.jBtInicioSesion) {
 
             String usuario = frminicio.jTxUser.getText();
-            String contraseña = frminicio.jPassword.getText();
+            String contrasena;
+            if (frminicio.jTxPassVisible.getText().equals("")) {
+                contrasena = frminicio.jPassword.getText();
+            } else {
+                contrasena = frminicio.jTxPassVisible.getText();
+            }
 
             try {
-                if (admindao.validarUsuario(usuario, contraseña)) {
+                if (admindao.validarUsuario(usuario, contrasena)) {
+
+                    Icon icono = new ImageIcon(getClass().getResource("/Imagenes/skills.png"));
+                    JOptionPane.showMessageDialog(frminicio, "Bienvendo(a) al SIRH", "Bienvenido(a)", JOptionPane.PLAIN_MESSAGE, icono);
+
                     admindao.abrirCuenta(usuario);
                     FrmPrincipal fmenu = new FrmPrincipal();
 
@@ -59,5 +71,22 @@ public class ControladorInicio implements ActionListener {
             }
         }
 
+        if (e.getSource() == frminicio.jBtVisibilidadPsw) {
+
+            if (frminicio.jTxPassVisible.getText().equals("")) {
+                frminicio.jBtVisibilidadPsw.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/visibility.png")));
+                frminicio.jPassword.setVisible(false);
+                frminicio.jTxPassVisible.setVisible(true);
+
+                frminicio.jTxPassVisible.setText(frminicio.jPassword.getText());
+            } else {
+                frminicio.jBtVisibilidadPsw.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/show.png")));
+                frminicio.jPassword.setVisible(true);
+                frminicio.jTxPassVisible.setVisible(false);
+
+                frminicio.jPassword.setText(frminicio.jTxPassVisible.getText());
+                frminicio.jTxPassVisible.setText("");
+            }
+        }
     }
 }

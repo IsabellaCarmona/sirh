@@ -29,10 +29,10 @@ public class EmpleadoDAO {
 
     public boolean agregarEmpleado(Empleado empleado) {
 
-        String sql = "INSERT INTO empleados(tipoDocumento,Cedula,Nombres,Apellidos,Fecha_Nacimiento,Telefono,Direccion,Cargo,RH,EPS,ARL,SalarioBase) VALUES('"
+        String sql = "INSERT INTO empleados(tipoDocumento,Cedula,Nombres,Apellidos,Fecha_Nacimiento,Telefono,Direccion,Cargo,RH,EPS,ARL,SalarioBase,estado) VALUES('"
                 + empleado.getTipoId() + "','" + empleado.getCedula() + "','" + empleado.getNombres() + "','" + empleado.getApellidos() + "','"
                 + empleado.getFechaNacimiento() + "','" + empleado.getTelefono() + "','" + empleado.getDireccion() + "','" + empleado.getCargo() + "','"
-                + empleado.getRh() + "','" + empleado.getEps() + "','" + empleado.getArl() + "'," + empleado.getSalarioBase() + ")";
+                + empleado.getRh() + "','" + empleado.getEps() + "','" + empleado.getArl() + "'," + empleado.getSalarioBase() + ", estado='ACTIVO')";
 
         //Conectarse a la base de datos
         con = cn.getConnection();
@@ -54,7 +54,7 @@ public class EmpleadoDAO {
 
         ArrayList empleados = new ArrayList();
         Empleado empleado = new Empleado();
-        String sql = "SELECT tipoDocumento,Cedula,Nombres,Apellidos FROM empleados";
+        String sql = "SELECT tipoDocumento,Cedula,Nombres,Apellidos FROM empleados WHERE estado='ACTIVO'";
 
         con = cn.getConnection(); //Establece la conexion
         ps = con.prepareStatement(sql); //Se prepara el codigo sql
@@ -75,7 +75,7 @@ public class EmpleadoDAO {
 
         ArrayList empleados = new ArrayList();
         Empleado empleado = new Empleado();
-        String sql = "SELECT tipoDocumento,Cedula,Nombres,Apellidos FROM empleados WHERE tipoDocumento='" + tipoId + "'";
+        String sql = "SELECT tipoDocumento,Cedula,Nombres,Apellidos FROM empleados WHERE tipoDocumento='" + tipoId + "' WHERE estado='ACTIVO'";
 
         con = cn.getConnection(); //Establece la conexion
         ps = con.prepareStatement(sql); //Se prepara el codigo sql
@@ -96,7 +96,7 @@ public class EmpleadoDAO {
 
         ArrayList<Empleado> empleados = new ArrayList<>();
         Empleado empleado = new Empleado();
-        String sql = "SELECT tipoDocumento,Cedula,Nombres,Apellidos FROM empleados WHERE Cedula LIKE '" + Id + "%' AND tipoDocumento='" + doc + "'";
+        String sql = "SELECT tipoDocumento,Cedula,Nombres,Apellidos FROM empleados WHERE Cedula LIKE '" + Id + "%' AND tipoDocumento='" + doc + "' AND estado='ACTIVO'";
 
         con = cn.getConnection(); //Establece la conexion
         ps = con.prepareStatement(sql); //Se prepara el codigo sql
@@ -145,7 +145,7 @@ public class EmpleadoDAO {
         return empleados;
     }
 
-    public Boolean ActualizarDatos(Empleado empl) {
+    public Boolean actualizarDatos(Empleado empl) {
 
         String sql = "UPDATE empleados SET Nombres='" + empl.getNombres() + "', Apellidos='" + empl.getApellidos()
                 + "', Fecha_Nacimiento='" + empl.getFechaNacimiento() + "', Telefono='" + empl.getTelefono()
@@ -169,9 +169,9 @@ public class EmpleadoDAO {
         return true;
     }
 
-    public Boolean EliminarEmpleado(String doc) {
+    public Boolean bajaEmpleado(String doc, Empleado empleado) {
 
-        String sql = "DELETE FROM empleados WHERE cedula='" + doc + "'";
+        String sql = "UPDATE empleados SET estado='INACTIVO' WHERE cedula='" + doc + "'";
 
         //Conectarse a BD
         con = cn.getConnection();
@@ -183,6 +183,21 @@ public class EmpleadoDAO {
             System.out.println(ex);
             return false;
         }
+
+        String sqlBaja = "INSERT INTO bajas_empleados(tipoDocumento,numeroDocumento,nombres,apellidos,fecha_nacimiento,telefono,direccion,cargo,RH,EPS,ARL,salarioBase) VALUES('"
+                + empleado.getTipoId() + "','" + empleado.getCedula() + "','" + empleado.getNombres() + "','" + empleado.getApellidos() + "','"
+                + empleado.getFechaNacimiento() + "','" + empleado.getTelefono() + "','" + empleado.getDireccion() + "','" + empleado.getCargo() + "','"
+                + empleado.getRh() + "','" + empleado.getEps() + "','" + empleado.getArl() + "'," + empleado.getSalarioBase() + ")";
+
+        try {
+            ps = con.prepareStatement(sqlBaja);
+            ps.executeUpdate();
+        } catch (SQLException ex) {
+            Logger.getLogger(EmpleadoDAO.class.getName()).log(Level.SEVERE, null, ex);
+            System.out.println(ex);
+            return false;
+        }
+
         return true;
     }
 }

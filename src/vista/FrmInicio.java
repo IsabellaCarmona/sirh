@@ -52,78 +52,43 @@ public class FrmInicio extends javax.swing.JFrame {
         jSeparator1 = new javax.swing.JSeparator();
         jSeparator2 = new javax.swing.JSeparator();
         jBtInicioSesion = new javax.swing.JButton();
+        jTxPassVisible = new javax.swing.JTextField();
+        jBtVisibilidadPsw = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("INICIO SESIÓN SIRH");
 
         jPanel1.setBackground(new java.awt.Color(0, 0, 0));
         jPanel1.setPreferredSize(new java.awt.Dimension(300, 407));
-        jPanel1.setLayout(new java.awt.GridBagLayout());
+        jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jLabel18.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel18.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/skills.png"))); // NOI18N
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 1;
-        gridBagConstraints.ipadx = 40;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(15, 40, 0, 0);
-        jPanel1.add(jLabel18, gridBagConstraints);
+        jPanel1.add(jLabel18, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 110, 210, -1));
 
         jLabel16.setFont(new java.awt.Font("Javanese Text", 1, 24)); // NOI18N
         jLabel16.setForeground(new java.awt.Color(255, 255, 255));
         jLabel16.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel16.setText("BIENVENIDO AL SIRH");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.gridwidth = 2;
-        gridBagConstraints.ipadx = 26;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(40, 0, 0, 0);
-        jPanel1.add(jLabel16, gridBagConstraints);
+        jPanel1.add(jLabel16, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 40, 300, -1));
 
         jLabel17.setFont(new java.awt.Font("Javanese Text", 1, 18)); // NOI18N
         jLabel17.setForeground(new java.awt.Color(255, 255, 255));
         jLabel17.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel17.setText("SISTEMA DE INFORMACION");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 2;
-        gridBagConstraints.gridwidth = 2;
-        gridBagConstraints.ipadx = 32;
-        gridBagConstraints.ipady = 1;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(40, 0, 0, 0);
-        jPanel1.add(jLabel17, gridBagConstraints);
+        jPanel1.add(jLabel17, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 320, 300, 43));
 
         jLabel19.setFont(new java.awt.Font("Javanese Text", 1, 18)); // NOI18N
         jLabel19.setForeground(new java.awt.Color(255, 255, 255));
         jLabel19.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel19.setText("DE RECURSOS HUMANOS");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 3;
-        gridBagConstraints.gridwidth = 2;
-        gridBagConstraints.ipadx = 57;
-        gridBagConstraints.ipady = -2;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(7, 0, 0, 0);
-        jPanel1.add(jLabel19, gridBagConstraints);
+        jPanel1.add(jLabel19, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 370, 300, 40));
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(255, 255, 255));
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel1.setText("Todos los derechos reservados © 2021");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 4;
-        gridBagConstraints.gridwidth = 2;
-        gridBagConstraints.ipadx = 85;
-        gridBagConstraints.ipady = 15;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(120, 0, 0, 0);
-        jPanel1.add(jLabel1, gridBagConstraints);
+        jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 530, 300, 30));
 
         getContentPane().add(jPanel1, java.awt.BorderLayout.LINE_START);
 
@@ -137,51 +102,67 @@ public class FrmInicio extends javax.swing.JFrame {
         jLabel10.setFont(new java.awt.Font("Ebrima", 1, 24)); // NOI18N
         jLabel10.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel10.setText("Delicias de Calasanz");
-        jPanel5.add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, 360, -1));
+        jPanel5.add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 20, 360, -1));
 
         jLabel11.setFont(new java.awt.Font("Ebrima", 2, 18)); // NOI18N
         jLabel11.setText("Usuario");
-        jPanel5.add(jLabel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 280, 330, -1));
+        jPanel5.add(jLabel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 280, 300, -1));
 
         jTxUser.setBackground(new java.awt.Color(204, 204, 204));
         jTxUser.setBorder(null);
-        jPanel5.add(jTxUser, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 310, 330, -1));
+        jPanel5.add(jTxUser, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 310, 300, -1));
 
         jLabel12.setFont(new java.awt.Font("Ebrima", 2, 18)); // NOI18N
         jLabel12.setText("Contraseña");
-        jPanel5.add(jLabel12, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 350, 330, -1));
+        jPanel5.add(jLabel12, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 350, 300, -1));
 
         jLabel13.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/Photo from Haru_ (1) (1).jpg"))); // NOI18N
         jPanel5.add(jLabel13, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 70, -1, -1));
 
         jPassword.setBackground(new java.awt.Color(204, 204, 204));
         jPassword.setBorder(null);
-        jPanel5.add(jPassword, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 380, 330, -1));
+        jPanel5.add(jPassword, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 380, 300, -1));
 
         jSeparator1.setForeground(new java.awt.Color(0, 0, 0));
-        jPanel5.add(jSeparator1, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 400, 330, 10));
+        jPanel5.add(jSeparator1, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 400, 300, 10));
 
         jSeparator2.setForeground(new java.awt.Color(0, 0, 0));
-        jPanel5.add(jSeparator2, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 330, 330, 10));
+        jPanel5.add(jSeparator2, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 330, 300, 10));
 
         jBtInicioSesion.setBackground(new java.awt.Color(0, 0, 0));
         jBtInicioSesion.setForeground(new java.awt.Color(255, 255, 255));
         jBtInicioSesion.setText("Iniciar Sesion");
         jPanel5.add(jBtInicioSesion, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 420, 124, 41));
 
+        jTxPassVisible.setBackground(new java.awt.Color(204, 204, 204));
+        jTxPassVisible.setBorder(null);
+        jPanel5.add(jTxPassVisible, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 380, 300, -1));
+
+        jBtVisibilidadPsw.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/show.png"))); // NOI18N
+        jBtVisibilidadPsw.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jBtVisibilidadPswActionPerformed(evt);
+            }
+        });
+        jPanel5.add(jBtVisibilidadPsw, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 370, 40, 30));
+
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
-        gridBagConstraints.ipadx = 10;
+        gridBagConstraints.ipadx = 8;
         gridBagConstraints.ipady = 19;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(30, 60, 50, 62);
+        gridBagConstraints.insets = new java.awt.Insets(51, 67, 29, 67);
         jPanel2.add(jPanel5, gridBagConstraints);
 
         getContentPane().add(jPanel2, java.awt.BorderLayout.CENTER);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void jBtVisibilidadPswActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtVisibilidadPswActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jBtVisibilidadPswActionPerformed
 
     /**
      * @param args the command line arguments
@@ -210,6 +191,8 @@ public class FrmInicio extends javax.swing.JFrame {
         }
         //</editor-fold>
         //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
@@ -227,6 +210,7 @@ public class FrmInicio extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     public javax.swing.JButton jBtInicioSesion;
+    public javax.swing.JButton jBtVisibilidadPsw;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
@@ -242,6 +226,7 @@ public class FrmInicio extends javax.swing.JFrame {
     public javax.swing.JPasswordField jPassword;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JSeparator jSeparator2;
+    public javax.swing.JTextField jTxPassVisible;
     public javax.swing.JTextField jTxUser;
     // End of variables declaration//GEN-END:variables
 }
