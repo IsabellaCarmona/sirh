@@ -75,7 +75,7 @@ public class EmpleadoDAO {
 
         ArrayList empleados = new ArrayList();
         Empleado empleado = new Empleado();
-        String sql = "SELECT tipoDocumento,Cedula,Nombres,Apellidos FROM empleados WHERE tipoDocumento='" + tipoId + "' WHERE estado='ACTIVO'";
+        String sql = "SELECT tipoDocumento,Cedula,Nombres,Apellidos FROM empleados WHERE tipoDocumento='" + tipoId + "' AND estado='ACTIVO'";
 
         con = cn.getConnection(); //Establece la conexion
         ps = con.prepareStatement(sql); //Se prepara el codigo sql

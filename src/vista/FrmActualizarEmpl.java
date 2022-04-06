@@ -19,6 +19,9 @@ public class FrmActualizarEmpl extends javax.swing.JFrame {
 
         this.setResizable(false);
         this.setLocationRelativeTo(null);
+
+        jBtAgregarArchivos.setVisible(false);
+        jLabel15.setVisible(false);
     }
 
     /**

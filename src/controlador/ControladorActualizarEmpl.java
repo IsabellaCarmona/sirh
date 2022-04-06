@@ -87,6 +87,7 @@ public class ControladorActualizarEmpl implements ActionListener {
                     "Dar de baja empleado", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
             if (respuesta == JOptionPane.YES_OPTION) {
 
+                String tipoDoc = (String) frmAct.jCbTipoID.getSelectedItem();
                 String doc = frmAct.jTxNumeroID.getText();
                 //Capturar fecha
                 SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
@@ -107,10 +108,11 @@ public class ControladorActualizarEmpl implements ActionListener {
                 String eps = frmAct.jTxEPS.getText();
                 int salario = Integer.parseInt(frmAct.jTxSalario.getText());
 
-                empleado = new Empleado(doc, nombres, apellidos, fechaNacSql, telefono, direccion, cargo, rh, arl, eps, salario);
+                empleado = new Empleado(tipoDoc, doc, nombres, apellidos, fechaNacSql, telefono, direccion, cargo, rh, arl, eps, salario);
 
                 if (empleadodao.bajaEmpleado(doc, empleado)) {
                     JOptionPane.showMessageDialog(frmAct, "Se ha dado de baja al empleado(a)" + nombres + apellidos);
+                    frmAct.dispose();
                 } else {
                     JOptionPane.showMessageDialog(frmAct, "Error al dar de baja al empleado", "Error", JOptionPane.ERROR_MESSAGE);
                 }

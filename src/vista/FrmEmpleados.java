@@ -20,6 +20,10 @@ public class FrmEmpleados extends javax.swing.JInternalFrame {
     public FrmEmpleados() {
         initComponents();
 
+        //No mostrar el boton que no funciona
+        jBtAgregarArchivos.setVisible(false);
+        jLabel15.setVisible(false);
+
     }
 
     /**
