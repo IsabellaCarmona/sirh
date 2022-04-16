@@ -14,11 +14,29 @@ import java.sql.Date;
 public class Novedades {
 
     private int idNovedades;
+    private String tipoNovedad;
     private String descripcion;
-    private Date fechaNovedad;
-    private Empleado idEmpleado;
+    private Date fechaNovedadInicio;
+    private Date fechaNovedadFin;
+    private String idEmpleado;
 
     public Novedades() {
+    }
+
+    public Novedades(int idNovedades, String tipoNovedad, String descripcion, Date fechaNovedadInicio, Date fechaNovedadFin) {
+        this.idNovedades = idNovedades;
+        this.tipoNovedad = tipoNovedad;
+        this.descripcion = descripcion;
+        this.fechaNovedadInicio = fechaNovedadInicio;
+        this.fechaNovedadFin = fechaNovedadFin;
+    }
+
+    public Novedades(String tipoNovedad, String descripcion, java.sql.Date fechaNovedadInicio, java.sql.Date fechaNovedadFin, String idEmpleado) {
+        this.tipoNovedad = tipoNovedad;
+        this.descripcion = descripcion;
+        this.fechaNovedadInicio = fechaNovedadInicio;
+        this.fechaNovedadFin = fechaNovedadFin;
+        this.idEmpleado = idEmpleado;
     }
 
     public int getIdNovedades() {
@@ -29,6 +47,14 @@ public class Novedades {
         this.idNovedades = idNovedades;
     }
 
+    public String getTipoNovedad() {
+        return tipoNovedad;
+    }
+
+    public void setTipoNovedad(String tipoNovedad) {
+        this.tipoNovedad = tipoNovedad;
+    }
+
     public String getDescripcion() {
         return descripcion;
     }
@@ -37,19 +63,27 @@ public class Novedades {
         this.descripcion = descripcion;
     }
 
-    public Date getFechaNovedad() {
-        return fechaNovedad;
+    public Date getFechaNovedadInicio() {
+        return fechaNovedadInicio;
     }
 
-    public void setFechaNovedad(Date fechaNovedad) {
-        this.fechaNovedad = fechaNovedad;
+    public void setFechaNovedadInicio(Date fechaNovedadInicio) {
+        this.fechaNovedadInicio = fechaNovedadInicio;
     }
 
-    public Empleado getIdEmpleado() {
+    public Date getFechaNovedadFin() {
+        return fechaNovedadFin;
+    }
+
+    public void setFechaNovedadFin(Date fechaNovedadFin) {
+        this.fechaNovedadFin = fechaNovedadFin;
+    }
+
+    public String getIdEmpleado() {
         return idEmpleado;
     }
 
-    public void setIdEmpleado(Empleado idEmpleado) {
+    public void setIdEmpleado(String idEmpleado) {
         this.idEmpleado = idEmpleado;
     }
 

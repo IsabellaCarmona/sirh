@@ -8,6 +8,7 @@ package controlador;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.logging.Level;
@@ -17,6 +18,8 @@ import modelo.Empleado;
 import modelo.EmpleadoDAO;
 import vista.FrmEmpleados;
 import javafx.stage.FileChooser;
+import javax.swing.JFileChooser;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import vista.FrmPrincipal;
 
 /**
@@ -36,12 +39,23 @@ public class ControladorEmpleado implements ActionListener {
 
         this.frmempleados.jBtAgregar.addActionListener(this);
         this.frmempleados.jBtSalir.addActionListener(this);
+        this.frmempleados.jBtAgregarArchivos.addActionListener(this);
     }
+
+    Long longitud;
+    String Archivo = "";
+    File ruta;
+    private FileNameExtensionFilter filter = new FileNameExtensionFilter("pdf", "pdf");
 
     @Override
     public void actionPerformed(ActionEvent e) {
 
         if (e.getSource() == frmempleados.jBtAgregar) {
+
+            if (!Archivo.equals("")) {
+                ruta = new File(Archivo);
+                longitud = ruta.length();
+            }
 
             String tipoID = (String) frmempleados.jCbTipoID.getSelectedItem();
             String cedula = frmempleados.jTxNumeroID.getText();
@@ -69,16 +83,21 @@ public class ControladorEmpleado implements ActionListener {
 
             empleado = new Empleado(tipoID, cedula, nombres, apellidos, fechasql, telefono, direccion, cargo, rh, eps, arl, salario);
 
-            if (empleadodao.agregarEmpleado(empleado)) {
-                limpiarControles();
-                JOptionPane.showMessageDialog(frmempleados, "Empleado(a)" + nombres + apellidos + "registrado exitosamente");
-            } else {
-                JOptionPane.showMessageDialog(frmempleados, "Error al registrar el Empleado", "Error", JOptionPane.ERROR_MESSAGE);
+            try {
+                if (empleadodao.agregarEmpleado(empleado, ruta, longitud)) {
+                    limpiarControles();
+                    JOptionPane.showMessageDialog(frmempleados, "Empleado(a) " + nombres + " " + apellidos + " registrado exitosamente");
+                } else {
+                    JOptionPane.showMessageDialog(frmempleados, "Error al registrar el Empleado", "Error", JOptionPane.ERROR_MESSAGE);
+                }
+            } catch (FileNotFoundException ex) {
+                Logger.getLogger(ControladorEmpleado.class.getName()).log(Level.SEVERE, null, ex);
             }
+            Archivo = "";
         }
 
         if (e.getSource() == frmempleados.jBtSalir) {
-            int respuesta = JOptionPane.showConfirmDialog(frmempleados, "¿Esta seguro de salir?", "Fin ingreso empleados", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+            int respuesta = JOptionPane.showConfirmDialog(frmempleados, "¿Está seguro de salir?", "Fin ingreso empleados", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
             if (respuesta == JOptionPane.YES_OPTION) {
                 frmempleados.dispose();
             }
@@ -86,36 +105,31 @@ public class ControladorEmpleado implements ActionListener {
 
         if (e.getSource() == frmempleados.jBtAgregarArchivos) {
 
-            /*FrmPrincipal fprincipal = new FrmPrincipal();
-           FileChooser fc = new FileChooser();
-            int returnVal = fc.showOpenDialog(fprincipal);
-            if (returnVal == fc.APPROVE_OPTION) {
-            File file = fc.getSelectedFile();
-                try {
-                  // return the file path
-                } catch (Exception ex) {
-                  System.out.println("problem accessing file"+file.getAbsolutePath());
-                }
+            JFileChooser file = new JFileChooser();
+            file.setFileFilter(filter);
+
+            int option = file.showOpenDialog(frmempleados);
+            if (option == JFileChooser.APPROVE_OPTION) {
+                frmempleados.jLbDirecArchivo.setText(file.getSelectedFile().toString());
+                Archivo = file.getSelectedFile().getAbsolutePath();
             }
-            else {
-                System.out.println("File access cancelled by user.");
-            }      */
         }
     }
 
     public void limpiarControles() {
-        java.sql.Date date = new java.sql.Date(new java.util.Date().getTime());
 
         frmempleados.jCbTipoID.setSelectedIndex(0);
         frmempleados.jCbRH.setSelectedIndex(0);
         frmempleados.jTxNumeroID.setText("");
         frmempleados.jTxNombres.setText("");
         frmempleados.jTxApellidos.setText("");
-        frmempleados.jDtFechaNacimiento.setDate(date);
+        frmempleados.jDtFechaNacimiento.setDate(null);
+        frmempleados.jTxCargo.setText("");
         frmempleados.jTxTelefono.setText("");
         frmempleados.jTxDireccion.setText("");
         frmempleados.jTxSalario.setText("");
         frmempleados.jTxEPS.setText("");
+        frmempleados.jLbDirecArchivo.setText("");
 
         //Para que el cursor quede en ese campo de texto
         frmempleados.jTxNumeroID.requestFocus();

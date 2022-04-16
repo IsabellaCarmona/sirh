@@ -7,6 +7,7 @@ package vista;
 
 import controlador.ControladorEditarPerfil;
 import controlador.ControladorEmpleado;
+import controlador.ControladorVerNovedades;
 import controlador.ControladorVisualizarEmpl;
 import java.awt.Dimension;
 import java.awt.HeadlessException;
@@ -25,6 +26,8 @@ import modelo.Administrador;
 import modelo.AdministradorDAO;
 import modelo.Empleado;
 import modelo.EmpleadoDAO;
+import modelo.Novedades;
+import modelo.NovedadesDAO;
 
 /**
  *
@@ -84,13 +87,18 @@ public class FrmPrincipal extends javax.swing.JFrame {
         jMenuItem1.setText("Turnos");
         jMenu2.add(jMenuItem1);
 
-        jMenuItem2.setText("Novedades");
+        jMenuItem2.setText("Ver Novedades");
+        jMenuItem2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem2ActionPerformed(evt);
+            }
+        });
         jMenu2.add(jMenuItem2);
 
-        jMenuItem3.setText("Nomina");
+        jMenuItem3.setText("Nómina");
         jMenu2.add(jMenuItem3);
 
-        jMenuItem4.setText("Agregar");
+        jMenuItem4.setText("Agregar Empleados");
         jMenuItem4.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jMenuItem4ActionPerformed(evt);
@@ -98,7 +106,7 @@ public class FrmPrincipal extends javax.swing.JFrame {
         });
         jMenu2.add(jMenuItem4);
 
-        jMenuItem5.setText("Mostrar");
+        jMenuItem5.setText("Mostrar Empleados");
         jMenuItem5.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jMenuItem5ActionPerformed(evt);
@@ -215,6 +223,29 @@ public class FrmPrincipal extends javax.swing.JFrame {
     private void jMenuItem7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem7ActionPerformed
         confirmarSalida();
     }//GEN-LAST:event_jMenuItem7ActionPerformed
+
+    private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
+        FrmVerNovedades frm = null;
+        try {
+            frm = new FrmVerNovedades();
+        } catch (SQLException ex) {
+            Logger.getLogger(FrmPrincipal.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        Novedades novedad = new Novedades();
+        NovedadesDAO novedaddao = new NovedadesDAO();
+        try {
+            ControladorVerNovedades control = new ControladorVerNovedades(frm, novedad, novedaddao);
+        } catch (SQLException ex) {
+            Logger.getLogger(FrmPrincipal.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        jDesktopPane1.add(frm); //Crea un objeto de tipo form y sobrepone un panel sobre otro
+
+        Dimension desktopSize = jDesktopPane1.getSize();
+        Dimension FrameSize = frm.getSize();
+        frm.setLocation((desktopSize.width - FrameSize.width) / 2, (desktopSize.height - FrameSize.height) / 2);
+        frm.show();
+    }//GEN-LAST:event_jMenuItem2ActionPerformed
 
     public void cerrar() {
         this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);

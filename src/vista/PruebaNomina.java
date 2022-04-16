@@ -5,7 +5,10 @@
  */
 package vista;
 
+import static jdk.nashorn.internal.objects.NativeMath.round;
 import modelo.PruebaLogicaNomina;
+import java.math.RoundingMode;
+import java.text.DecimalFormat;
 
 /**
  *
@@ -166,22 +169,23 @@ public class PruebaNomina extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
 
-        int diasTrabajados = Integer.parseInt(jTxDiasTrabajados.getText());
-        int salarioBase = Integer.parseInt(jTxSalarioBase.getText());
+        double diasTrabajados = Double.parseDouble(jTxDiasTrabajados.getText());
+        double salarioBase = Double.parseDouble(jTxSalarioBase.getText());
 
         PruebaLogicaNomina prueba = new PruebaLogicaNomina();
 
+        DecimalFormat df = new DecimalFormat("0.00");
         double cesantias = prueba.cesantias(salarioBase, diasTrabajados);
         double prima = prueba.prima(diasTrabajados, salarioBase);
         double vacaciones = prueba.vacaciones(salarioBase, diasTrabajados);
         double totalPagar = prueba.totalPagar(salarioBase, diasTrabajados);
         double interesesCesan = prueba.interesCesantias(salarioBase, diasTrabajados);
 
-        jTxCesantias.setText(cesantias + "");
-        jTxPrima.setText(prima + "");
-        jTxVacaciones.setText(vacaciones + "");
-        jTxTotalPagar.setText(totalPagar + "");
-        jTxInteresesCesan.setText(interesesCesan + "");
+        jTxCesantias.setText(String.valueOf(df.format((cesantias))));
+        jTxPrima.setText(String.valueOf(df.format((prima))));
+        jTxVacaciones.setText(String.valueOf(df.format((vacaciones))));
+        jTxTotalPagar.setText(String.valueOf(df.format((totalPagar))));
+        jTxInteresesCesan.setText(String.valueOf(df.format((interesesCesan))));
     }//GEN-LAST:event_jButton1ActionPerformed
 
     /**

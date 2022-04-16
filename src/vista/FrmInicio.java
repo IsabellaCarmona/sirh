@@ -131,7 +131,7 @@ public class FrmInicio extends javax.swing.JFrame {
 
         jBtInicioSesion.setBackground(new java.awt.Color(0, 0, 0));
         jBtInicioSesion.setForeground(new java.awt.Color(255, 255, 255));
-        jBtInicioSesion.setText("Iniciar Sesion");
+        jBtInicioSesion.setText("Iniciar Sesión");
         jPanel5.add(jBtInicioSesion, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 420, 124, 41));
 
         jTxPassVisible.setBackground(new java.awt.Color(204, 204, 204));

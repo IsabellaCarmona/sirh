@@ -5,13 +5,17 @@
  */
 package controlador;
 
+import java.awt.Desktop;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import modelo.Empleado;
 import modelo.EmpleadoDAO;
 import vista.FrmActualizarEmpl;
@@ -36,15 +40,26 @@ public class ControladorActualizarEmpl implements ActionListener {
         this.frmAct.jBtSalir.addActionListener(this);
     }
 
+    //Predeterminados de archivos
+    Long longitud;
+    String Archivo = "";
+    File ruta;
+    private FileNameExtensionFilter filter = new FileNameExtensionFilter("pdf", "pdf");
+
     @Override
     public void actionPerformed(ActionEvent e) {
 
         if (e.getSource() == frmAct.jBtActualizar) {
 
+            if (!Archivo.equals("")) {
+                ruta = new File(Archivo);
+                longitud = ruta.length();
+            }
+
             String nombres = frmAct.jTxNombres.getText();
             String apellidos = frmAct.jTxApellidos.getText();
 
-            int respuesta = JOptionPane.showConfirmDialog(frmAct, "¿Esta seguro de que desea actualizar los datos de " + nombres + " " + apellidos + "?",
+            int respuesta = JOptionPane.showConfirmDialog(frmAct, "¿Está seguro de que desea actualizar los datos de " + nombres + " " + apellidos + "?",
                     "Actualizar Datos", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
             if (respuesta == JOptionPane.YES_OPTION) {
 
@@ -71,7 +86,7 @@ public class ControladorActualizarEmpl implements ActionListener {
                 empleado = new Empleado(doc, nombres, apellidos, fechaNacSql, telefono, direccion, cargo, rh, arl, eps, salario);
 
                 if (empleadodao.actualizarDatos(empleado)) {
-                    JOptionPane.showMessageDialog(frmAct, "Se ha actualizado al empleado(a) " + " " + nombres + " " + apellidos);
+                    JOptionPane.showMessageDialog(frmAct, "Se ha actualizado al empleado(a) " + nombres + " " + apellidos);
                 } else {
                     JOptionPane.showMessageDialog(frmAct, "Error al actualizar al empleado", "Error", JOptionPane.ERROR_MESSAGE);
                 }
@@ -83,7 +98,7 @@ public class ControladorActualizarEmpl implements ActionListener {
             String nombres = frmAct.jTxNombres.getText();
             String apellidos = frmAct.jTxApellidos.getText();
 
-            int respuesta = JOptionPane.showConfirmDialog(frmAct, "¿Esta seguro de que desea dar de baja al empleado(a) " + nombres + " " + apellidos + "?",
+            int respuesta = JOptionPane.showConfirmDialog(frmAct, "¿Está seguro de que desea dar de baja al empleado(a) " + nombres + " " + apellidos + "?",
                     "Dar de baja empleado", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
             if (respuesta == JOptionPane.YES_OPTION) {
 
@@ -111,7 +126,7 @@ public class ControladorActualizarEmpl implements ActionListener {
                 empleado = new Empleado(tipoDoc, doc, nombres, apellidos, fechaNacSql, telefono, direccion, cargo, rh, arl, eps, salario);
 
                 if (empleadodao.bajaEmpleado(doc, empleado)) {
-                    JOptionPane.showMessageDialog(frmAct, "Se ha dado de baja al empleado(a)" + nombres + apellidos);
+                    JOptionPane.showMessageDialog(frmAct, "Se ha dado de baja al empleado(a) " + nombres + " " + apellidos);
                     frmAct.dispose();
                 } else {
                     JOptionPane.showMessageDialog(frmAct, "Error al dar de baja al empleado", "Error", JOptionPane.ERROR_MESSAGE);
@@ -120,9 +135,31 @@ public class ControladorActualizarEmpl implements ActionListener {
         }
 
         if (e.getSource() == frmAct.jBtSalir) {
-            int respuesta = JOptionPane.showConfirmDialog(frmAct, "¿Esta seguro de salir?", "Fin ingreso empleados", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+            int respuesta = JOptionPane.showConfirmDialog(frmAct, "¿Está seguro de salir?", "Fin actualizar empleados", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
             if (respuesta == JOptionPane.YES_OPTION) {
                 frmAct.setVisible(false);
+            }
+        }
+
+        if (e.getSource() == frmAct.jBtVerArchivo) {
+
+            String cod = frmAct.jTxNumeroID.getText();
+            empleadodao.ejecutar_archivoPDF(cod);
+            try {
+                Desktop.getDesktop().open(new File("new.pdf"));
+            } catch (Exception ex) {
+                System.err.println("El error es: " + ex);
+            }
+        }
+
+        if (e.getSource() == frmAct.jBtArchivos) {
+            JFileChooser file = new JFileChooser();
+            file.setFileFilter(filter);
+
+            int option = file.showOpenDialog(frmAct);
+            if (option == JFileChooser.APPROVE_OPTION) {
+                frmAct.jLbDirecArchivo.setText(file.getSelectedFile().toString());
+                Archivo = file.getSelectedFile().getAbsolutePath();
             }
         }
     }

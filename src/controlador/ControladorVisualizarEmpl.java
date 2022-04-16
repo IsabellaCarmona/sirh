@@ -37,7 +37,7 @@ public class ControladorVisualizarEmpl implements ActionListener, KeyListener {
         this.empleado = empleado;
         this.empleadodao = empleadodao;
         modelo.addColumn("Tipo de Documento");
-        modelo.addColumn("Numero");
+        modelo.addColumn("Número");
         modelo.addColumn("Nombres");
         modelo.addColumn("Apellidos");
         fvisualizar.jTbEmpleados.setModel(modelo);
@@ -96,11 +96,31 @@ public class ControladorVisualizarEmpl implements ActionListener, KeyListener {
                     datos[3] = empleado.getApellidos();
                     modelo.addRow(datos);
                 }
-            }
+            } else if (fvisualizar.jCbTipoID.getSelectedItem().equals("-SELECCIONE TIPO DE DOCUMENTO-")) {
+                limpiarJTable();
 
+                ArrayList listEmpleados = null;
+
+                try {
+                    listEmpleados = empleadodao.traerDatos();
+                } catch (SQLException ex) {
+                    Logger.getLogger(ControladorVisualizarEmpl.class.getName()).log(Level.SEVERE, null, ex);
+                }
+
+                for (int i = 0; i < listEmpleados.size(); i++) {
+                    String[] datos = new String[4];
+                    empleado = (Empleado) listEmpleados.get(i);
+                    datos[0] = empleado.getTipoId();
+                    datos[1] = empleado.getCedula();
+                    datos[2] = empleado.getNombres();
+                    datos[3] = empleado.getApellidos();
+                    modelo.addRow(datos);
+                }
+            }
         }
+
         if (e.getSource() == fvisualizar.jBtSalir) {
-            int respuesta = JOptionPane.showConfirmDialog(fvisualizar, "¿Esta seguro de salir?", "Fin mostrar empleados", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+            int respuesta = JOptionPane.showConfirmDialog(fvisualizar, "¿Está seguro de salir?", "Fin mostrar empleados", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
             if (respuesta == JOptionPane.YES_OPTION) {
                 fvisualizar.dispose();
             }
@@ -121,32 +141,58 @@ public class ControladorVisualizarEmpl implements ActionListener, KeyListener {
     @Override
     public void keyReleased(KeyEvent e) {
 
-        ArrayList<Empleado> listEmpleados = new ArrayList();
-        String documento = fvisualizar.jTxID.getText();
-        String doc = (String) fvisualizar.jCbTipoID.getSelectedItem();
-
-        try {
-            listEmpleados = empleadodao.traerDatosID(documento, doc);
-        } catch (SQLException ex) {
-            Logger.getLogger(ControladorVisualizarEmpl.class.getName()).log(Level.SEVERE, null, ex);
-        }
-
         if (e.getSource() == fvisualizar.jTxID) {
 
             limpiarJTable();
+            if (fvisualizar.jCbTipoID.getSelectedItem().equals("-SELECCIONE TIPO DE DOCUMENTO-")) {
 
-            for (int i = 0; i < listEmpleados.size(); i++) {
-                if (listEmpleados.get(i).empiezaPor(fvisualizar.jTxID.getText())) {
+                String docu = fvisualizar.jTxID.getText();
+                ArrayList<Empleado> listaEmpleados = new ArrayList();
 
-                    String[] datos = new String[4];
-                    datos[0] = doc;
-                    datos[1] = listEmpleados.get(i).getCedula();
-                    datos[2] = listEmpleados.get(i).getNombres();
-                    datos[3] = listEmpleados.get(i).getApellidos();
-                    modelo.addRow(datos);
+                try {
+                    listaEmpleados = empleadodao.datosEmpleadoID(docu);
+                } catch (SQLException ex) {
+                    Logger.getLogger(ControladorVisualizarEmpl.class.getName()).log(Level.SEVERE, null, ex);
+                }
 
+                for (int i = 0; i < listaEmpleados.size(); i++) {
+                    if (listaEmpleados.get(i).empiezaPor(fvisualizar.jTxID.getText())) {
+
+                        String[] datos = new String[4];
+                        datos[0] = listaEmpleados.get(i).getTipoId();
+                        datos[1] = listaEmpleados.get(i).getCedula();
+                        datos[2] = listaEmpleados.get(i).getNombres();
+                        datos[3] = listaEmpleados.get(i).getApellidos();
+                        modelo.addRow(datos);
+
+                    }
+                }
+            } else if (!fvisualizar.jCbTipoID.getSelectedItem().equals("-SELECCIONE TIPO DE DOCUMENTO-")) {
+
+                ArrayList<Empleado> listEmpleados = new ArrayList();
+                String documento = fvisualizar.jTxID.getText();
+                String doc = (String) fvisualizar.jCbTipoID.getSelectedItem();
+
+                try {
+                    listEmpleados = empleadodao.traerDatosID(documento, doc);
+                } catch (SQLException ex) {
+                    Logger.getLogger(ControladorVisualizarEmpl.class.getName()).log(Level.SEVERE, null, ex);
+                }
+
+                for (int i = 0; i < listEmpleados.size(); i++) {
+                    if (listEmpleados.get(i).empiezaPor(fvisualizar.jTxID.getText())) {
+
+                        String[] datos = new String[4];
+                        datos[0] = doc;
+                        datos[1] = listEmpleados.get(i).getCedula();
+                        datos[2] = listEmpleados.get(i).getNombres();
+                        datos[3] = listEmpleados.get(i).getApellidos();
+                        modelo.addRow(datos);
+
+                    }
                 }
             }
+
         }
     }
 

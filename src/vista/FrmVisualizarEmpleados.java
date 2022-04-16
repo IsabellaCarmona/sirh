@@ -6,6 +6,7 @@
 package vista;
 
 import controlador.ControladorActualizarEmpl;
+import controlador.ControladorNovedades;
 import controlador.ControladorTurnos;
 import java.awt.Dimension;
 import java.sql.SQLException;
@@ -13,9 +14,12 @@ import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
+import static javax.swing.JOptionPane.CANCEL_OPTION;
 import javax.swing.table.DefaultTableModel;
 import modelo.Empleado;
 import modelo.EmpleadoDAO;
+import modelo.Novedades;
+import modelo.NovedadesDAO;
 import modelo.Turnos;
 import modelo.TurnosDAO;
 
@@ -73,11 +77,11 @@ public class FrmVisualizarEmpleados extends javax.swing.JInternalFrame {
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel1.setText("EMPLEADOS");
 
-        jLabel2.setText("Tipo Identificacion");
+        jLabel2.setText("Tipo Identificación");
 
-        jCbTipoID.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "-SELECCIONE TIPO DE DOCUMENTO-", "Cedula de Ciudadania", "Cedula de Extranjeria", "PEP" }));
+        jCbTipoID.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "-SELECCIONE TIPO DE DOCUMENTO-", "Cédula de Ciudadanía", "Cédula de Extranjería", "PEP" }));
 
-        jLabel3.setText("Numero");
+        jLabel3.setText("Número");
 
         jBtSalir.setBackground(new java.awt.Color(102, 102, 102));
         jBtSalir.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
@@ -134,7 +138,7 @@ public class FrmVisualizarEmpleados extends javax.swing.JInternalFrame {
     private void jTbEmpleadosMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTbEmpleadosMousePressed
         int fila = this.jTbEmpleados.getSelectedRow();
 
-        String[] botones = {"Asignar Turnos", "Actualizar Empleado"};
+        String[] botones = {"Asignar Turnos", "Actualizar Empleado", "Ingresar Novedad Empleado"};
         DefaultTableModel modelo = (DefaultTableModel) jTbEmpleados.getModel();
         String nombre = (String) modelo.getValueAt(fila, 2);
         String apellidos = (String) modelo.getValueAt(fila, 3);
@@ -196,6 +200,17 @@ public class FrmVisualizarEmpleados extends javax.swing.JInternalFrame {
 
             ControladorActualizarEmpl control = new ControladorActualizarEmpl(formA, empl, empldao);
             formA.setVisible(true);
+        } else if (respuesta == CANCEL_OPTION) {
+            NovedadesDAO admindao = new NovedadesDAO();
+            Novedades admin = new Novedades();
+
+            FrmNovedades form1 = new FrmNovedades();
+            form1.jTxNombres.setText(empleado);
+            form1.jTFCedula.setText(id);
+            form1.jTxNombres.setEnabled(false);
+            form1.jTFCedula.setEnabled(false);
+            ControladorNovedades control1 = new ControladorNovedades(form1, admin, admindao);
+            form1.setVisible(true);
         }
 
     }//GEN-LAST:event_jTbEmpleadosMousePressed

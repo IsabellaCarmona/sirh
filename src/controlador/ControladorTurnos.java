@@ -84,7 +84,7 @@ public class ControladorTurnos implements ActionListener {
 
         }
         if (e.getSource() == fTurnos.BtSalir) {
-            int respuesta = JOptionPane.showConfirmDialog(fTurnos, "¿Esta seguro de salir?", "Fin ingreso Turnos", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+            int respuesta = JOptionPane.showConfirmDialog(fTurnos, "¿Está seguro de salir?", "Fin ingreso Turnos", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
             if (respuesta == JOptionPane.YES_OPTION) {
                 fTurnos.dispose();
             }
@@ -95,8 +95,8 @@ public class ControladorTurnos implements ActionListener {
     public void limpiarControles() {
         java.sql.Date date = new java.sql.Date(new java.util.Date().getTime());
 
-        fTurnos.jDtFechaInicio.setDate(date);
-        fTurnos.jDtFechaFin.setDate(date);
+        fTurnos.jDtFechaInicio.setDate(null);
+        fTurnos.jDtFechaFin.setDate(null);
         fTurnos.jFTxHoraInicio.setText("00:00");
         fTurnos.jFTxHoraFin.setText("00:00");
 

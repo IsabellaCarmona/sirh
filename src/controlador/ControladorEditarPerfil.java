@@ -48,8 +48,8 @@ public class ControladorEditarPerfil implements ActionListener {
 
         if (e.getSource() == frmeditarperfil.jBtEditar) {
 
-            int respuesta = JOptionPane.showConfirmDialog(frmeditarperfil, "¿Esta seguro de querer editar los campos?",
-                    "Fin productos", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+            int respuesta = JOptionPane.showConfirmDialog(frmeditarperfil, "¿Está seguro de querer editar los campos?",
+                    "Editar Perfil", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
 
             if (respuesta == JOptionPane.YES_OPTION) {
 
@@ -99,7 +99,7 @@ public class ControladorEditarPerfil implements ActionListener {
         }
 
         if (e.getSource() == frmeditarperfil.jBtSalir) {
-            int respuesta = JOptionPane.showConfirmDialog(frmeditarperfil, "¿Esta seguro de querer salir de la plataforma?",
+            int respuesta = JOptionPane.showConfirmDialog(frmeditarperfil, "¿Está seguro de querer salir de la plataforma?",
                     "Fin Editar Perfil", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
 
             if (respuesta == JOptionPane.YES_OPTION) {
