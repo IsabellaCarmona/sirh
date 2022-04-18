@@ -5,10 +5,8 @@
  */
 package prynomina;
 
-import controlador.ControladorInicio;
-import modelo.Administrador;
-import modelo.AdministradorDAO;
-import vista.FrmInicio;
+import controlador.ControladorAcceso;
+import vista.FrmAccesoCuenta;
 
 /**
  *
@@ -21,11 +19,9 @@ public class PryNomina {
      */
     public static void main(String[] args) {
 
-        FrmInicio form1 = new FrmInicio();
-        AdministradorDAO admindao = new AdministradorDAO();
-        Administrador admin = new Administrador();
+        FrmAccesoCuenta form1 = new FrmAccesoCuenta();
 
-        ControladorInicio control = new ControladorInicio(form1, admin, admindao);
+        ControladorAcceso control = new ControladorAcceso(form1);
         form1.setVisible(true);
 
     }

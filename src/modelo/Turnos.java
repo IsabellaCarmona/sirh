@@ -32,6 +32,13 @@ public class Turnos {
         this.idEmpleado = idEmpleado;
     }
 
+    public Turnos(Date fechaInicio, Date fechaFin, Time horaInicio, Time horaFin) {
+        this.fechaInicio = fechaInicio;
+        this.fechaFin = fechaFin;
+        this.horaInicio = horaInicio;
+        this.horaFin = horaFin;
+    }
+
     public int getIdTurno() {
         return idTurno;
     }

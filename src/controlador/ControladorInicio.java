@@ -53,6 +53,9 @@ public class ControladorInicio implements ActionListener {
                 contrasena = frminicio.jTxPassVisible.getText();
             }
 
+            if (usuario.equals("") || contrasena.equals("")) {
+                JOptionPane.showMessageDialog(frminicio, "Todos los campos deben ser llenados", "Error", JOptionPane.ERROR_MESSAGE);
+            }
             try {
                 if (admindao.validarUsuario(usuario, contrasena)) {
 
@@ -64,6 +67,8 @@ public class ControladorInicio implements ActionListener {
 
                     frminicio.setVisible(false);
                     fmenu.setVisible(true);
+                } else {
+                    JOptionPane.showMessageDialog(frminicio, "Usuario y/o Contraseña incorrecto(s)", "Error", JOptionPane.ERROR_MESSAGE);
                 }
             } catch (SQLException ex) {
                 JOptionPane.showMessageDialog(frminicio, "Usuario y/o Contraseña incorrecto(s)", "Error", JOptionPane.ERROR_MESSAGE);

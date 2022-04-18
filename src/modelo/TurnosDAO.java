@@ -9,6 +9,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -45,5 +46,27 @@ public class TurnosDAO {
         }
 
         return true;
+    }
+
+    public ArrayList traerTurnos(String id) throws SQLException {
+
+        ArrayList turnos = new ArrayList();
+        Turnos turno = new Turnos();
+        String sql = "SELECT * FROM turnos WHERE Id_Empleado='" + id + "'";
+
+        con = cn.getConnection();
+
+        ps = con.prepareStatement(sql);
+        rs = ps.executeQuery();
+
+        while (rs.next()) {
+            turno.setFechaInicio(rs.getDate("Fecha_Inicio"));
+            turno.setFechaFin(rs.getDate("Fecha_Fin"));
+            turno.setHoraInicio(rs.getTime("Hora_Inicio"));
+            turno.setHoraFin(rs.getTime("Hora_Fin"));
+            turnos.add(new Turnos(turno.getFechaInicio(), turno.getFechaFin(), turno.getHoraInicio(), turno.getHoraFin()));
+        }
+
+        return turnos;
     }
 }

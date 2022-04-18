@@ -16,6 +16,9 @@ public class FrmNovedades extends javax.swing.JFrame {
      */
     public FrmNovedades() {
         initComponents();
+
+        this.setResizable(false);
+        setLocationRelativeTo(null);
     }
 
     /**

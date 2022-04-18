@@ -20,6 +20,9 @@ public class FrmConsultarNovedad extends javax.swing.JFrame {
         jTFCodigo.setEnabled(false);
         jTxNombres.setEnabled(false);
         jTFCedula.setEnabled(false);
+
+        this.setResizable(false);
+        setLocationRelativeTo(null);
     }
 
     /**
