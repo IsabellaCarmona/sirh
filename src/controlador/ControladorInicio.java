@@ -53,9 +53,6 @@ public class ControladorInicio implements ActionListener {
                 contrasena = frminicio.jTxPassVisible.getText();
             }
 
-            if (usuario.equals("") || contrasena.equals("")) {
-                JOptionPane.showMessageDialog(frminicio, "Todos los campos deben ser llenados", "Error", JOptionPane.ERROR_MESSAGE);
-            }
             try {
                 if (admindao.validarUsuario(usuario, contrasena)) {
 

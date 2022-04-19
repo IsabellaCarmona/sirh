@@ -228,4 +228,19 @@ public class NovedadesDAO {
 
         return rs;
     }
+
+    public ResultSet traerDatosNroID(String nroDoc) throws SQLException {
+
+        String sql = "SELECT novedades.Id_Novedades,Fecha_Inicio,Fecha_Fin,tipoNovedad, empleados.Cedula,Nombres,Apellidos,tipoDocumento "
+                + "FROM novedades "
+                + "INNER JOIN empleados "
+                + "ON novedades.Id_Empleado=empleados.Cedula "
+                + "WHERE empleados.Cedula LIKE '" + nroDoc + "%'";
+
+        con = cn.getConnection(); // Establece la conexión
+        ps = con.prepareStatement(sql); // Se prepara el código sql
+        rs = ps.executeQuery();
+
+        return rs;
+    }
 }

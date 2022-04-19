@@ -16,6 +16,8 @@ import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumnModel;
+import javax.swing.table.TableModel;
+import javax.swing.table.TableRowSorter;
 import modelo.Novedades;
 import modelo.NovedadesDAO;
 import vista.FrmVerNovedades;
@@ -39,18 +41,22 @@ public class ControladorVerNovedades implements ActionListener, KeyListener {
         modelo.addColumn("Fecha Inicio");
         modelo.addColumn("Fecha Fin");
         modelo.addColumn("Nombres completos");
-        modelo.addColumn("Número");
+        modelo.addColumn("Tipo y Nro Documento");
         modelo.addColumn("Tipo novedad");
         fnovedad.jTbNovedades.setModel(modelo);
 
+        TableRowSorter<TableModel> ordenar = new TableRowSorter<TableModel>(modelo);
+        fnovedad.jTbNovedades.setRowSorter(ordenar);
+        fnovedad.jTbNovedades.getRowSorter().toggleSortOrder(0);
+
         TableColumnModel columnModel = fnovedad.jTbNovedades.getColumnModel();
 
-        columnModel.getColumn(0).setPreferredWidth(50);
-        columnModel.getColumn(1).setPreferredWidth(100);
-        columnModel.getColumn(2).setPreferredWidth(100);
+        columnModel.getColumn(0).setPreferredWidth(65);
+        columnModel.getColumn(1).setPreferredWidth(90);
+        columnModel.getColumn(2).setPreferredWidth(90);
         columnModel.getColumn(3).setPreferredWidth(200);
-        columnModel.getColumn(4).setPreferredWidth(130);
-        columnModel.getColumn(5).setPreferredWidth(200);
+        columnModel.getColumn(4).setPreferredWidth(135);
+        columnModel.getColumn(5).setPreferredWidth(203);
 
         this.fnovedad.jCbTipoID.addActionListener(this);
         this.fnovedad.jBtSalir.addActionListener(this);
@@ -131,6 +137,39 @@ public class ControladorVerNovedades implements ActionListener, KeyListener {
                 } catch (SQLException ex) {
                     Logger.getLogger(ControladorVerNovedades.class.getName()).log(Level.SEVERE, null, ex);
                 }
+            } else if (fnovedad.jCbTipoID.getSelectedItem().equals("-SELECCIONE TIPO DE DOCUMENTO-")) {
+
+                limpiarJTable();
+                ResultSet rs = null;
+
+                try {
+                    rs = novdao.traerDatos();
+                } catch (SQLException ex) {
+                    Logger.getLogger(ControladorVerNovedades.class.getName()).log(Level.SEVERE, null, ex);
+                }
+
+                try {
+                    while (rs.next()) {
+                        String tipoDoc = "";
+                        if (rs.getString("tipoDocumento").equals("Cédula de Ciudadanía")) {
+                            tipoDoc = "CC";
+                        } else if (rs.getString("tipoDocumento").equals("Cédula de Extranjería")) {
+                            tipoDoc = "CE";
+                        } else {
+                            tipoDoc = rs.getString("tipoDocumento");
+                        }
+                        String[] datos = new String[6];
+                        datos[0] = String.valueOf(rs.getInt("Id_Novedades"));
+                        datos[1] = String.valueOf(rs.getDate("Fecha_Inicio"));
+                        datos[2] = String.valueOf(rs.getDate("Fecha_Fin"));
+                        datos[3] = rs.getString("Nombres") + " " + rs.getString("Apellidos");
+                        datos[4] = tipoDoc + " " + rs.getString("Cedula");
+                        datos[5] = rs.getString("tipoNovedad");
+                        modelo.addRow(datos);
+                    }
+                } catch (SQLException ex) {
+                    Logger.getLogger(ControladorVerNovedades.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
         }
 
@@ -155,45 +194,85 @@ public class ControladorVerNovedades implements ActionListener, KeyListener {
     @Override
     public void keyReleased(KeyEvent e) {
 
-        ResultSet rs = null;
-        String documento = fnovedad.jTxID.getText();
-        String doc = (String) fnovedad.jCbTipoID.getSelectedItem();
-
-        try {
-            rs = novdao.traerDatosID(documento, doc);
-        } catch (SQLException ex) {
-            Logger.getLogger(ControladorVerNovedades.class.getName()).log(Level.SEVERE, null, ex);
-        }
-
         if (e.getSource() == fnovedad.jTxID) {
 
-            limpiarJTable();
+            if (fnovedad.jCbTipoID.getSelectedItem().equals("-SELECCIONE TIPO DE DOCUMENTO-")) {
 
-            try {
-                while (rs.next()) {
+                limpiarJTable();
+                ResultSet rs = null;
+                String documento = (fnovedad.jTxID.getText()).replace(" ", "");
 
-                    if (empiezaPor(fnovedad.jTxID.getText())) {
-
-                        if (doc.equals("Cédula de Ciudadanía")) {
-                            doc = "CC";
-                        } else if (doc.equals("Cédula de Extranjería")) {
-                            doc = "CE";
-                        } else {
-                            doc = rs.getString("tipoDocumento");
-                        }
-                        String[] datos = new String[6];
-                        datos[0] = String.valueOf(rs.getInt("Id_Novedades"));
-                        datos[1] = String.valueOf(rs.getDate("Fecha_Inicio"));
-                        datos[2] = String.valueOf(rs.getDate("Fecha_Fin"));
-                        datos[3] = rs.getString("Nombres") + " " + rs.getString("Apellidos");
-                        datos[4] = doc + " " + rs.getString("Cedula");
-                        datos[5] = rs.getString("tipoNovedad");
-                        modelo.addRow(datos);
-                    }
+                try {
+                    rs = novdao.traerDatosNroID(documento);
+                } catch (SQLException ex) {
+                    Logger.getLogger(ControladorVerNovedades.class.getName()).log(Level.SEVERE, null, ex);
                 }
-            } catch (SQLException ex) {
-                Logger.getLogger(ControladorVerNovedades.class.getName()).log(Level.SEVERE, null, ex);
+
+                try {
+                    while (rs.next()) {
+
+                        if (empiezaPor(fnovedad.jTxID.getText())) {
+
+                            String doc = rs.getString("tipoDocumento");
+                            if (doc.equals("Cédula de Ciudadanía")) {
+                                doc = "CC";
+                            } else if (doc.equals("Cédula de Extranjería")) {
+                                doc = "CE";
+                            }
+
+                            String[] datos = new String[6];
+                            datos[0] = String.valueOf(rs.getInt("Id_Novedades"));
+                            datos[1] = String.valueOf(rs.getDate("Fecha_Inicio"));
+                            datos[2] = String.valueOf(rs.getDate("Fecha_Fin"));
+                            datos[3] = rs.getString("Nombres") + " " + rs.getString("Apellidos");
+                            datos[4] = doc + " " + rs.getString("Cedula");
+                            datos[5] = rs.getString("tipoNovedad");
+                            modelo.addRow(datos);
+                        }
+                    }
+                } catch (SQLException ex) {
+                    Logger.getLogger(ControladorVerNovedades.class.getName()).log(Level.SEVERE, null, ex);
+                }
+
+            } else if (!fnovedad.jCbTipoID.getSelectedItem().equals("-SELECCIONE TIPO DE DOCUMENTO-")) {
+
+                limpiarJTable();
+                ResultSet rs = null;
+                String documento = fnovedad.jTxID.getText();
+                String doc = (String) fnovedad.jCbTipoID.getSelectedItem();
+
+                try {
+                    rs = novdao.traerDatosID(documento, doc);
+                } catch (SQLException ex) {
+                    Logger.getLogger(ControladorVerNovedades.class.getName()).log(Level.SEVERE, null, ex);
+                }
+
+                try {
+                    while (rs.next()) {
+
+                        if (empiezaPor(fnovedad.jTxID.getText())) {
+
+                            if (doc.equals("Cédula de Ciudadanía")) {
+                                doc = "CC";
+                            } else if (doc.equals("Cédula de Extranjería")) {
+                                doc = "CE";
+                            }
+
+                            String[] datos = new String[6];
+                            datos[0] = String.valueOf(rs.getInt("Id_Novedades"));
+                            datos[1] = String.valueOf(rs.getDate("Fecha_Inicio"));
+                            datos[2] = String.valueOf(rs.getDate("Fecha_Fin"));
+                            datos[3] = rs.getString("Nombres") + " " + rs.getString("Apellidos");
+                            datos[4] = doc + " " + rs.getString("Cedula");
+                            datos[5] = rs.getString("tipoNovedad");
+                            modelo.addRow(datos);
+                        }
+                    }
+                } catch (SQLException ex) {
+                    Logger.getLogger(ControladorVerNovedades.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
+
         }
     }
 
@@ -202,20 +281,24 @@ public class ControladorVerNovedades implements ActionListener, KeyListener {
         ResultSet rs = null;
         rs = novdao.traerDatos();
         String cedula = "";
+        boolean bandera = false;
         while (rs.next()) {
             cedula = rs.getString("Cedula");
-        }
-        if (inicio.length() > cedula.length()) {
-            return false;
-        }
 
-        for (int i = 0; i < inicio.length(); i++) {
-            if (inicio.charAt(i) != cedula.charAt(i)) {
-                return false;
+            if (inicio.length() > cedula.length()) {
+                bandera = false;
             }
+
+            for (int i = 0; i < inicio.length(); i++) {
+                if (inicio.charAt(i) != cedula.charAt(i)) {
+                    bandera = false;
+                }
+            }
+
+            bandera = true;
         }
 
-        return true;
+        return bandera;
     }
 
 }

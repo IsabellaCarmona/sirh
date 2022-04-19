@@ -68,6 +68,7 @@ public class Empleado {
     }
 
     public boolean empiezaPor(String inicio) {
+
         if (inicio.length() > cedula.length()) {
             return false;
         }

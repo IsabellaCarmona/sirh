@@ -58,7 +58,7 @@ public class ControladorEmpleado implements ActionListener {
             }
 
             String tipoID = (String) frmempleados.jCbTipoID.getSelectedItem();
-            String cedula = frmempleados.jTxNumeroID.getText();
+            String cedula = (frmempleados.jTxNumeroID.getText()).replace(" ", "");
             String nombres = frmempleados.jTxNombres.getText();
             String apellidos = frmempleados.jTxApellidos.getText();
 

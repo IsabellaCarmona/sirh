@@ -38,6 +38,8 @@ public class ControladorActualizarEmpl implements ActionListener {
         this.frmAct.jBtActualizar.addActionListener(this);
         this.frmAct.jBtEliminar.addActionListener(this);
         this.frmAct.jBtSalir.addActionListener(this);
+        this.frmAct.jBtArchivos.addActionListener(this);
+        this.frmAct.jBtVerArchivo.addActionListener(this);
     }
 
     //Predeterminados de archivos
