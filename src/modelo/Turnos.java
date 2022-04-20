@@ -17,6 +17,7 @@ public class Turnos {
     private int idTurno;
     private Date fechaInicio;
     private Date fechaFin;
+    private Date diaDescanso;
     private Time horaInicio;
     private Time horaFin;
     private String idEmpleado;
@@ -24,9 +25,10 @@ public class Turnos {
     public Turnos() {
     }
 
-    public Turnos(Date fechaInicio, Date fechaFin, Time horaInicio, Time horaFin, String idEmpleado) {
+    public Turnos(Date fechaInicio, Date fechaFin, Date diaDescanso, Time horaInicio, Time horaFin, String idEmpleado) {
         this.fechaInicio = fechaInicio;
         this.fechaFin = fechaFin;
+        this.diaDescanso = diaDescanso;
         this.horaInicio = horaInicio;
         this.horaFin = horaFin;
         this.idEmpleado = idEmpleado;
@@ -61,6 +63,14 @@ public class Turnos {
 
     public void setFechaFin(Date fechaFin) {
         this.fechaFin = fechaFin;
+    }
+
+    public Date getDiaDescanso() {
+        return diaDescanso;
+    }
+
+    public void setDiaDescanso(Date diaDescanso) {
+        this.diaDescanso = diaDescanso;
     }
 
     public Time getHoraInicio() {

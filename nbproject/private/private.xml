@@ -3,13 +3,14 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/ISABELLA%20CARMONA%20C/Documents/NetBeansProjects/PryNomina/src/controlador/ControladorTurnos.java</file>
             <file>file:/C:/Users/ISABELLA%20CARMONA%20C/Documents/NetBeansProjects/PryNomina/src/modelo/Salario.java</file>
-            <file>file:/C:/Users/ISABELLA%20CARMONA%20C/Documents/NetBeansProjects/PryNomina/src/vista/FrmMarcarTurno.java</file>
-            <file>file:/C:/Users/ISABELLA%20CARMONA%20C/Documents/NetBeansProjects/PryNomina/src/vista/FrmTurnos.java</file>
-            <file>file:/C:/Users/ISABELLA%20CARMONA%20C/Documents/NetBeansProjects/PryNomina/src/modelo/TurnosDAO.java</file>
-            <file>file:/C:/Users/ISABELLA%20CARMONA%20C/Documents/NetBeansProjects/PryNomina/src/modelo/Turnos.java</file>
+            <file>file:/C:/Users/ISABELLA%20CARMONA%20C/Documents/NetBeansProjects/PryNomina/src/modelo/Asistencia.java</file>
+            <file>file:/C:/Users/ISABELLA%20CARMONA%20C/Documents/NetBeansProjects/PryNomina/src/vista/FrmVerNovedades.java</file>
+            <file>file:/C:/Users/ISABELLA%20CARMONA%20C/Documents/NetBeansProjects/PryNomina/src/controlador/ControladorAcceso.java</file>
+            <file>file:/C:/Users/ISABELLA%20CARMONA%20C/Documents/NetBeansProjects/PryNomina/src/modelo/NovedadesDAO.java</file>
+            <file>file:/C:/Users/ISABELLA%20CARMONA%20C/Documents/NetBeansProjects/PryNomina/src/controlador/ControladorVerNovedades.java</file>
             <file>file:/C:/Users/ISABELLA%20CARMONA%20C/Documents/NetBeansProjects/PryNomina/src/controlador/ControladorMarcarTurno.java</file>
+            <file>file:/C:/Users/ISABELLA%20CARMONA%20C/Documents/NetBeansProjects/PryNomina/src/modelo/AsistenciaDAO.java</file>
         </group>
     </open-files>
 </project-private>

@@ -13,6 +13,8 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableModel;
+import javax.swing.table.TableRowSorter;
 import modelo.Novedades;
 import modelo.NovedadesDAO;
 
@@ -130,6 +132,7 @@ public class FrmVerNovedades extends javax.swing.JInternalFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jTbNovedadesMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTbNovedadesMousePressed
+
         int fila = this.jTbNovedades.getSelectedRow();
 
         NovedadesDAO novdao = new NovedadesDAO();
@@ -156,6 +159,7 @@ public class FrmVerNovedades extends javax.swing.JInternalFrame {
 
         ControladorConsultarNovedad control1 = new ControladorConsultarNovedad(form, novedad, novdao);
         form.setVisible(true);
+
     }//GEN-LAST:event_jTbNovedadesMousePressed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

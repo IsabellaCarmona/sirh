@@ -9,6 +9,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import modelo.Administrador;
 import modelo.AdministradorDAO;
+import modelo.Asistencia;
+import modelo.AsistenciaDAO;
 import modelo.Turnos;
 import modelo.TurnosDAO;
 import vista.FrmAccesoCuenta;
@@ -38,8 +40,10 @@ public class ControladorAcceso implements ActionListener {
             FrmMarcarTurno fmarcar = new FrmMarcarTurno();
             Turnos turno = new Turnos();
             TurnosDAO tdao = new TurnosDAO();
+            Asistencia asist = new Asistencia();
+            AsistenciaDAO asisdao = new AsistenciaDAO();
 
-            ControladorMarcarTurno control1 = new ControladorMarcarTurno(fmarcar, turno, tdao);
+            ControladorMarcarTurno control1 = new ControladorMarcarTurno(fmarcar, turno, tdao, asist, asisdao);
 
             fmarcar.setVisible(true);
             frmcuenta.setVisible(false);

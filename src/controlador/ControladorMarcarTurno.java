@@ -9,10 +9,15 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.SQLException;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
+import modelo.Asistencia;
+import modelo.AsistenciaDAO;
 import modelo.Turnos;
 import modelo.TurnosDAO;
 import vista.FrmAccesoCuenta;
@@ -27,11 +32,15 @@ public class ControladorMarcarTurno implements ActionListener {
     FrmMarcarTurno fmarcar;
     Turnos turno;
     TurnosDAO tdao;
+    Asistencia asist;
+    AsistenciaDAO asisDao;
 
-    public ControladorMarcarTurno(FrmMarcarTurno fmarcar, Turnos turno, TurnosDAO tdao) {
+    public ControladorMarcarTurno(FrmMarcarTurno fmarcar, Turnos turno, TurnosDAO tdao, Asistencia asist, AsistenciaDAO asisDao) {
         this.fmarcar = fmarcar;
         this.turno = turno;
         this.tdao = tdao;
+        this.asist = asist;
+        this.asisDao = asisDao;
 
         fmarcar.jBtMarcarTurno.addActionListener(this);
         fmarcar.jBtVolver.addActionListener(this);
@@ -44,10 +53,7 @@ public class ControladorMarcarTurno implements ActionListener {
 
             String documento = fmarcar.jTxDocumento.getText();
             java.sql.Date diaActual = new java.sql.Date(new java.util.Date().getTime());
-            //LocalDate diaActual = LocalDate.now();
-            LocalTime horaActual = (LocalTime.now()).withNano(0);
-
-            System.out.println("Dia Hoy: " + diaActual + "\nHora Actual: " + horaActual + "\nID: " + documento);
+            LocalDateTime fechaAsist = LocalDateTime.now();
 
             ArrayList listaTurnos = null;
             try {
@@ -61,7 +67,15 @@ public class ControladorMarcarTurno implements ActionListener {
 
                 if (diaActual.after(turno.getFechaInicio()) && diaActual.before(turno.getFechaFin())
                         || diaActual.equals(turno.getFechaInicio()) || diaActual.equals(turno.getFechaFin())) {
-                    System.out.println("Funciona");
+
+                    asist = new Asistencia(fechaAsist, documento);
+
+                    if (asisDao.guardarDatos(asist)) {
+                        limpiarControles();
+                        JOptionPane.showMessageDialog(fmarcar, "Asistencia registrada");
+                    } else {
+                        JOptionPane.showMessageDialog(fmarcar, "Error");
+                    }
                 }
             }
         }
@@ -77,4 +91,7 @@ public class ControladorMarcarTurno implements ActionListener {
         }
     }
 
+    public void limpiarControles() {
+        fmarcar.jTxDocumento.setText("");
+    }
 }

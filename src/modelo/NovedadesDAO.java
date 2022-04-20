@@ -190,7 +190,8 @@ public class NovedadesDAO {
         String sql = "SELECT novedades.Id_Novedades,Fecha_Inicio,Fecha_Fin,tipoNovedad, empleados.Cedula,Nombres,Apellidos,tipoDocumento "
                 + "FROM novedades "
                 + "JOIN empleados "
-                + "ON novedades.Id_Empleado=empleados.Cedula";
+                + "ON novedades.Id_Empleado=empleados.Cedula "
+                + "ORDER BY Id_Novedades DESC";
 
         con = cn.getConnection(); // Establece la conexión
         ps = con.prepareStatement(sql); // Se prepara el código sql
@@ -205,7 +206,8 @@ public class NovedadesDAO {
                 + "FROM novedades "
                 + "JOIN empleados "
                 + "ON novedades.Id_Empleado=empleados.Cedula "
-                + "WHERE empleados.Cedula LIKE '" + nroDoc + "%' AND empleados.tipoDocumento='" + tipoDoc + "'";
+                + "WHERE empleados.Cedula LIKE '" + nroDoc + "%' AND empleados.tipoDocumento='" + tipoDoc + "' "
+                + "ORDER BY Id_Novedades DESC";
 
         con = cn.getConnection(); // Establece la conexión
         ps = con.prepareStatement(sql); // Se prepara el código sql
@@ -220,7 +222,8 @@ public class NovedadesDAO {
                 + "FROM novedades "
                 + "JOIN empleados "
                 + "ON novedades.Id_Empleado=empleados.Cedula "
-                + "WHERE empleados.tipoDocumento='" + tipoDoc + "'";
+                + "WHERE empleados.tipoDocumento='" + tipoDoc + "' "
+                + "ORDER BY Id_Novedades DESC";
 
         con = cn.getConnection(); // Establece la conexión
         ps = con.prepareStatement(sql); // Se prepara el código sql
@@ -235,7 +238,8 @@ public class NovedadesDAO {
                 + "FROM novedades "
                 + "INNER JOIN empleados "
                 + "ON novedades.Id_Empleado=empleados.Cedula "
-                + "WHERE empleados.Cedula LIKE '" + nroDoc + "%'";
+                + "WHERE empleados.Cedula LIKE '" + nroDoc + "%' "
+                + "ORDER BY Id_Novedades DESC";
 
         con = cn.getConnection(); // Establece la conexión
         ps = con.prepareStatement(sql); // Se prepara el código sql

@@ -45,25 +45,9 @@ public class ControladorTurnos implements ActionListener {
 
         if (e.getSource() == fTurnos.BtGuardar) {
 
-            SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-            String fecha = format.format(fTurnos.jDtFechaInicio.getDate());
-            java.util.Date fechaN = null;
-            try {
-                fechaN = format.parse(fecha);
-            } catch (ParseException ex) {
-                Logger.getLogger(ControladorTurnos.class.getName()).log(Level.SEVERE, null, ex);
-            }
-            java.sql.Date fechaInicio = new java.sql.Date(fechaN.getTime());
-
-            SimpleDateFormat format2 = new SimpleDateFormat("yyyy-MM-dd");
-            String fecha2 = format2.format(fTurnos.jDtFechaFin.getDate());
-            java.util.Date fechaN2 = null;
-            try {
-                fechaN2 = format.parse(fecha2);
-            } catch (ParseException ex) {
-                Logger.getLogger(ControladorTurnos.class.getName()).log(Level.SEVERE, null, ex);
-            }
-            java.sql.Date fechaFin = new java.sql.Date(fechaN2.getTime());
+            java.sql.Date fechaInicio = adquirirFecha(fTurnos.jDtFechaInicio.getDate());
+            java.sql.Date fechaFin = adquirirFecha(fTurnos.jDtFechaFin.getDate());
+            java.sql.Date diaDescanso = adquirirFecha(fTurnos.jDtDiaDescanso.getDate());
 
             String horaI = fTurnos.jFTxHoraInicio.getText() + ":00";
             Time horaInicio = java.sql.Time.valueOf(horaI);
@@ -73,7 +57,7 @@ public class ControladorTurnos implements ActionListener {
 
             String id = fTurnos.jTxID.getText();
 
-            turnos = new Turnos(fechaInicio, fechaFin, horaInicio, horaFin, id);
+            turnos = new Turnos(fechaInicio, fechaFin, diaDescanso, horaInicio, horaFin, id);
 
             if (turnosdao.asignarTurno(turnos)) {
                 limpiarControles();
@@ -93,12 +77,24 @@ public class ControladorTurnos implements ActionListener {
     }
 
     public void limpiarControles() {
-        java.sql.Date date = new java.sql.Date(new java.util.Date().getTime());
-
         fTurnos.jDtFechaInicio.setDate(null);
         fTurnos.jDtFechaFin.setDate(null);
+        fTurnos.jDtDiaDescanso.setDate(null);
         fTurnos.jFTxHoraInicio.setText("00:00");
         fTurnos.jFTxHoraFin.setText("00:00");
 
+    }
+
+    public java.sql.Date adquirirFecha(java.util.Date Fecha) {
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+        String fecha = format.format(Fecha);
+        java.util.Date fechaN = null;
+        try {
+            fechaN = format.parse(fecha);
+        } catch (ParseException ex) {
+            System.err.println("Error en: \n" + ex);
+        }
+        java.sql.Date fechasql = new java.sql.Date(fechaN.getTime());
+        return fechasql;
     }
 }

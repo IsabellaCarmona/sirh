@@ -29,8 +29,8 @@ public class TurnosDAO {
 
     public boolean asignarTurno(Turnos turno) {
 
-        String sql = "INSERT INTO turnos(Fecha_Inicio,Fecha_Fin,Hora_Inicio,Hora_Fin,Id_Empleado) VALUES("
-                + "'" + turno.getFechaInicio() + "','" + turno.getFechaFin() + "','" + turno.getHoraInicio() + "','"
+        String sql = "INSERT INTO turnos(Fecha_Inicio,Fecha_Fin,Dia_Descanso,Hora_Inicio,Hora_Fin,Id_Empleado) VALUES("
+                + "'" + turno.getFechaInicio() + "','" + turno.getFechaFin() + "','" + turno.getDiaDescanso() + "','" + turno.getHoraInicio() + "','"
                 + turno.getHoraFin() + "','" + turno.getIdEmpleado() + "')";
 
         //Conectarse a la base de datos

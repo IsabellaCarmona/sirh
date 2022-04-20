@@ -45,10 +45,6 @@ public class ControladorVerNovedades implements ActionListener, KeyListener {
         modelo.addColumn("Tipo novedad");
         fnovedad.jTbNovedades.setModel(modelo);
 
-        TableRowSorter<TableModel> ordenar = new TableRowSorter<TableModel>(modelo);
-        fnovedad.jTbNovedades.setRowSorter(ordenar);
-        fnovedad.jTbNovedades.getRowSorter().toggleSortOrder(0);
-
         TableColumnModel columnModel = fnovedad.jTbNovedades.getColumnModel();
 
         columnModel.getColumn(0).setPreferredWidth(65);
