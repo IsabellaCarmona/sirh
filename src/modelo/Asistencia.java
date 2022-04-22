@@ -5,8 +5,8 @@
  */
 package modelo;
 
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
+import java.sql.Date;
+import java.sql.Time;
 
 /**
  *
@@ -15,14 +15,16 @@ import java.time.format.DateTimeFormatter;
 public class Asistencia {
 
     private int idAsistencia;
-    private LocalDateTime fechaAsistencia;
+    private Date fechaAsistencia;
+    private Time horaAsistencia;
     private String idEmpleado;
 
     public Asistencia() {
     }
 
-    public Asistencia(LocalDateTime fechaAsistencia, String idEmpleado) {
+    public Asistencia(Date fechaAsistencia, Time horaAsistencia, String idEmpleado) {
         this.fechaAsistencia = fechaAsistencia;
+        this.horaAsistencia = horaAsistencia;
         this.idEmpleado = idEmpleado;
     }
 
@@ -34,12 +36,20 @@ public class Asistencia {
         this.idAsistencia = idAsistencia;
     }
 
-    public LocalDateTime getFechaAsistencia() {
+    public Date getFechaAsistencia() {
         return fechaAsistencia;
     }
 
-    public void setFechaAsistencia(LocalDateTime fechaAsistencia) {
+    public void setFechaAsistencia(Date fechaAsistencia) {
         this.fechaAsistencia = fechaAsistencia;
+    }
+
+    public Time getHoraAsistencia() {
+        return horaAsistencia;
+    }
+
+    public void setHoraAsistencia(Time horaAsistencia) {
+        this.horaAsistencia = horaAsistencia;
     }
 
     public String getIdEmpleado() {

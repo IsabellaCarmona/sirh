@@ -9,6 +9,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -28,8 +29,8 @@ public class AsistenciaDAO {
 
     public boolean guardarDatos(Asistencia asist) {
 
-        String sql = "INSERT INTO asistencia(fechaAsistencia,idEmpleado) VALUES('" + asist.getFechaAsistencia()
-                + "','" + asist.getIdEmpleado() + "')";
+        String sql = "INSERT INTO asistencia(fechaAsistencia,horaAsistencia,idEmpleado) VALUES('" + asist.getFechaAsistencia()
+                + "','" + asist.getHoraAsistencia() + "','" + asist.getIdEmpleado() + "')";
 
         con = cn.getConnection();
 
@@ -42,5 +43,22 @@ public class AsistenciaDAO {
         }
 
         return true;
+    }
+
+    public int traerNroRegistros(String id) throws SQLException {
+
+        String sql = "SELECT idEmpleado, COUNT(idEmpleado) AS numero_asistencias FROM asistencia WHERE idEmpleado='" + id + "'";
+
+        int registros = 0;
+
+        con = cn.getConnection();
+
+        ps = con.prepareStatement(sql);
+        rs = ps.executeQuery();
+
+        while (rs.next()) {
+            registros = rs.getInt("numero_asistencias");
+        }
+        return registros;
     }
 }

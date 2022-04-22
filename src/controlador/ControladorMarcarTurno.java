@@ -8,10 +8,8 @@ package controlador;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.SQLException;
-import java.time.LocalDate;
+import java.sql.Time;
 import java.time.LocalDateTime;
-import java.time.LocalTime;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -53,9 +51,15 @@ public class ControladorMarcarTurno implements ActionListener {
 
             String documento = fmarcar.jTxDocumento.getText();
             java.sql.Date diaActual = new java.sql.Date(new java.util.Date().getTime());
-            LocalDateTime fechaAsist = LocalDateTime.now();
+            LocalDateTime locaDate = LocalDateTime.now();
+            int horas = locaDate.getHour();
+            int minutos = locaDate.getMinute();
+            int segundos = locaDate.getSecond();
+
+            Time horaActual = java.sql.Time.valueOf(horas + ":" + minutos + ":" + segundos);
 
             ArrayList listaTurnos = null;
+
             try {
                 listaTurnos = tdao.traerTurnos(documento);
             } catch (SQLException ex) {
@@ -68,13 +72,13 @@ public class ControladorMarcarTurno implements ActionListener {
                 if (diaActual.after(turno.getFechaInicio()) && diaActual.before(turno.getFechaFin())
                         || diaActual.equals(turno.getFechaInicio()) || diaActual.equals(turno.getFechaFin())) {
 
-                    asist = new Asistencia(fechaAsist, documento);
+                    asist = new Asistencia(diaActual, horaActual, documento);
 
                     if (asisDao.guardarDatos(asist)) {
                         limpiarControles();
                         JOptionPane.showMessageDialog(fmarcar, "Asistencia registrada");
                     } else {
-                        JOptionPane.showMessageDialog(fmarcar, "Error");
+                        JOptionPane.showMessageDialog(fmarcar, "Error al marcar la asistencia");
                     }
                 }
             }

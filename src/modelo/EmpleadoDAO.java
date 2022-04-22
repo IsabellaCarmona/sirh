@@ -61,10 +61,65 @@ public class EmpleadoDAO {
         return true;
     }
 
+    public ArrayList traerRegistros() throws SQLException {
+
+        ArrayList empleados = new ArrayList();
+        String sql = "SELECT tipoDocumento,Cedula,Nombres,Apellidos,Cargo,SalarioBase FROM empleados WHERE estado='ACTIVO'";
+
+        con = cn.getConnection(); //Establece la conexion
+        ps = con.prepareStatement(sql); //Se prepara el codigo sql
+        rs = ps.executeQuery();
+
+        while (rs.next()) {
+            empleado.setTipoId(rs.getString("tipoDocumento"));
+            empleado.setCedula(rs.getString("Cedula"));
+            empleado.setNombres(rs.getString("Nombres"));
+            empleado.setApellidos(rs.getString("Apellidos"));
+            empleado.setCargo(rs.getString("Cargo"));
+            empleado.setSalarioBase(rs.getInt("SalarioBase"));
+            empleados.add(new Empleado(empleado.getTipoId(), empleado.getCedula(), empleado.getNombres(),
+                    empleado.getApellidos(), empleado.getCargo(), empleado.getSalarioBase()));
+        }
+
+        return empleados;
+    }
+
+    public int traerSalarioBase(String id) throws SQLException {
+
+        String sql = "SELECT SalarioBase FROM empleados WHERE Cedula='" + id + "'";
+        int salario = 0;
+
+        con = cn.getConnection(); //Establece la conexion
+        ps = con.prepareStatement(sql); //Se prepara el codigo sql
+        rs = ps.executeQuery();
+
+        while (rs.next()) {
+            salario = rs.getInt("SalarioBase");
+        }
+
+        return salario;
+    }
+
+    public ArrayList traerDocumentos() throws SQLException {
+
+        String sql = "SELECT Cedula FROM empleados WHERE estado='ACTIVO'";
+        ArrayList<String> documentos = new ArrayList();
+
+        con = cn.getConnection(); //Establece la conexion
+        ps = con.prepareStatement(sql); //Se prepara el codigo sql
+        rs = ps.executeQuery();
+
+        while (rs.next()) {
+            String doc = rs.getString("Cedula");
+            documentos.add(doc);
+        }
+
+        return documentos;
+    }
+
     public ArrayList traerDatos() throws SQLException {
 
         ArrayList empleados = new ArrayList();
-        Empleado empleado = new Empleado();
         String sql = "SELECT tipoDocumento,Cedula,Nombres,Apellidos FROM empleados WHERE estado='ACTIVO'";
 
         con = cn.getConnection(); //Establece la conexion
@@ -85,7 +140,6 @@ public class EmpleadoDAO {
     public ArrayList traerDatosTipoID(String tipoId) throws SQLException {
 
         ArrayList empleados = new ArrayList();
-        Empleado empleado = new Empleado();
         String sql = "SELECT tipoDocumento,Cedula,Nombres,Apellidos FROM empleados WHERE tipoDocumento='" + tipoId + "' AND estado='ACTIVO'";
 
         con = cn.getConnection(); //Establece la conexion
@@ -106,7 +160,6 @@ public class EmpleadoDAO {
     public ArrayList<Empleado> traerDatosID(String Id, String doc) throws SQLException {
 
         ArrayList<Empleado> empleados = new ArrayList<>();
-        Empleado empleado = new Empleado();
         String sql = "SELECT tipoDocumento,Cedula,Nombres,Apellidos FROM empleados WHERE Cedula LIKE '" + Id + "%' AND tipoDocumento='" + doc + "' AND estado='ACTIVO'";
 
         con = cn.getConnection(); //Establece la conexion
@@ -127,7 +180,6 @@ public class EmpleadoDAO {
     public ArrayList datosEmpleadoID(String Id) throws SQLException {
 
         ArrayList empleados = new ArrayList();
-        Empleado empleado = new Empleado();
         String sql = "SELECT * FROM empleados WHERE Cedula LIKE'" + Id + "%'";
 
         con = cn.getConnection(); //Establece la conexion
@@ -148,7 +200,6 @@ public class EmpleadoDAO {
     public ArrayList datosEmpleado(String Id) throws SQLException {
 
         ArrayList empleados = new ArrayList();
-        Empleado empleado = new Empleado();
         String sql = "SELECT * FROM empleados WHERE Cedula='" + Id + "'";
 
         con = cn.getConnection(); //Establece la conexion

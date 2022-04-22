@@ -8,7 +8,15 @@ package vista;
 import static jdk.nashorn.internal.objects.NativeMath.round;
 import modelo.PruebaLogicaNomina;
 import java.math.RoundingMode;
+import java.sql.SQLException;
 import java.text.DecimalFormat;
+import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.table.DefaultTableModel;
+import modelo.AsistenciaDAO;
+import modelo.Empleado;
+import modelo.EmpleadoDAO;
 
 /**
  *
@@ -16,11 +24,25 @@ import java.text.DecimalFormat;
  */
 public class PruebaNomina extends javax.swing.JFrame {
 
+    DefaultTableModel modelo = new DefaultTableModel();
+
     /**
      * Creates new form PruebaNomina
      */
     public PruebaNomina() {
         initComponents();
+
+        modelo.addColumn("id");
+        modelo.addColumn("dias T");
+        modelo.addColumn("Salario");
+        modelo.addColumn("Total D");
+        modelo.addColumn("Cesantias");
+        modelo.addColumn("Primas");
+        modelo.addColumn("Vacaciones");
+        modelo.addColumn("Intereses C");
+        modelo.addColumn("Total Pagar");
+        modelo.addColumn("Aux Transp");
+        jTbEmpleados.setModel(modelo);
     }
 
     /**
@@ -33,124 +55,61 @@ public class PruebaNomina extends javax.swing.JFrame {
     private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
-        jLabel1 = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
-        jTxDiasTrabajados = new javax.swing.JTextField();
-        jTxSalarioBase = new javax.swing.JTextField();
-        jButton1 = new javax.swing.JButton();
-        jLabel3 = new javax.swing.JLabel();
-        jLabel4 = new javax.swing.JLabel();
-        jLabel5 = new javax.swing.JLabel();
-        jLabel6 = new javax.swing.JLabel();
-        jTxCesantias = new javax.swing.JTextField();
-        jTxPrima = new javax.swing.JTextField();
-        jTxVacaciones = new javax.swing.JTextField();
-        jTxTotalPagar = new javax.swing.JTextField();
-        jLabel7 = new javax.swing.JLabel();
-        jTxInteresesCesan = new javax.swing.JTextField();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        jTbEmpleados = new javax.swing.JTable();
+        jTxDocumento = new javax.swing.JTextField();
+        jBtCalcular = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Jueputa vida la mia ome");
 
         jPanel1.setBackground(new java.awt.Color(204, 204, 204));
 
-        jLabel1.setForeground(new java.awt.Color(0, 0, 0));
-        jLabel1.setText("Dias Trabajados");
+        jTbEmpleados.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {},
+                {},
+                {},
+                {}
+            },
+            new String [] {
 
-        jLabel2.setForeground(new java.awt.Color(0, 0, 0));
-        jLabel2.setText("Salario Base");
+            }
+        ));
+        jScrollPane2.setViewportView(jTbEmpleados);
 
-        jButton1.setText("Calcular");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        jBtCalcular.setText("Calcular");
+        jBtCalcular.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                jBtCalcularActionPerformed(evt);
             }
         });
-
-        jLabel3.setForeground(new java.awt.Color(0, 0, 0));
-        jLabel3.setText("Cesantias");
-
-        jLabel4.setForeground(new java.awt.Color(0, 0, 0));
-        jLabel4.setText("Prima");
-
-        jLabel5.setForeground(new java.awt.Color(0, 0, 0));
-        jLabel5.setText("Vacaciones");
-
-        jLabel6.setForeground(new java.awt.Color(0, 0, 0));
-        jLabel6.setText("Total Pagar");
-
-        jLabel7.setForeground(new java.awt.Color(0, 0, 0));
-        jLabel7.setText("Intereses Cesantias");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(114, 114, 114)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel1)
-                            .addComponent(jLabel2)
-                            .addComponent(jLabel4)
-                            .addComponent(jLabel3)
-                            .addComponent(jLabel5)
-                            .addComponent(jLabel6)
-                            .addComponent(jLabel7))
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGap(26, 26, 26)
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(jTxDiasTrabajados)
-                                    .addComponent(jTxSalarioBase, javax.swing.GroupLayout.PREFERRED_SIZE, 184, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                                .addGap(25, 25, 25)
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jTxCesantias, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 185, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jTxPrima, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 185, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jTxVacaciones, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 185, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jTxTotalPagar, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 185, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jTxInteresesCesan, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 185, javax.swing.GroupLayout.PREFERRED_SIZE)))))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(219, 219, 219)
-                        .addComponent(jButton1)))
-                .addContainerGap(162, Short.MAX_VALUE))
+                .addContainerGap()
+                .addComponent(jScrollPane2)
+                .addContainerGap())
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(120, 120, 120)
+                .addComponent(jTxDocumento, javax.swing.GroupLayout.PREFERRED_SIZE, 241, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(117, 117, 117)
+                .addComponent(jBtCalcular)
+                .addContainerGap(346, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(73, 73, 73)
+                .addGap(36, 36, 36)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 298, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(49, 49, 49)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel1)
-                    .addComponent(jTxDiasTrabajados, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(19, 19, 19)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel2)
-                    .addComponent(jTxSalarioBase, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(40, 40, 40)
-                .addComponent(jButton1)
-                .addGap(31, 31, 31)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel3)
-                    .addComponent(jTxCesantias, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel4)
-                    .addComponent(jTxPrima, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel5)
-                    .addComponent(jTxVacaciones, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jTxTotalPagar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel6))
-                .addGap(22, 22, 22)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel7)
-                    .addComponent(jTxInteresesCesan, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(54, Short.MAX_VALUE))
+                    .addComponent(jTxDocumento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jBtCalcular))
+                .addContainerGap(78, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -167,26 +126,64 @@ public class PruebaNomina extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void jBtCalcularActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtCalcularActionPerformed
 
-        double diasTrabajados = Double.parseDouble(jTxDiasTrabajados.getText());
-        double salarioBase = Double.parseDouble(jTxSalarioBase.getText());
+        String documento = jTxDocumento.getText();
 
         PruebaLogicaNomina prueba = new PruebaLogicaNomina();
+        EmpleadoDAO empldao = new EmpleadoDAO();
+        ArrayList<String> documentos = new ArrayList();
 
+        try {
+            documentos = empldao.traerDocumentos();
+        } catch (SQLException ex) {
+            Logger.getLogger(PruebaNomina.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        int salario = 0, diasTrabajados = 0;
+
+        String[] datos = new String[10];
+        String docu;
         DecimalFormat df = new DecimalFormat("0.00");
-        double cesantias = prueba.cesantias(salarioBase, diasTrabajados);
-        double prima = prueba.prima(diasTrabajados, salarioBase);
-        double vacaciones = prueba.vacaciones(salarioBase, diasTrabajados);
-        double totalPagar = prueba.totalPagar(salarioBase, diasTrabajados);
-        double interesesCesan = prueba.interesCesantias(salarioBase, diasTrabajados);
+        for (int i = 0; i < documentos.size(); i++) {
+            docu = documentos.get(i);
 
-        jTxCesantias.setText(String.valueOf(df.format((cesantias))));
-        jTxPrima.setText(String.valueOf(df.format((prima))));
-        jTxVacaciones.setText(String.valueOf(df.format((vacaciones))));
-        jTxTotalPagar.setText(String.valueOf(df.format((totalPagar))));
-        jTxInteresesCesan.setText(String.valueOf(df.format((interesesCesan))));
-    }//GEN-LAST:event_jButton1ActionPerformed
+            if (docu.equals(documento)) {
+                try {
+                    salario = empldao.traerSalarioBase(documento);
+                    diasTrabajados = prueba.diasTrabajados(documento);
+                } catch (SQLException ex) {
+                    Logger.getLogger(PruebaNomina.class.getName()).log(Level.SEVERE, null, ex);
+                }
+
+                double totalD = prueba.totalD(salario, diasTrabajados);
+                double cesantias = prueba.cesantias(salario, diasTrabajados);
+                double prima = prueba.prima(diasTrabajados, salario);
+                double vacaciones = prueba.vacaciones(salario, diasTrabajados);
+                double intereses = prueba.interesCesantias(salario, diasTrabajados);
+                double totalP = prueba.totalPagar(salario, diasTrabajados);
+                int auxTransp = prueba.auxTransp(salario);
+                double auxD;
+
+                if (auxTransp != 0) {
+                    auxD = (auxTransp / 30) * diasTrabajados;
+                } else {
+                    auxD = 0;
+                }
+                datos[0] = docu;
+                datos[1] = String.valueOf(diasTrabajados);
+                datos[2] = String.valueOf(salario);
+                datos[3] = String.valueOf(df.format(totalD));
+                datos[4] = String.valueOf(df.format(cesantias));
+                datos[5] = String.valueOf(df.format(prima));
+                datos[6] = String.valueOf(df.format(vacaciones));
+                datos[7] = String.valueOf(df.format(intereses));
+                datos[8] = String.valueOf(df.format(totalP));
+                datos[9] = String.valueOf(df.format(auxD));
+                modelo.addRow(datos);
+            }
+        }
+    }//GEN-LAST:event_jBtCalcularActionPerformed
 
     /**
      * @param args the command line arguments
@@ -224,21 +221,10 @@ public class PruebaNomina extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
-    private javax.swing.JLabel jLabel6;
-    private javax.swing.JLabel jLabel7;
+    private javax.swing.JButton jBtCalcular;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JTextField jTxCesantias;
-    private javax.swing.JTextField jTxDiasTrabajados;
-    private javax.swing.JTextField jTxInteresesCesan;
-    private javax.swing.JTextField jTxPrima;
-    private javax.swing.JTextField jTxSalarioBase;
-    private javax.swing.JTextField jTxTotalPagar;
-    private javax.swing.JTextField jTxVacaciones;
+    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JTable jTbEmpleados;
+    private javax.swing.JTextField jTxDocumento;
     // End of variables declaration//GEN-END:variables
 }

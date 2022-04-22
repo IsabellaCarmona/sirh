@@ -5,53 +5,88 @@
  */
 package modelo;
 
+import java.sql.SQLException;
+import java.time.LocalDate;
+import java.util.ArrayList;
+
 /**
  *
  * @author ISABELLA CARMONA C
  */
 public class PruebaLogicaNomina {
 
-    //https://es.stackoverflow.com/questions/288266/calcular-el-n%C3%BAmero-de-d%C3%ADas-entre-dos-fechas-sql-server
-    //Sacar numero de dias entre 2 fechas sql
+    Empleado empleado;
+    EmpleadoDAO empldao;
+    AsistenciaDAO asistdao = new AsistenciaDAO();
+
     public PruebaLogicaNomina() {
     }
 
+    public int traerSalario() throws SQLException {
+
+        ArrayList empleados = empldao.traerRegistros();
+        int salario = 0;
+        for (int i = 0; i < empleados.size(); i++) {
+            empleado = (Empleado) empleados.get(i);
+            salario = empleado.getSalarioBase();
+        }
+
+        return salario;
+    }
+
+    public int diasTrabajados(String documento) throws SQLException {
+
+        String fechaActual = String.valueOf(LocalDate.now());
+        String dia = String.valueOf(fechaActual.charAt(8)) + String.valueOf(fechaActual.charAt(9));
+
+        int registros;
+        registros = asistdao.traerNroRegistros(documento);
+
+        int diasTrabajados = 0;
+        if (dia.equals("21") || dia.equals("15")) {
+
+            if (registros % 2 == 0) {
+                diasTrabajados = (registros / 2) + 2;
+            } else {
+                diasTrabajados = ((registros / 2) + 2) - 1;
+            }
+        }
+        return diasTrabajados;
+    }
+
     //TotalDevengado: Total a pagar cada quincena (sin salud ni pension)
-    public double totalD(double salarioBase, double diasTrabajados) {
+    public double totalD(int salarioBase, int diasTrabajados) {
 
-        double[] vectorV = validacion(salarioBase, diasTrabajados);
-
-        double salarioD = vectorV[0];
-        double auxD = vectorV[1];
+        double salarioD = validacion(salarioBase, diasTrabajados);
+        double auxD = auxTransp(salarioBase);
         double totalDevengado = salarioD + auxD;
 
         return totalDevengado;
     }
 
-    public double totalPagar(double salarioBase, double diasTrabajados) {
+    public double totalPagar(int salarioBase, int diasTrabajados) {
 
-        double[] vector = validacion(salarioBase, diasTrabajados);
-        double salario = vector[0];
+        double salario = validacion(salarioBase, diasTrabajados);
         double totalPagar = salario - (salario * 0.08);
         return totalPagar;
     }
 
     //Cesantias: Dado anualmente a un fondo de cesantias cada 14 de febrero
-    public double cesantias(double salarioBase, double diasTrabajados) {
+    public double cesantias(int salarioBase, int diasTrabajados) {
 
         //Entradas salario Base, auxilio de Transporte
-        int auxTransp = 117172;
+        int auxTrans = auxTransp(salarioBase);
 
         //Cesantias = ((salarioBase+AuxTransp+HorasExtras)/360)*DiasTrabajados
         double cesantias;
 
-        cesantias = ((salarioBase + auxTransp) / 360) * diasTrabajados;
+        cesantias = ((salarioBase + auxTrans) / 360) * diasTrabajados;
 
         return cesantias;
     }
 
     //Prima: Dado al empleado cada 6 meses (Junio y Diciembre) en quincenas
-    public double prima(double diasTrabajados, double salarioBase) {
+    public double prima(int diasTrabajados, int salarioBase) {
 
         //Prima = (1/2 salarioBase/180)*diasTrabajados
         double prima = ((salarioBase / 2) / 180) * diasTrabajados;
@@ -60,7 +95,7 @@ public class PruebaLogicaNomina {
 
     //Vacaciones: Se pagan cuando el trabajador cumple 1 año en la empresa y
     //el pago corresponde a 15 dias de trabajo (salarioBase/2)
-    public double vacaciones(double salarioBase, double diasTrabajados) {
+    public double vacaciones(int salarioBase, int diasTrabajados) {
 
         double vacaciones;
         if (diasTrabajados == 360) {
@@ -74,7 +109,7 @@ public class PruebaLogicaNomina {
 
     //Intereses a Cesantias: Se pagan al trabajador anualmente sobre el
     //12% totales de las censantias cada 31 de Enero
-    public double interesCesantias(double salarioBase, double diasTrabajados) {
+    public double interesCesantias(int salarioBase, int diasTrabajados) {
 
         double cesantias = cesantias(salarioBase, diasTrabajados);
         double intCesantias = cesantias * 0.12;
@@ -82,18 +117,27 @@ public class PruebaLogicaNomina {
         return intCesantias;
     }
 
-    public double[] validacion(double salarioBase, double diasTrabajados) {
+    public int auxTransp(int salarioBase) {
+
+        int auxTransp = 0;
+        if (salarioBase < 1000000 * 2) {
+            auxTransp = 117172;
+        }
+
+        return auxTransp;
+    }
+
+    public double validacion(int salarioBase, int diasTrabajados) {
 
         double salarioDevengado = 0;
-        double auxTranspDevengado = 0;
 
         if (diasTrabajados == 13) {
             salarioDevengado = salarioBase / 2;
-            if (salarioBase < 1000000 * 2) {
-                auxTranspDevengado = 117172 / 2;
-            }
+        } else {
+            salarioDevengado = (salarioBase / 30) * diasTrabajados;
         }
-        double[] totalDevengado = {salarioDevengado, auxTranspDevengado};
+
+        double totalDevengado = salarioDevengado;
 
         return totalDevengado;
     }

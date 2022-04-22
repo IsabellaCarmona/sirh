@@ -67,6 +67,15 @@ public class Empleado {
         this.salarioBase = salarioBase;
     }
 
+    public Empleado(String tipoId, String cedula, String nombres, String apellidos, String cargo, int salarioBase) {
+        this.tipoId = tipoId;
+        this.cedula = cedula;
+        this.nombres = nombres;
+        this.apellidos = apellidos;
+        this.cargo = cargo;
+        this.salarioBase = salarioBase;
+    }
+
     public boolean empiezaPor(String inicio) {
 
         if (inicio.length() > cedula.length()) {
