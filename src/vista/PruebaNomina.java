@@ -128,8 +128,6 @@ public class PruebaNomina extends javax.swing.JFrame {
 
     private void jBtCalcularActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtCalcularActionPerformed
 
-        String documento = jTxDocumento.getText();
-
         PruebaLogicaNomina prueba = new PruebaLogicaNomina();
         EmpleadoDAO empldao = new EmpleadoDAO();
         ArrayList<String> documentos = new ArrayList();
@@ -148,41 +146,40 @@ public class PruebaNomina extends javax.swing.JFrame {
         for (int i = 0; i < documentos.size(); i++) {
             docu = documentos.get(i);
 
-            if (docu.equals(documento)) {
-                try {
-                    salario = empldao.traerSalarioBase(documento);
-                    diasTrabajados = prueba.diasTrabajados(documento);
-                } catch (SQLException ex) {
-                    Logger.getLogger(PruebaNomina.class.getName()).log(Level.SEVERE, null, ex);
-                }
-
-                double totalD = prueba.totalD(salario, diasTrabajados);
-                double cesantias = prueba.cesantias(salario, diasTrabajados);
-                double prima = prueba.prima(diasTrabajados, salario);
-                double vacaciones = prueba.vacaciones(salario, diasTrabajados);
-                double intereses = prueba.interesCesantias(salario, diasTrabajados);
-                double totalP = prueba.totalPagar(salario, diasTrabajados);
-                int auxTransp = prueba.auxTransp(salario);
-                double auxD;
-
-                if (auxTransp != 0) {
-                    auxD = (auxTransp / 30) * diasTrabajados;
-                } else {
-                    auxD = 0;
-                }
-                datos[0] = docu;
-                datos[1] = String.valueOf(diasTrabajados);
-                datos[2] = String.valueOf(salario);
-                datos[3] = String.valueOf(df.format(totalD));
-                datos[4] = String.valueOf(df.format(cesantias));
-                datos[5] = String.valueOf(df.format(prima));
-                datos[6] = String.valueOf(df.format(vacaciones));
-                datos[7] = String.valueOf(df.format(intereses));
-                datos[8] = String.valueOf(df.format(totalP));
-                datos[9] = String.valueOf(df.format(auxD));
-                modelo.addRow(datos);
+            try {
+                salario = empldao.traerSalarioBase(docu);
+                diasTrabajados = prueba.diasTrabajados(docu);
+            } catch (SQLException ex) {
+                Logger.getLogger(PruebaNomina.class.getName()).log(Level.SEVERE, null, ex);
             }
+
+            double totalD = prueba.totalD(salario, diasTrabajados);
+            double cesantias = prueba.cesantias(salario, diasTrabajados);
+            double prima = prueba.prima(diasTrabajados, salario);
+            double vacaciones = prueba.vacaciones(salario, diasTrabajados);
+            double intereses = prueba.interesCesantias(salario, diasTrabajados);
+            double totalP = prueba.totalPagar(salario, diasTrabajados);
+            int auxTransp = prueba.auxTransp(salario);
+            double auxD;
+
+            if (auxTransp != 0) {
+                auxD = (auxTransp / 30) * diasTrabajados;
+            } else {
+                auxD = 0;
+            }
+            datos[0] = docu;
+            datos[1] = String.valueOf(diasTrabajados);
+            datos[2] = String.valueOf(salario);
+            datos[3] = String.valueOf(df.format(totalD));
+            datos[4] = String.valueOf(df.format(cesantias));
+            datos[5] = String.valueOf(df.format(prima));
+            datos[6] = String.valueOf(df.format(vacaciones));
+            datos[7] = String.valueOf(df.format(intereses));
+            datos[8] = String.valueOf(df.format(totalP));
+            datos[9] = String.valueOf(df.format(auxD));
+            modelo.addRow(datos);
         }
+
     }//GEN-LAST:event_jBtCalcularActionPerformed
 
     /**

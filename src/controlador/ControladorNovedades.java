@@ -4,33 +4,19 @@
  */
 package controlador;
 
-import java.awt.Desktop;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import static java.lang.Integer.parseInt;
 import java.io.*;
-import static java.lang.String.valueOf;
-import java.sql.Connection;
-import java.sql.Date;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.filechooser.FileNameExtensionFilter;
-import modelo.Conexion;
-import modelo.Empleado;
-import modelo.EmpleadoDAO;
 import modelo.Novedades;
 import modelo.NovedadesDAO;
-import vista.FrmNovedades;
 import vista.FrmNovedades;
 
 /**

@@ -22,18 +22,6 @@ public class PruebaLogicaNomina {
     public PruebaLogicaNomina() {
     }
 
-    public int traerSalario() throws SQLException {
-
-        ArrayList empleados = empldao.traerRegistros();
-        int salario = 0;
-        for (int i = 0; i < empleados.size(); i++) {
-            empleado = (Empleado) empleados.get(i);
-            salario = empleado.getSalarioBase();
-        }
-
-        return salario;
-    }
-
     public int diasTrabajados(String documento) throws SQLException {
 
         String fechaActual = String.valueOf(LocalDate.now());
@@ -43,7 +31,7 @@ public class PruebaLogicaNomina {
         registros = asistdao.traerNroRegistros(documento);
 
         int diasTrabajados = 0;
-        if (dia.equals("21") || dia.equals("15")) {
+        if (dia.equals("23") || dia.equals("15")) {
 
             if (registros % 2 == 0) {
                 diasTrabajados = (registros / 2) + 2;
@@ -67,7 +55,14 @@ public class PruebaLogicaNomina {
     public double totalPagar(int salarioBase, int diasTrabajados) {
 
         double salario = validacion(salarioBase, diasTrabajados);
-        double totalPagar = salario - (salario * 0.08);
+
+        double auxTransp = auxTransp(salarioBase);
+
+        if (auxTransp != 0) {
+            auxTransp = (auxTransp / 30) * diasTrabajados;
+        }
+
+        double totalPagar = salario - (salario * 0.08) + auxTransp;
         return totalPagar;
     }
 

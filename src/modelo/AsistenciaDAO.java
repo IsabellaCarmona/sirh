@@ -59,6 +59,19 @@ public class AsistenciaDAO {
         while (rs.next()) {
             registros = rs.getInt("numero_asistencias");
         }
+
+        String sql2 = "SELECT fechaAsistencia, EXTRACT(DAY FROM fechaAsistencia) AS dia FROM asistencia WHERE idEmpleado='" + id + "'";
+
+        con = cn.getConnection();
+
+        ps = con.prepareStatement(sql2);
+        rs = ps.executeQuery();
+
+        while (rs.next()) {
+            if (rs.getInt("dia") == 31) {
+                registros = registros - 1;
+            }
+        }
         return registros;
     }
 }

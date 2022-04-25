@@ -61,10 +61,10 @@ public class EmpleadoDAO {
         return true;
     }
 
-    public ArrayList traerRegistros() throws SQLException {
+    public ArrayList traerRegistros(String id) throws SQLException {
 
         ArrayList empleados = new ArrayList();
-        String sql = "SELECT tipoDocumento,Cedula,Nombres,Apellidos,Cargo,SalarioBase FROM empleados WHERE estado='ACTIVO'";
+        String sql = "SELECT tipoDocumento,Nombres,Apellidos,Cargo FROM empleados WHERE estado='ACTIVO' AND Cedula='" + id + "'";
 
         con = cn.getConnection(); //Establece la conexion
         ps = con.prepareStatement(sql); //Se prepara el codigo sql
@@ -72,13 +72,11 @@ public class EmpleadoDAO {
 
         while (rs.next()) {
             empleado.setTipoId(rs.getString("tipoDocumento"));
-            empleado.setCedula(rs.getString("Cedula"));
             empleado.setNombres(rs.getString("Nombres"));
             empleado.setApellidos(rs.getString("Apellidos"));
             empleado.setCargo(rs.getString("Cargo"));
-            empleado.setSalarioBase(rs.getInt("SalarioBase"));
-            empleados.add(new Empleado(empleado.getTipoId(), empleado.getCedula(), empleado.getNombres(),
-                    empleado.getApellidos(), empleado.getCargo(), empleado.getSalarioBase()));
+            empleados.add(new Empleado(empleado.getTipoId(), empleado.getNombres(),
+                    empleado.getApellidos(), empleado.getCargo(), 0));
         }
 
         return empleados;
