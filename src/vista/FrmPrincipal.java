@@ -7,6 +7,7 @@ package vista;
 
 import controlador.ControladorEditarPerfil;
 import controlador.ControladorEmpleado;
+import controlador.ControladorLiquidacion;
 import controlador.ControladorVerNomina;
 import controlador.ControladorVerNovedades;
 import controlador.ControladorVisualizarEmpl;
@@ -17,6 +18,8 @@ import java.awt.Image;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.sql.SQLException;
+import java.text.DecimalFormat;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.ImageIcon;
@@ -34,6 +37,7 @@ import modelo.EmpleadoDAO;
 import modelo.Novedades;
 import modelo.NovedadesDAO;
 import modelo.Salario;
+import modelo.SalarioDAO;
 
 /**
  *
@@ -75,8 +79,8 @@ public class FrmPrincipal extends javax.swing.JFrame {
         jMenuItem4 = new javax.swing.JMenuItem();
         jMenuItem5 = new javax.swing.JMenuItem();
         jMenu1 = new javax.swing.JMenu();
-        jMenuItem8 = new javax.swing.JMenuItem();
-        jMenuItem9 = new javax.swing.JMenuItem();
+        jMIGenerarNomina = new javax.swing.JMenuItem();
+        jMILiquidarEmpleado = new javax.swing.JMenuItem();
         jMenu3 = new javax.swing.JMenu();
         jMenu4 = new javax.swing.JMenu();
         jMenuItem6 = new javax.swing.JMenuItem();
@@ -131,16 +135,21 @@ public class FrmPrincipal extends javax.swing.JFrame {
 
         jMenu1.setText("Nómina");
 
-        jMenuItem8.setText("Generar Nómina");
-        jMenuItem8.addActionListener(new java.awt.event.ActionListener() {
+        jMIGenerarNomina.setText("Generar Nómina");
+        jMIGenerarNomina.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem8ActionPerformed(evt);
+                jMIGenerarNominaActionPerformed(evt);
             }
         });
-        jMenu1.add(jMenuItem8);
+        jMenu1.add(jMIGenerarNomina);
 
-        jMenuItem9.setText("Liquidar Empleado");
-        jMenu1.add(jMenuItem9);
+        jMILiquidarEmpleado.setText("Liquidar Empleado");
+        jMILiquidarEmpleado.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMILiquidarEmpleadoActionPerformed(evt);
+            }
+        });
+        jMenu1.add(jMILiquidarEmpleado);
 
         jMenuBar1.add(jMenu1);
 
@@ -275,7 +284,7 @@ public class FrmPrincipal extends javax.swing.JFrame {
         frm.show();
     }//GEN-LAST:event_jMenuItem2ActionPerformed
 
-    private void jMenuItem8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem8ActionPerformed
+    private void jMIGenerarNominaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMIGenerarNominaActionPerformed
 
         Empleado empleado = new Empleado();
         EmpleadoDAO empleadod = new EmpleadoDAO();
@@ -289,7 +298,73 @@ public class FrmPrincipal extends javax.swing.JFrame {
         Dimension FrameSize = fnomina.getSize();
         fnomina.setLocation((desktopSize.width - FrameSize.width) / 2, (desktopSize.height - FrameSize.height) / 2);
         fnomina.show();
-    }//GEN-LAST:event_jMenuItem8ActionPerformed
+    }//GEN-LAST:event_jMIGenerarNominaActionPerformed
+
+    private void jMILiquidarEmpleadoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMILiquidarEmpleadoActionPerformed
+
+        FrmLiquidacion fliquidacion = new FrmLiquidacion();
+        Salario salario = new Salario();
+        Empleado empleado = new Empleado();
+        EmpleadoDAO empleadod = new EmpleadoDAO();
+
+        SalarioDAO saladao = new SalarioDAO();
+        DecimalFormat df = new DecimalFormat("0,000");
+        ArrayList datos = new ArrayList();
+
+        String id = JOptionPane.showInputDialog("Por favor ingrese el número de documento del empleado");
+        int salarioBase = 0, diasTrabajados = 0;
+        java.sql.Date fechaCorte = null;
+
+        try {
+            salarioBase = empleadod.traerSalarioBase(id);
+            diasTrabajados = saladao.traerDias(id);
+            datos = empleadod.traerRegistros(id);
+            fechaCorte = saladao.traerFechaCorte(id);
+        } catch (SQLException ex) {
+            Logger.getLogger(FrmPrincipal.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        for (int i = 0; i < datos.size(); i++) {
+            empleado = (Empleado) datos.get(i);
+        }
+
+        fliquidacion.jTxEmpleado.setText(empleado.getNombres() + " " + empleado.getApellidos());
+
+        String tipoID;
+        if (empleado.getTipoId().equals("Cédula de Ciudadanía")) {
+            tipoID = "CC";
+        } else if (empleado.getTipoId().equals("Cédula de Extranjería")) {
+            tipoID = "CE";
+        } else {
+            tipoID = empleado.getTipoId();
+        }
+
+        fliquidacion.jTxDocumento.setText(tipoID + " " + id);
+        fliquidacion.jTxCargo.setText(empleado.getCargo());
+        fliquidacion.jTxFechaCorte.setText(String.valueOf(fechaCorte) + " a");
+
+        double cesantias = salario.cesantias(salarioBase, diasTrabajados);
+        double prima = salario.prima(diasTrabajados, salarioBase);
+        double vacaciones = salario.vacaciones(salarioBase, diasTrabajados);
+        double intereses = salario.interesCesantias(salarioBase, diasTrabajados);
+        double totalD = cesantias + prima + vacaciones + intereses;
+        double totalP = cesantias + prima + vacaciones + intereses;
+
+        fliquidacion.jTxSalarioBase.setText("$ " + String.valueOf(df.format(salarioBase)));
+        fliquidacion.jTxPrima.setText("$ " + String.valueOf(df.format(prima)));
+        fliquidacion.jTxCesantias.setText("$ " + String.valueOf(df.format(cesantias)));
+        fliquidacion.jTxInteresesCesan.setText("$ " + String.valueOf(df.format(intereses)));
+        fliquidacion.jTxVacaciones.setText("$ " + String.valueOf(df.format(vacaciones)));
+        fliquidacion.jTxTotalDevengado.setText("$ " + String.valueOf(df.format(totalD)));
+        fliquidacion.jTxNetoPagar.setText("$ " + String.valueOf(df.format(totalP)));
+        fliquidacion.jTxConsumo.setText("$ 0");
+        fliquidacion.jTxPrimaPagada.setText("$ 0");
+        fliquidacion.jTxTotalDeducciones.setText("$ 0");
+
+        ControladorLiquidacion control1 = new ControladorLiquidacion(fliquidacion, salario, empleado, empleadod);
+
+        fliquidacion.setVisible(true);
+    }//GEN-LAST:event_jMILiquidarEmpleadoActionPerformed
 
     public void cerrar() {
         this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
@@ -347,6 +422,8 @@ public class FrmPrincipal extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     public javax.swing.JDesktopPane jDesktopPane1;
+    private javax.swing.JMenuItem jMIGenerarNomina;
+    private javax.swing.JMenuItem jMILiquidarEmpleado;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenu jMenu3;
@@ -359,7 +436,5 @@ public class FrmPrincipal extends javax.swing.JFrame {
     public javax.swing.JMenuItem jMenuItem5;
     private javax.swing.JMenuItem jMenuItem6;
     private javax.swing.JMenuItem jMenuItem7;
-    private javax.swing.JMenuItem jMenuItem8;
-    private javax.swing.JMenuItem jMenuItem9;
     // End of variables declaration//GEN-END:variables
 }

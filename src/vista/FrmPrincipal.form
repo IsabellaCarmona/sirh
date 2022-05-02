@@ -48,18 +48,21 @@
             <Property name="text" type="java.lang.String" value="N&#xf3;mina"/>
           </Properties>
           <SubComponents>
-            <MenuItem class="javax.swing.JMenuItem" name="jMenuItem8">
+            <MenuItem class="javax.swing.JMenuItem" name="jMIGenerarNomina">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Generar N&#xf3;mina"/>
               </Properties>
               <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jMenuItem8ActionPerformed"/>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jMIGenerarNominaActionPerformed"/>
               </Events>
             </MenuItem>
-            <MenuItem class="javax.swing.JMenuItem" name="jMenuItem9">
+            <MenuItem class="javax.swing.JMenuItem" name="jMILiquidarEmpleado">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Liquidar Empleado"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jMILiquidarEmpleadoActionPerformed"/>
+              </Events>
             </MenuItem>
           </SubComponents>
         </Menu>

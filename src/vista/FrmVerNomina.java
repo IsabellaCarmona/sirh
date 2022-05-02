@@ -6,6 +6,13 @@
 package vista;
 
 import controlador.ControladorNomina;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.print.PageFormat;
+import java.awt.print.Printable;
+import static java.awt.print.Printable.NO_SUCH_PAGE;
+import static java.awt.print.Printable.PAGE_EXISTS;
+import java.awt.print.PrinterException;
 import javax.swing.table.DefaultTableModel;
 import modelo.Salario;
 
@@ -13,7 +20,7 @@ import modelo.Salario;
  *
  * @author ISABELLA CARMONA C
  */
-public class FrmVerNomina extends javax.swing.JInternalFrame {
+public class FrmVerNomina extends javax.swing.JInternalFrame implements Printable {
 
     /**
      * Creates new form FrmVerNomina
@@ -39,6 +46,7 @@ public class FrmVerNomina extends javax.swing.JInternalFrame {
 
         setBackground(new java.awt.Color(204, 204, 204));
 
+        jTbNomina.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
         jTbNomina.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {},
@@ -64,7 +72,7 @@ public class FrmVerNomina extends javax.swing.JInternalFrame {
         jLabel16.setFont(new java.awt.Font("Javanese Text", 0, 24)); // NOI18N
         jLabel16.setForeground(new java.awt.Color(0, 0, 0));
         jLabel16.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel16.setText("NÓMINA");
+        jLabel16.setText("REPORTE NÓMINA");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -77,16 +85,12 @@ public class FrmVerNomina extends javax.swing.JInternalFrame {
                         .addComponent(jScrollPane1)
                         .addContainerGap())
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGap(0, 489, Short.MAX_VALUE)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addComponent(jBtGenerarPdf)
-                                .addGap(53, 53, 53)
-                                .addComponent(jBtSalir, javax.swing.GroupLayout.PREFERRED_SIZE, 67, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(27, 27, 27))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addComponent(jLabel16, javax.swing.GroupLayout.PREFERRED_SIZE, 443, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(325, 325, 325))))))
+                        .addGap(0, 1304, Short.MAX_VALUE)
+                        .addComponent(jBtGenerarPdf)
+                        .addGap(53, 53, 53)
+                        .addComponent(jBtSalir, javax.swing.GroupLayout.PREFERRED_SIZE, 67, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(27, 27, 27))))
+            .addComponent(jLabel16, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -132,18 +136,18 @@ public class FrmVerNomina extends javax.swing.JInternalFrame {
         fnomina.jTxDocumento.setText(doc);
         fnomina.jTxCargo.setText(cargo);
         fnomina.jTxFechaCorte.setText(periodo);
-        fnomina.jTxSalarioBase.setText("$ " + salarioBase);
+        fnomina.jTxSalarioBase.setText(salarioBase);
         fnomina.jTxDiasTrabajados.setText(diasTrabajados);
-        fnomina.jTxPagoQuincena.setText("$ " + pagoPeriodo);
-        fnomina.jTxAuxTransp.setText("$ " + auxTransp);
-        fnomina.jTxPagoAuxTransp.setText("$ " + pagoAux);
-        fnomina.jTxBonificacion.setText("$ " + bonificacion);
-        fnomina.jTxTotalDevengado.setText("$ " + totalDevengado);
-        fnomina.jTxPrestamo.setText("$ " + prestamo);
-        fnomina.jTxTotalDeducciones.setText("$ " + totalDeducciones);
-        fnomina.jTxNetoPagar.setText("$ " + netoPagar);
+        fnomina.jTxPagoQuincena.setText(pagoPeriodo);
+        fnomina.jTxAuxTransp.setText(auxTransp);
+        fnomina.jTxPagoAuxTransp.setText(pagoAux);
+        fnomina.jTxBonificacion.setText(bonificacion);
+        fnomina.jTxTotalDevengado.setText(totalDevengado);
+        fnomina.jTxPrestamo.setText(prestamo);
+        fnomina.jTxTotalDeducciones.setText(totalDeducciones);
+        fnomina.jTxNetoPagar.setText(netoPagar);
 
-        ControladorNomina control1 = new ControladorNomina(fnomina, salario);
+        ControladorNomina control1 = new ControladorNomina(fnomina, salario, this);
         fnomina.setVisible(true);
     }//GEN-LAST:event_jTbNominaMousePressed
 
@@ -154,4 +158,19 @@ public class FrmVerNomina extends javax.swing.JInternalFrame {
     private javax.swing.JScrollPane jScrollPane1;
     public javax.swing.JTable jTbNomina;
     // End of variables declaration//GEN-END:variables
+
+    @Override
+    public int print(Graphics graphics, PageFormat pageFormat, int pageIndex) throws PrinterException {
+        if (pageIndex != 0) {
+            return NO_SUCH_PAGE;
+        }
+
+        Graphics2D graphics2d = (Graphics2D) graphics;
+        graphics2d.translate(pageFormat.getImageableX(), pageFormat.getImageableY());
+        graphics2d.scale(0.66, 0.66);
+
+        jTbNomina.printAll(graphics2d);
+
+        return PAGE_EXISTS;
+    }
 }

@@ -25,9 +25,24 @@ public class SalarioDAO {
 
     Salario salario = new Salario();
 
-    public java.sql.Date traerFechaCorte() throws SQLException {
+    public int traerDias(String id) throws SQLException {
 
-        String sql = "SELECT MAX(fechaCorte) FROM salario";
+        String sql = "SELECT SUM(Dias_Trabajados) FROM salario WHERE Id_Empleado='" + id + "'";
+        int dias = 0;
+        con = cn.getConnection(); //Establece la conexion
+        ps = con.prepareStatement(sql); //Se prepara el codigo sql
+        rs = ps.executeQuery();
+
+        while (rs.next()) {
+            dias = rs.getInt("SUM(Dias_Trabajados)");
+        }
+
+        return dias;
+    }
+
+    public java.sql.Date traerFechaCorte(String id) throws SQLException {
+
+        String sql = "SELECT MIN(fechaCorte) FROM salario WHERE Id_Empleado='" + id + "'";
 
         con = cn.getConnection(); //Establece la conexion
         ps = con.prepareStatement(sql); //Se prepara el codigo sql
@@ -35,7 +50,7 @@ public class SalarioDAO {
 
         java.sql.Date fechaCorte = null;
         while (rs.next()) {
-            fechaCorte = rs.getDate("fechaCorte");
+            fechaCorte = rs.getDate("MIN(fechaCorte)");
         }
 
         return fechaCorte;

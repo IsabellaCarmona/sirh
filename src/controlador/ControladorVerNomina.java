@@ -5,26 +5,32 @@
  */
 package controlador;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.print.PageFormat;
+import java.awt.print.PrinterException;
+import java.awt.print.PrinterJob;
 import java.sql.SQLException;
 import java.text.DecimalFormat;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableColumnModel;
 import modelo.AsistenciaDAO;
 import modelo.Empleado;
 import modelo.EmpleadoDAO;
 import modelo.Salario;
-import vista.FrmNomina;
+import vista.FrmLiquidacion;
 import vista.FrmVerNomina;
-import vista.PruebaNomina;
 
 /**
  *
  * @author ISABELLA CARMONA C
  */
-public class ControladorVerNomina {
+public class ControladorVerNomina implements ActionListener {
 
     Empleado empleado;
     EmpleadoDAO empldao;
@@ -39,6 +45,9 @@ public class ControladorVerNomina {
         this.asistdao = asistdao;
         this.salario = salario;
         this.fnomina = fnomina;
+
+        this.fnomina.jBtSalir.addActionListener(this);
+        this.fnomina.jBtGenerarPdf.addActionListener(this);
 
         modelo.addColumn("Empleado");
         modelo.addColumn("Documento");
@@ -57,20 +66,38 @@ public class ControladorVerNomina {
         modelo.addColumn("Total Pagar");
         fnomina.jTbNomina.setModel(modelo);
 
+        TableColumnModel columnModel = fnomina.jTbNomina.getColumnModel();
+
+        columnModel.getColumn(0).setPreferredWidth(605); //Empleado
+        columnModel.getColumn(1).setPreferredWidth(300); //Documento
+        columnModel.getColumn(2).setPreferredWidth(250); //Cargo
+        columnModel.getColumn(3).setPreferredWidth(210); //Periodo
+        columnModel.getColumn(4).setPreferredWidth(230); //Salario Base
+        columnModel.getColumn(5).setPreferredWidth(250); //Días trabajados
+        columnModel.getColumn(6).setPreferredWidth(220); //Pago Periodo
+        columnModel.getColumn(7).setPreferredWidth(220); //Auxilio Transp
+        columnModel.getColumn(8).setPreferredWidth(200); //Pago Auxilio
+        columnModel.getColumn(9).setPreferredWidth(190); //Bonificación
+        columnModel.getColumn(10).setPreferredWidth(260); //Total Devengado
+        columnModel.getColumn(11).setPreferredWidth(220); //Deducciones
+        columnModel.getColumn(12).setPreferredWidth(220); //Préstamo
+        columnModel.getColumn(13).setPreferredWidth(280); //Total deducciones
+        columnModel.getColumn(14).setPreferredWidth(203); //Total Pagar
+
         ArrayList<String> documentos = new ArrayList();
         ArrayList empl = null;
 
         try {
             documentos = empldao.traerDocumentos();
         } catch (SQLException ex) {
-            Logger.getLogger(PruebaNomina.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ControladorVerNomina.class.getName()).log(Level.SEVERE, null, ex);
         }
 
         int salarioBase = 0, diasTrabajados = 0;
 
         String[] datos = new String[15];
         String docu;
-        DecimalFormat df = new DecimalFormat("00,000");
+        DecimalFormat df = new DecimalFormat("0,000");
         for (int i = 0; i < documentos.size(); i++) {
             docu = documentos.get(i);
 
@@ -79,7 +106,7 @@ public class ControladorVerNomina {
                 diasTrabajados = salario.diasTrabajados(docu);
                 empl = empldao.traerRegistros(docu);
             } catch (SQLException ex) {
-                Logger.getLogger(PruebaNomina.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(ControladorVerNomina.class.getName()).log(Level.SEVERE, null, ex);
             }
 
             String nombres = "";
@@ -117,19 +144,50 @@ public class ControladorVerNomina {
             datos[1] = tipoID + " " + docu;
             datos[2] = cargo;
             datos[3] = periodo;
-            datos[4] = String.valueOf(df.format(salarioBase));
+            datos[4] = "$ " + String.valueOf(df.format(salarioBase));
             datos[5] = String.valueOf(diasTrabajados);
-            datos[6] = String.valueOf(df.format(pagoPeriodo));
-            datos[7] = String.valueOf(df.format(auxTransp));
-            datos[8] = String.valueOf(df.format(auxD));
-            datos[9] = String.valueOf(0);
-            datos[10] = String.valueOf(df.format(totalD));
+            datos[6] = "$ " + String.valueOf(df.format(pagoPeriodo));
+            datos[7] = "$ " + String.valueOf(df.format(auxTransp));
+            datos[8] = "$ " + String.valueOf(df.format(auxD));
+            datos[9] = "$ " + String.valueOf(0);
+            datos[10] = "$ " + String.valueOf(df.format(totalD));
             datos[11] = deducciones;
-            datos[12] = String.valueOf(0);
-            datos[13] = String.valueOf(df.format(totalDeducciones));
-            datos[14] = String.valueOf(df.format(totalP));
+            datos[12] = "$ " + String.valueOf(0);
+            datos[13] = "$ " + String.valueOf(df.format(totalDeducciones));
+            datos[14] = "$ " + String.valueOf(df.format(totalP));
 
             modelo.addRow(datos);
+        }
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+
+        if (e.getSource() == fnomina.jBtSalir) {
+            int respuesta = JOptionPane.showConfirmDialog(fnomina, "¿Está seguro de salir?", "Fin Reporte Nómina", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+            if (respuesta == JOptionPane.YES_OPTION) {
+                fnomina.dispose();
+            }
+        }
+
+        if (e.getSource() == fnomina.jBtGenerarPdf) {
+
+            PrinterJob job = PrinterJob.getPrinterJob();
+            PageFormat preformat = job.defaultPage();
+            preformat.setOrientation(PageFormat.LANDSCAPE);
+            PageFormat postformat = job.pageDialog(preformat);
+            job.setPrintable(fnomina);
+
+            if (job.printDialog()) {
+                try {
+                    job.print();
+                } catch (PrinterException ex) {
+                    Logger.getLogger(FrmLiquidacion.class.getName()).log(Level.SEVERE, null, ex);
+                }
+
+            } else {
+                JOptionPane.showMessageDialog(fnomina, "La impresión fue cancelada");
+            }
         }
     }
 

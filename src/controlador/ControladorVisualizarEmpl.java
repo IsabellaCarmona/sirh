@@ -17,8 +17,6 @@ import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import modelo.Empleado;
 import modelo.EmpleadoDAO;
-import vista.FrmPrincipal;
-import vista.FrmTurnos;
 import vista.FrmVisualizarEmpleados;
 
 /**
