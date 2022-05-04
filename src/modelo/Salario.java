@@ -5,6 +5,7 @@
  */
 package modelo;
 
+import java.sql.Date;
 import java.sql.SQLException;
 import java.time.LocalDate;
 
@@ -16,14 +17,16 @@ public class Salario {
 
     private int idSalario;
     private int diasTrabajados; //Cambiar en BD
-    private float valorHora;
+    private Date fechaCorte;
     private String idEmpleado;
-    private double pension;
-    private double salud;
-    private int SMMLV = 1000000; //Agregar BD
-    private int auxTransp = 117172; //Agregar BD
 
     public Salario() {
+    }
+
+    public Salario(int diasTrabajados, Date fechaCorte, String idEmpleado) {
+        this.diasTrabajados = diasTrabajados;
+        this.fechaCorte = fechaCorte;
+        this.idEmpleado = idEmpleado;
     }
 
     public int getIdSalario() {
@@ -42,12 +45,12 @@ public class Salario {
         this.diasTrabajados = diasTrabajados;
     }
 
-    public float getValorHora() {
-        return valorHora;
+    public Date getFechaCorte() {
+        return fechaCorte;
     }
 
-    public void setValorHora(float valorHora) {
-        this.valorHora = valorHora;
+    public void setFechaCorte(Date fechaCorte) {
+        this.fechaCorte = fechaCorte;
     }
 
     public String getIdEmpleado() {
@@ -56,22 +59,6 @@ public class Salario {
 
     public void setIdEmpleado(String idEmpleado) {
         this.idEmpleado = idEmpleado;
-    }
-
-    public double getPension() {
-        return pension;
-    }
-
-    public void setPension(double pension) {
-        this.pension = pension;
-    }
-
-    public double getSalud() {
-        return salud;
-    }
-
-    public void setSalud(double salud) {
-        this.salud = salud;
     }
 
     public int diasTrabajados(String documento) throws SQLException {
@@ -84,7 +71,7 @@ public class Salario {
         registros = asistdao.traerNroRegistros(documento);
 
         int diasTrabajados = 0;
-        if (dia.equals("01") || dia.equals("15")) {
+        if (dia.equals("03") || dia.equals("15")) {
 
             if (registros % 2 == 0) {
                 diasTrabajados = (registros / 2) + 2;

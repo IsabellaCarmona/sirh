@@ -6,13 +6,6 @@
 package vista;
 
 import controlador.ControladorNomina;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.print.PageFormat;
-import java.awt.print.Printable;
-import static java.awt.print.Printable.NO_SUCH_PAGE;
-import static java.awt.print.Printable.PAGE_EXISTS;
-import java.awt.print.PrinterException;
 import javax.swing.table.DefaultTableModel;
 import modelo.Salario;
 
@@ -20,7 +13,7 @@ import modelo.Salario;
  *
  * @author ISABELLA CARMONA C
  */
-public class FrmVerNomina extends javax.swing.JInternalFrame implements Printable {
+public class FrmVerNomina extends javax.swing.JInternalFrame {
 
     /**
      * Creates new form FrmVerNomina
@@ -43,6 +36,8 @@ public class FrmVerNomina extends javax.swing.JInternalFrame implements Printabl
         jBtSalir = new javax.swing.JButton();
         jBtGenerarPdf = new javax.swing.JButton();
         jLabel16 = new javax.swing.JLabel();
+        jLbDirectorio = new javax.swing.JLabel();
+        jBtBuscarDirectorio = new javax.swing.JButton();
 
         setBackground(new java.awt.Color(204, 204, 204));
 
@@ -68,11 +63,22 @@ public class FrmVerNomina extends javax.swing.JInternalFrame implements Printabl
         jBtSalir.setText("Salir");
 
         jBtGenerarPdf.setText("Generar PDF");
+        jBtGenerarPdf.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jBtGenerarPdfActionPerformed(evt);
+            }
+        });
 
         jLabel16.setFont(new java.awt.Font("Javanese Text", 0, 24)); // NOI18N
-        jLabel16.setForeground(new java.awt.Color(0, 0, 0));
         jLabel16.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel16.setText("REPORTE NÓMINA");
+        jLabel16.setText("NÓMINA");
+
+        jBtBuscarDirectorio.setText("Buscar directorio");
+        jBtBuscarDirectorio.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jBtBuscarDirectorioActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -80,16 +86,18 @@ public class FrmVerNomina extends javax.swing.JInternalFrame implements Printabl
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(jScrollPane1)
-                        .addContainerGap())
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGap(0, 1304, Short.MAX_VALUE)
-                        .addComponent(jBtGenerarPdf)
-                        .addGap(53, 53, 53)
-                        .addComponent(jBtSalir, javax.swing.GroupLayout.PREFERRED_SIZE, 67, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(27, 27, 27))))
+                .addComponent(jScrollPane1)
+                .addContainerGap())
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addGap(26, 26, 26)
+                .addComponent(jBtBuscarDirectorio)
+                .addGap(27, 27, 27)
+                .addComponent(jLbDirectorio, javax.swing.GroupLayout.PREFERRED_SIZE, 345, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 783, Short.MAX_VALUE)
+                .addComponent(jBtGenerarPdf)
+                .addGap(53, 53, 53)
+                .addComponent(jBtSalir, javax.swing.GroupLayout.PREFERRED_SIZE, 67, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(27, 27, 27))
             .addComponent(jLabel16, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
@@ -100,9 +108,12 @@ public class FrmVerNomina extends javax.swing.JInternalFrame implements Printabl
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 55, Short.MAX_VALUE)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 396, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jBtSalir, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jBtGenerarPdf))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLbDirectorio, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jBtSalir, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jBtGenerarPdf)
+                        .addComponent(jBtBuscarDirectorio)))
                 .addGap(13, 13, 13))
         );
 
@@ -151,26 +162,22 @@ public class FrmVerNomina extends javax.swing.JInternalFrame implements Printabl
         fnomina.setVisible(true);
     }//GEN-LAST:event_jTbNominaMousePressed
 
+    private void jBtGenerarPdfActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtGenerarPdfActionPerformed
+
+    }//GEN-LAST:event_jBtGenerarPdfActionPerformed
+
+    private void jBtBuscarDirectorioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtBuscarDirectorioActionPerformed
+
+    }//GEN-LAST:event_jBtBuscarDirectorioActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    public javax.swing.JButton jBtBuscarDirectorio;
     public javax.swing.JButton jBtGenerarPdf;
     public javax.swing.JButton jBtSalir;
     private javax.swing.JLabel jLabel16;
+    public javax.swing.JLabel jLbDirectorio;
     private javax.swing.JScrollPane jScrollPane1;
     public javax.swing.JTable jTbNomina;
     // End of variables declaration//GEN-END:variables
 
-    @Override
-    public int print(Graphics graphics, PageFormat pageFormat, int pageIndex) throws PrinterException {
-        if (pageIndex != 0) {
-            return NO_SUCH_PAGE;
-        }
-
-        Graphics2D graphics2d = (Graphics2D) graphics;
-        graphics2d.translate(pageFormat.getImageableX(), pageFormat.getImageableY());
-        graphics2d.scale(0.66, 0.66);
-
-        jTbNomina.printAll(graphics2d);
-
-        return PAGE_EXISTS;
-    }
 }

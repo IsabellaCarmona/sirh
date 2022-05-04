@@ -10,6 +10,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -54,5 +56,26 @@ public class SalarioDAO {
         }
 
         return fechaCorte;
+    }
+
+    public boolean insertarDatos(Salario salario) {
+
+        String sql = "INSERT INTO salario(Dias_Trabajados,fechaCorte,Id_Empleado) VALUES (" + salario.getDiasTrabajados() + ",'"
+                + salario.getFechaCorte() + "','" + salario.getIdEmpleado() + "')";
+
+        con = cn.getConnection(); //Establece la conexion
+        try {
+            ps = con.prepareStatement(sql); //Se prepara el codigo sql
+            ps.executeUpdate();
+        } catch (SQLException ex) {
+            Logger.getLogger(SalarioDAO.class.getName()).log(Level.SEVERE, null, ex);
+            return false;
+        }
+
+        return true;
+    }
+
+    public int traerDiasPrima(String mes) {
+
     }
 }
