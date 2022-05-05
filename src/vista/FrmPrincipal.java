@@ -10,10 +10,10 @@ import controlador.ControladorEmpleado;
 import controlador.ControladorLiquidacion;
 import controlador.ControladorVerNomina;
 import controlador.ControladorVerNovedades;
+import controlador.ControladorVerPrima;
 import controlador.ControladorVisualizarEmpl;
 import java.awt.Dimension;
 import java.awt.Graphics;
-import java.awt.HeadlessException;
 import java.awt.Image;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
@@ -23,11 +23,7 @@ import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.ImageIcon;
-import javax.swing.JDesktopPane;
 import javax.swing.JFrame;
-import javax.swing.JMenu;
-import javax.swing.JMenuBar;
-import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import modelo.Administrador;
 import modelo.AdministradorDAO;
@@ -74,14 +70,13 @@ public class FrmPrincipal extends javax.swing.JFrame {
         jDesktopPane1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu2 = new javax.swing.JMenu();
-        jMenuItem1 = new javax.swing.JMenuItem();
         jMenuItem2 = new javax.swing.JMenuItem();
         jMenuItem4 = new javax.swing.JMenuItem();
         jMenuItem5 = new javax.swing.JMenuItem();
         jMenu1 = new javax.swing.JMenu();
         jMIGenerarNomina = new javax.swing.JMenuItem();
         jMILiquidarEmpleado = new javax.swing.JMenuItem();
-        jMenu3 = new javax.swing.JMenu();
+        jMenuItem3 = new javax.swing.JMenuItem();
         jMenu4 = new javax.swing.JMenu();
         jMenuItem6 = new javax.swing.JMenuItem();
         jMenu5 = new javax.swing.JMenu();
@@ -103,9 +98,6 @@ public class FrmPrincipal extends javax.swing.JFrame {
         );
 
         jMenu2.setText("Empleados");
-
-        jMenuItem1.setText("Turnos");
-        jMenu2.add(jMenuItem1);
 
         jMenuItem2.setText("Ver Novedades");
         jMenuItem2.addActionListener(new java.awt.event.ActionListener() {
@@ -151,10 +143,15 @@ public class FrmPrincipal extends javax.swing.JFrame {
         });
         jMenu1.add(jMILiquidarEmpleado);
 
-        jMenuBar1.add(jMenu1);
+        jMenuItem3.setText("Generar Prima");
+        jMenuItem3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem3ActionPerformed(evt);
+            }
+        });
+        jMenu1.add(jMenuItem3);
 
-        jMenu3.setText("Calendario");
-        jMenuBar1.add(jMenu3);
+        jMenuBar1.add(jMenu1);
 
         jMenu4.setText("Perfil");
 
@@ -313,13 +310,13 @@ public class FrmPrincipal extends javax.swing.JFrame {
 
         String id = JOptionPane.showInputDialog("Por favor ingrese el número de documento del empleado");
         int salarioBase = 0, diasTrabajados = 0;
-        java.sql.Date fechaCorte = null;
+        java.sql.Date[] fechaCorte = null;
 
         try {
             salarioBase = empleadod.traerSalarioBase(id);
             diasTrabajados = saladao.traerDias(id);
             datos = empleadod.traerRegistros(id);
-            fechaCorte = saladao.traerFechaCorte(id);
+            fechaCorte = saladao.traerFechasCorte(id);
         } catch (SQLException ex) {
             Logger.getLogger(FrmPrincipal.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -339,9 +336,11 @@ public class FrmPrincipal extends javax.swing.JFrame {
             tipoID = empleado.getTipoId();
         }
 
+        String fechaInicio = String.valueOf(fechaCorte[0]);
+
         fliquidacion.jTxDocumento.setText(tipoID + " " + id);
         fliquidacion.jTxCargo.setText(empleado.getCargo());
-        fliquidacion.jTxFechaCorte.setText(String.valueOf(fechaCorte) + " a");
+        fliquidacion.jTxFechaCorte.setText(fechaInicio + " a ");
 
         double cesantias = salario.cesantias(salarioBase, diasTrabajados);
         double prima = salario.prima(diasTrabajados, salarioBase);
@@ -365,6 +364,23 @@ public class FrmPrincipal extends javax.swing.JFrame {
 
         fliquidacion.setVisible(true);
     }//GEN-LAST:event_jMILiquidarEmpleadoActionPerformed
+
+    private void jMenuItem3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem3ActionPerformed
+
+        FrmVerPrima fprima = new FrmVerPrima();
+        Salario salario = new Salario();
+        SalarioDAO saldao = new SalarioDAO();
+        Empleado empleado = new Empleado();
+        EmpleadoDAO empldao = new EmpleadoDAO();
+
+        ControladorVerPrima control = new ControladorVerPrima(fprima, salario, saldao, empleado, empldao);
+        jDesktopPane1.add(fprima); //Crea un objeto de tipo form y sobrepone un panel sobre otro
+
+        Dimension desktopSize = jDesktopPane1.getSize();
+        Dimension FrameSize = fprima.getSize();
+        fprima.setLocation((desktopSize.width - FrameSize.width) / 2, (desktopSize.height - FrameSize.height) / 2);
+        fprima.show();
+    }//GEN-LAST:event_jMenuItem3ActionPerformed
 
     public void cerrar() {
         this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
@@ -426,12 +442,11 @@ public class FrmPrincipal extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMILiquidarEmpleado;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
-    private javax.swing.JMenu jMenu3;
     private javax.swing.JMenu jMenu4;
     private javax.swing.JMenu jMenu5;
     private javax.swing.JMenuBar jMenuBar1;
-    private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItem2;
+    private javax.swing.JMenuItem jMenuItem3;
     private javax.swing.JMenuItem jMenuItem4;
     public javax.swing.JMenuItem jMenuItem5;
     private javax.swing.JMenuItem jMenuItem6;

@@ -42,17 +42,18 @@ public class SalarioDAO {
         return dias;
     }
 
-    public java.sql.Date traerFechaCorte(String id) throws SQLException {
+    public java.sql.Date[] traerFechasCorte(String id) throws SQLException {
 
-        String sql = "SELECT MIN(fechaCorte) FROM salario WHERE Id_Empleado='" + id + "'";
+        String sql = "SELECT MIN(fechaCorte),MAX(fechaCorte) FROM salario WHERE Id_Empleado='" + id + "'";
 
         con = cn.getConnection(); //Establece la conexion
         ps = con.prepareStatement(sql); //Se prepara el codigo sql
         rs = ps.executeQuery();
 
-        java.sql.Date fechaCorte = null;
+        java.sql.Date[] fechaCorte = null;
         while (rs.next()) {
-            fechaCorte = rs.getDate("MIN(fechaCorte)");
+            fechaCorte[0] = rs.getDate("MIN(fechaCorte)");
+            fechaCorte[1] = rs.getDate("MAX(fechaCorte)");
         }
 
         return fechaCorte;
@@ -75,7 +76,34 @@ public class SalarioDAO {
         return true;
     }
 
-    public int traerDiasPrima(String mes) {
+    public int traerDiasPrima(String mes, String year, String id) throws SQLException {
 
+        String sql = "";
+        int diasT = 0;
+        if (mes.equals("06")) {
+            sql = "SELECT SUM(Dias_Trabajados) FROM salario WHERE fechaCorte>='" + year + "-01-01' AND "
+                    + "fechaCorte<='" + year + "-06-30' AND Id_Empleado='" + id + "'";
+
+            con = cn.getConnection(); //Establece la conexion
+            ps = con.prepareStatement(sql); //Se prepara el codigo sql
+            rs = ps.executeQuery();
+
+            while (rs.next()) {
+                diasT = rs.getInt("SUM(Dias_Trabajados)");
+            }
+        } else if (mes.equals("12")) {
+            sql = "SELECT SUM(Dias_Trabajados) FROM salario WHERE fechaCorte>='" + year + "-07-01' AND "
+                    + "fechaCorte<='" + year + "-12-31' AND Id_Empleado='" + id + "'";
+
+            con = cn.getConnection(); //Establece la conexion
+            ps = con.prepareStatement(sql); //Se prepara el codigo sql
+            rs = ps.executeQuery();
+
+            while (rs.next()) {
+                diasT = rs.getInt("SUM(Dias_Trabajados)");
+            }
+        }
+
+        return diasT;
     }
 }

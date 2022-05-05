@@ -70,6 +70,7 @@ public class FrmVerNomina extends javax.swing.JInternalFrame {
         });
 
         jLabel16.setFont(new java.awt.Font("Javanese Text", 0, 24)); // NOI18N
+        jLabel16.setForeground(new java.awt.Color(0, 0, 0));
         jLabel16.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel16.setText("NÓMINA");
 

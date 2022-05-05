@@ -124,9 +124,8 @@ public class ControladorVerNomina implements ActionListener {
                 Logger.getLogger(ControladorVerNomina.class.getName()).log(Level.SEVERE, null, ex);
             }
 
-            String nombres = "";
-            String tipoID = "";
-            String cargo = "";
+            String nombres = "", tipoID = "", cargo = "";
+
             for (int j = 0; j < empl.size(); j++) {
                 empleado = (Empleado) empl.get(j);
                 nombres = empleado.getNombres() + " " + empleado.getApellidos();
@@ -203,11 +202,11 @@ public class ControladorVerNomina implements ActionListener {
                 } else {
                     try {
 
+                        //Crear y abrir documento pdf
                         Document docPDF = new Document();
 
                         OutputStream direcArchivo = new FileOutputStream(archivo);
 
-                        //Crear y abrir documento pdf
                         PdfWriter.getInstance(docPDF, direcArchivo);
 
                         String nombres = "", doc = "", cargo = "", periodo = "", salarioBase = "", diasTrabajados = "", pagoPeriodo = "", auxTransp = "",

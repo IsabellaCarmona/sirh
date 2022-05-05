@@ -29,11 +29,11 @@ public class FrmVerPrima extends javax.swing.JInternalFrame {
 
         jScrollPane1 = new javax.swing.JScrollPane();
         jTbPrima = new javax.swing.JTable();
-        jLbTitulo = new javax.swing.JLabel();
         jBtSalir = new javax.swing.JButton();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
+        jBtGenerarPDF = new javax.swing.JButton();
+        jBtBuscarDirectorio = new javax.swing.JButton();
         jLbDirectorio = new javax.swing.JLabel();
+        jLabel16 = new javax.swing.JLabel();
 
         setBackground(new java.awt.Color(153, 153, 153));
 
@@ -50,51 +50,56 @@ public class FrmVerPrima extends javax.swing.JInternalFrame {
         ));
         jScrollPane1.setViewportView(jTbPrima);
 
-        jLbTitulo.setFont(new java.awt.Font("Dialog", 1, 16)); // NOI18N
-        jLbTitulo.setForeground(new java.awt.Color(0, 0, 0));
-
         jBtSalir.setText("Salir");
 
-        jButton1.setText("Generar PDF");
+        jBtGenerarPDF.setText("Generar PDF");
 
-        jButton2.setText("Buscar directorio");
+        jBtBuscarDirectorio.setText("Buscar directorio");
 
         jLbDirectorio.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
         jLbDirectorio.setForeground(new java.awt.Color(0, 0, 0));
+
+        jLabel16.setFont(new java.awt.Font("Javanese Text", 0, 24)); // NOI18N
+        jLabel16.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel16.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel16.setText("PRIMA DE SERVICIOS");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLbTitulo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(layout.createSequentialGroup()
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jButton2)
+                        .addComponent(jBtBuscarDirectorio)
                         .addGap(35, 35, 35)
                         .addComponent(jLbDirectorio, javax.swing.GroupLayout.PREFERRED_SIZE, 323, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jButton1)
+                        .addComponent(jBtGenerarPDF)
                         .addGap(18, 18, 18)
                         .addComponent(jBtSalir)
                         .addGap(26, 26, 26))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 1084, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap(15, Short.MAX_VALUE))))
+                        .addContainerGap(17, Short.MAX_VALUE))))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel16, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(14, 14, 14)
-                .addComponent(jLbTitulo, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(39, 39, 39)
+                .addGap(17, 17, 17)
+                .addComponent(jLabel16, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(49, 49, 49)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 344, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 29, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jBtSalir)
-                    .addComponent(jButton1)
-                    .addComponent(jButton2)
+                    .addComponent(jBtGenerarPDF)
+                    .addComponent(jBtBuscarDirectorio)
                     .addComponent(jLbDirectorio, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(19, 19, 19))
         );
@@ -103,11 +108,11 @@ public class FrmVerPrima extends javax.swing.JInternalFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    public javax.swing.JButton jBtBuscarDirectorio;
+    public javax.swing.JButton jBtGenerarPDF;
     public javax.swing.JButton jBtSalir;
-    public javax.swing.JButton jButton1;
-    public javax.swing.JButton jButton2;
+    private javax.swing.JLabel jLabel16;
     public javax.swing.JLabel jLbDirectorio;
-    public javax.swing.JLabel jLbTitulo;
     private javax.swing.JScrollPane jScrollPane1;
     public javax.swing.JTable jTbPrima;
     // End of variables declaration//GEN-END:variables
