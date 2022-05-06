@@ -50,7 +50,7 @@ public class SalarioDAO {
         ps = con.prepareStatement(sql); //Se prepara el codigo sql
         rs = ps.executeQuery();
 
-        java.sql.Date[] fechaCorte = null;
+        java.sql.Date[] fechaCorte = new java.sql.Date[2];
         while (rs.next()) {
             fechaCorte[0] = rs.getDate("MIN(fechaCorte)");
             fechaCorte[1] = rs.getDate("MAX(fechaCorte)");

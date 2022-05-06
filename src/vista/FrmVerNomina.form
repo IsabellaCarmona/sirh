@@ -34,7 +34,7 @@
               <Component id="jBtBuscarDirectorio" min="-2" max="-2" attributes="0"/>
               <EmptySpace min="-2" pref="27" max="-2" attributes="0"/>
               <Component id="jLbDirectorio" min="-2" pref="345" max="-2" attributes="0"/>
-              <EmptySpace pref="783" max="32767" attributes="0"/>
+              <EmptySpace pref="451" max="32767" attributes="0"/>
               <Component id="jBtGenerarPdf" min="-2" max="-2" attributes="0"/>
               <EmptySpace min="-2" pref="53" max="-2" attributes="0"/>
               <Component id="jBtSalir" min="-2" pref="67" max="-2" attributes="0"/>

@@ -60,6 +60,7 @@ public class ControladorTurnos implements ActionListener {
             turnos = new Turnos(fechaInicio, fechaFin, diaDescanso, horaInicio, horaFin, id);
 
             if (turnosdao.asignarTurno(turnos)) {
+                fTurnos.dispose();
                 limpiarControles();
                 JOptionPane.showMessageDialog(fTurnos, "Turno registrado");
             } else {

@@ -32,6 +32,7 @@ import java.util.logging.Logger;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableColumnModel;
 import modelo.Empleado;
 import modelo.EmpleadoDAO;
 import modelo.Salario;
@@ -70,6 +71,17 @@ public class ControladorVerPrima implements ActionListener {
         modelo.addColumn("Prima Servicios");
         modelo.addColumn("Total Devengado");
         modelo.addColumn("Neto Pagar");
+        fprima.jTbPrima.setModel(modelo);
+
+        TableColumnModel columnModel = fprima.jTbPrima.getColumnModel();
+        columnModel.getColumn(0).setPreferredWidth(400); //Empleado
+        columnModel.getColumn(1).setPreferredWidth(250); //Documento
+        columnModel.getColumn(2).setPreferredWidth(200); //Cargo
+        columnModel.getColumn(3).setPreferredWidth(350); //Periodo
+        columnModel.getColumn(4).setPreferredWidth(230); //Salario Base
+        columnModel.getColumn(5).setPreferredWidth(250); //Prima Servicios
+        columnModel.getColumn(6).setPreferredWidth(220); //Total Devengado
+        columnModel.getColumn(7).setPreferredWidth(220); //Neto Pagar
 
         ArrayList<String> documentos = new ArrayList();
         ArrayList empl = null;
@@ -134,7 +146,6 @@ public class ControladorVerPrima implements ActionListener {
             datos[7] = "$ " + String.valueOf(df.format(prima));
 
             modelo.addRow(datos);
-
         }
     }
 

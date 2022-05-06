@@ -40,8 +40,8 @@ public class ControladorMarcarTurno implements ActionListener {
         this.asist = asist;
         this.asisDao = asisDao;
 
-        fmarcar.jBtMarcarTurno.addActionListener(this);
-        fmarcar.jBtVolver.addActionListener(this);
+        this.fmarcar.jBtMarcarTurno.addActionListener(this);
+        this.fmarcar.jBtVolver.addActionListener(this);
     }
 
     @Override
@@ -62,6 +62,10 @@ public class ControladorMarcarTurno implements ActionListener {
 
             try {
                 listaTurnos = tdao.traerTurnos(documento);
+                if (listaTurnos == null) {
+                    limpiarControles();
+                    JOptionPane.showMessageDialog(fmarcar, "Este número de documentos no se encuentra en la base de datos,\nPor favor ingrese un número de documento válido");
+                }
             } catch (SQLException ex) {
                 Logger.getLogger(ControladorMarcarTurno.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -79,6 +83,22 @@ public class ControladorMarcarTurno implements ActionListener {
                         JOptionPane.showMessageDialog(fmarcar, "Asistencia registrada");
                     } else {
                         JOptionPane.showMessageDialog(fmarcar, "Error al marcar la asistencia");
+                    }
+                } else {
+                    int resp = JOptionPane.showConfirmDialog(fmarcar, "Este número de documento no posee turno el día de hoy,\n\n¿Desea registrar turno?", "Confirmar turno", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+
+                    if (resp == JOptionPane.YES_OPTION) {
+                        asist = new Asistencia(diaActual, horaActual, documento);
+
+                        if (asisDao.guardarDatos(asist)) {
+                            limpiarControles();
+                            JOptionPane.showMessageDialog(fmarcar, "Asistencia registrada");
+                        } else {
+                            JOptionPane.showMessageDialog(fmarcar, "Error al marcar la asistencia");
+                        }
+                    } else {
+                        limpiarControles();
+                        JOptionPane.showMessageDialog(fmarcar, "Por favor ingrese otro número de documento");
                     }
                 }
             }

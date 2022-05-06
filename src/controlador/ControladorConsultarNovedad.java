@@ -54,6 +54,13 @@ public class ControladorConsultarNovedad implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
 
+        if (e.getSource() == frmnovedades.jBtSalir) {
+            int respuesta = JOptionPane.showConfirmDialog(frmnovedades, "¿Está seguro de salir?", "Fin ingreso Turnos", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+            if (respuesta == JOptionPane.YES_OPTION) {
+                frmnovedades.dispose();
+            }
+        }
+
         if (e.getSource() == frmnovedades.jBtEditar) {
 
             int x = JOptionPane.showConfirmDialog(frmnovedades, "¿Está seguro de querer editar estos campos?", "Editar",

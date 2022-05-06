@@ -94,7 +94,7 @@ public class FrmVerNomina extends javax.swing.JInternalFrame {
                 .addComponent(jBtBuscarDirectorio)
                 .addGap(27, 27, 27)
                 .addComponent(jLbDirectorio, javax.swing.GroupLayout.PREFERRED_SIZE, 345, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 783, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 451, Short.MAX_VALUE)
                 .addComponent(jBtGenerarPdf)
                 .addGap(53, 53, 53)
                 .addComponent(jBtSalir, javax.swing.GroupLayout.PREFERRED_SIZE, 67, javax.swing.GroupLayout.PREFERRED_SIZE)
