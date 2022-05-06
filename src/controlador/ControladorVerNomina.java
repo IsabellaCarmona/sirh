@@ -27,6 +27,7 @@ import java.sql.SQLException;
 import java.text.DecimalFormat;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFileChooser;
@@ -65,6 +66,7 @@ public class ControladorVerNomina implements ActionListener {
         this.fnomina.jBtSalir.addActionListener(this);
 
         modelo.addColumn("Empleado");
+        modelo.addColumn("Documento");
         modelo.addColumn("Salario Base");
         modelo.addColumn("Días trabajados");
         modelo.addColumn("Pago Periodo");
@@ -79,15 +81,16 @@ public class ControladorVerNomina implements ActionListener {
         TableColumnModel columnModel = fnomina.jTbNomina.getColumnModel();
 
         columnModel.getColumn(0).setPreferredWidth(520); //Empleado
-        columnModel.getColumn(1).setPreferredWidth(190); //Salario Base
-        columnModel.getColumn(2).setPreferredWidth(220); //Días trabajados
-        columnModel.getColumn(3).setPreferredWidth(200); //Pago Periodo
-        columnModel.getColumn(4).setPreferredWidth(180); //Pago Auxilio
-        columnModel.getColumn(5).setPreferredWidth(170); //Bonificación
-        columnModel.getColumn(6).setPreferredWidth(240); //Total Devengado
-        columnModel.getColumn(7).setPreferredWidth(170); //Préstamo
-        columnModel.getColumn(8).setPreferredWidth(280); //Total deducciones
-        columnModel.getColumn(9).setPreferredWidth(203); //Total Pagar
+        columnModel.getColumn(1).setPreferredWidth(250); //Documento
+        columnModel.getColumn(2).setPreferredWidth(190); //Salario Base
+        columnModel.getColumn(3).setPreferredWidth(220); //Días trabajados
+        columnModel.getColumn(4).setPreferredWidth(200); //Pago Periodo
+        columnModel.getColumn(5).setPreferredWidth(180); //Pago Auxilio
+        columnModel.getColumn(6).setPreferredWidth(170); //Bonificación
+        columnModel.getColumn(7).setPreferredWidth(240); //Total Devengado
+        columnModel.getColumn(8).setPreferredWidth(170); //Préstamo
+        columnModel.getColumn(9).setPreferredWidth(250); //Total deducciones
+        columnModel.getColumn(10).setPreferredWidth(203); //Total Pagar
 
         ArrayList<String> documentos = new ArrayList();
         ArrayList empl = null;
@@ -100,7 +103,7 @@ public class ControladorVerNomina implements ActionListener {
 
         int salarioBase = 0, diasTrabajados = 0;
 
-        String[] datos = new String[10];
+        String[] datos = new String[11];
         String docu;
         DecimalFormat df = new DecimalFormat("0,000");
         for (int i = 0; i < documentos.size(); i++) {
@@ -114,7 +117,7 @@ public class ControladorVerNomina implements ActionListener {
                 Logger.getLogger(ControladorVerNomina.class.getName()).log(Level.SEVERE, null, ex);
             }
 
-            String nombres = "", tipoID = "", cargo = "";
+            String nombres = "", tipoID = "";
 
             for (int j = 0; j < empl.size(); j++) {
                 empleado = (Empleado) empl.get(j);
@@ -127,9 +130,8 @@ public class ControladorVerNomina implements ActionListener {
                 } else {
                     tipoID = empleado.getTipoId();
                 }
-                cargo = empleado.getCargo();
             }
-            String periodo = String.valueOf(LocalDate.now());
+
             double pagoPeriodo = salario.validacion(salarioBase, diasTrabajados);
             double auxTransp = salario.auxTransp(salarioBase);
             double auxD;
@@ -140,20 +142,20 @@ public class ControladorVerNomina implements ActionListener {
             }
 
             double totalD = salario.totalD(salarioBase, diasTrabajados);
-            String deducciones = "8%";
             double totalDeducciones = salario.deducciones(salarioBase, diasTrabajados);
             double totalP = salario.totalPagar(salarioBase, diasTrabajados);
 
             datos[0] = nombres;
-            datos[1] = "$ " + String.valueOf(df.format(salarioBase));
-            datos[2] = String.valueOf(diasTrabajados);
-            datos[3] = "$ " + String.valueOf(df.format(pagoPeriodo));
-            datos[4] = "$ " + String.valueOf(df.format(auxD));
-            datos[5] = "$ " + String.valueOf(0);
-            datos[6] = "$ " + String.valueOf(df.format(totalD));
-            datos[7] = "$ " + String.valueOf(0);
-            datos[8] = "$ " + String.valueOf(df.format(totalDeducciones));
-            datos[9] = "$ " + String.valueOf(df.format(totalP));
+            datos[1] = tipoID + " " + docu;
+            datos[2] = "$ " + String.valueOf(df.format(salarioBase));
+            datos[3] = String.valueOf(diasTrabajados);
+            datos[4] = "$ " + String.valueOf(df.format(pagoPeriodo));
+            datos[5] = "$ " + String.valueOf(df.format(auxD));
+            datos[6] = "$ " + String.valueOf(0);
+            datos[7] = "$ " + String.valueOf(df.format(totalD));
+            datos[8] = "$ " + String.valueOf(0);
+            datos[9] = "$ " + String.valueOf(df.format(totalDeducciones));
+            datos[10] = "$ " + String.valueOf(df.format(totalP));
 
             modelo.addRow(datos);
         }
@@ -185,6 +187,7 @@ public class ControladorVerNomina implements ActionListener {
                     JOptionPane.showMessageDialog(fnomina, "Debe nombrar el archivo y el lugar de guardado del\n mismo con el botón 'Buscar Directorio' "
                             + "antes de generar el PDF.", "Error", JOptionPane.ERROR_MESSAGE);
                 } else {
+
                     try {
 
                         //Crear y abrir documento pdf
@@ -205,18 +208,39 @@ public class ControladorVerNomina implements ActionListener {
 
                             nombres = (String) modelo.getValueAt(i, 0);
                             doc = (String) modelo.getValueAt(i, 1);
-                            cargo = (String) modelo.getValueAt(i, 2);
-                            periodo = (String) modelo.getValueAt(i, 3);
-                            salarioBase = (String) modelo.getValueAt(i, 4);
-                            diasTrabajados = (String) modelo.getValueAt(i, 5);
-                            pagoPeriodo = (String) modelo.getValueAt(i, 6);
-                            auxTransp = (String) modelo.getValueAt(i, 7);
-                            pagoAux = (String) modelo.getValueAt(i, 8);
-                            bonificacion = (String) modelo.getValueAt(i, 9);
-                            totalDevengado = (String) modelo.getValueAt(i, 10);
-                            prestamo = (String) modelo.getValueAt(i, 12);
-                            totalDeducciones = (String) modelo.getValueAt(i, 13);
-                            netoPagar = (String) modelo.getValueAt(i, 14);
+                            periodo = String.valueOf(LocalDate.now());
+                            salarioBase = (String) modelo.getValueAt(i, 2);
+                            diasTrabajados = (String) modelo.getValueAt(i, 3);
+                            pagoPeriodo = (String) modelo.getValueAt(i, 4);
+                            pagoAux = (String) modelo.getValueAt(i, 5);
+                            bonificacion = (String) modelo.getValueAt(i, 6);
+                            totalDevengado = (String) modelo.getValueAt(i, 7);
+                            prestamo = (String) modelo.getValueAt(i, 8);
+                            totalDeducciones = (String) modelo.getValueAt(i, 9);
+                            netoPagar = (String) modelo.getValueAt(i, 10);
+
+                            String[] vectorNumero = doc.split(" ");
+                            String numero = vectorNumero[1];
+
+                            ArrayList empl = new ArrayList();
+                            try {
+                                empl = empldao.traerRegistros(numero);
+                            } catch (SQLException ex) {
+                                Logger.getLogger(ControladorVerNomina.class.getName()).log(Level.SEVERE, null, ex);
+                            }
+                            for (int j = 0; j < empl.size(); j++) {
+                                empleado = (Empleado) empl.get(j);
+                            }
+
+                            cargo = empleado.getCargo();
+
+                            vectorNumero = salarioBase.split(" ");
+                            numero = vectorNumero[1];
+                            vectorNumero = numero.split("\\.");
+                            int sala = cambioDecimal(vectorNumero);
+                            if (sala <= 1000000 * 2) {
+                                auxTransp = "117172";
+                            }
 
                             int diasT = Integer.parseInt(diasTrabajados);
                             java.sql.Date fechaCorte = new java.sql.Date(new java.util.Date().getTime());
@@ -322,4 +346,15 @@ public class ControladorVerNomina implements ActionListener {
         }
     }
 
+    public int cambioDecimal(String[] numero) {
+
+        int numeroInt = 0;
+        String numerito = "";
+        for (int i = 0; i < Arrays.asList(numero).size(); i++) {
+
+            numerito += Arrays.asList(numero).get(i);
+        }
+        numeroInt = Integer.parseInt(numerito);
+        return numeroInt;
+    }
 }
