@@ -71,7 +71,7 @@ public class Salario {
         registros = asistdao.traerNroRegistros(documento);
 
         int diasTrabajados = 0;
-        if (dia.equals("05") || dia.equals("15")) {
+        if (dia.equals("09") || dia.equals("10") || dia.equals("07") || dia.equals("08")) {
 
             if (registros % 2 == 0) {
                 diasTrabajados = (registros / 2) + 2;

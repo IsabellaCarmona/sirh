@@ -6,7 +6,16 @@
 package vista;
 
 import controlador.ControladorNomina;
+import controlador.ControladorVerNomina;
+import java.sql.SQLException;
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.table.DefaultTableModel;
+import modelo.Empleado;
+import modelo.EmpleadoDAO;
 import modelo.Salario;
 
 /**
@@ -128,26 +137,49 @@ public class FrmVerNomina extends javax.swing.JInternalFrame {
 
         String nombres = (String) modelo.getValueAt(fila, 0);
         String doc = (String) modelo.getValueAt(fila, 1);
-        String cargo = (String) modelo.getValueAt(fila, 2);
-        String periodo = (String) modelo.getValueAt(fila, 3);
-        String salarioBase = (String) modelo.getValueAt(fila, 4);
-        String diasTrabajados = (String) modelo.getValueAt(fila, 5);
-        String pagoPeriodo = (String) modelo.getValueAt(fila, 6);
-        String auxTransp = (String) modelo.getValueAt(fila, 7);
-        String pagoAux = (String) modelo.getValueAt(fila, 8);
-        String bonificacion = (String) modelo.getValueAt(fila, 9);
-        String totalDevengado = (String) modelo.getValueAt(fila, 10);
-        String prestamo = (String) modelo.getValueAt(fila, 12);
-        String totalDeducciones = (String) modelo.getValueAt(fila, 13);
-        String netoPagar = (String) modelo.getValueAt(fila, 14);
+        String salarioBase = (String) modelo.getValueAt(fila, 2);
+        String diasTrabajados = (String) modelo.getValueAt(fila, 3);
+        String pagoPeriodo = (String) modelo.getValueAt(fila, 4);
+        String pagoAux = (String) modelo.getValueAt(fila, 5);
+        String bonificacion = (String) modelo.getValueAt(fila, 6);
+        String totalDevengado = (String) modelo.getValueAt(fila, 7);
+        String prestamo = (String) modelo.getValueAt(fila, 8);
+        String totalDeducciones = (String) modelo.getValueAt(fila, 9);
+        String netoPagar = (String) modelo.getValueAt(fila, 10);
 
         FrmNomina fnomina = new FrmNomina();
         Salario salario = new Salario();
+        EmpleadoDAO empldao = new EmpleadoDAO();
+        Empleado empleado = new Empleado();
+
+        String[] vectorNumero = doc.split(" ");
+        String numero = vectorNumero[1];
+
+        ArrayList empl = new ArrayList();
+        try {
+            empl = empldao.traerRegistros(numero);
+        } catch (SQLException ex) {
+            Logger.getLogger(ControladorVerNomina.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        for (int j = 0; j < empl.size(); j++) {
+            empleado = (Empleado) empl.get(j);
+        }
+
+        String cargo = empleado.getCargo();
+
+        vectorNumero = salarioBase.split(" ");
+        numero = vectorNumero[1];
+        vectorNumero = numero.split("\\.");
+        int sala = cambioDecimal(vectorNumero);
+        String auxTransp = "";
+        if (sala <= 1000000 * 2) {
+            auxTransp = "117172";
+        }
 
         fnomina.jTxEmpleado.setText(nombres);
         fnomina.jTxDocumento.setText(doc);
         fnomina.jTxCargo.setText(cargo);
-        fnomina.jTxFechaCorte.setText(periodo);
+        fnomina.jTxFechaCorte.setText(String.valueOf(LocalDate.now())); //Fecha dia actual
         fnomina.jTxSalarioBase.setText(salarioBase);
         fnomina.jTxDiasTrabajados.setText(diasTrabajados);
         fnomina.jTxPagoQuincena.setText(pagoPeriodo);
@@ -171,6 +203,17 @@ public class FrmVerNomina extends javax.swing.JInternalFrame {
 
     }//GEN-LAST:event_jBtBuscarDirectorioActionPerformed
 
+    public int cambioDecimal(String[] numero) {
+
+        int numeroInt = 0;
+        String numerito = "";
+        for (int i = 0; i < Arrays.asList(numero).size(); i++) {
+
+            numerito += Arrays.asList(numero).get(i);
+        }
+        numeroInt = Integer.parseInt(numerito);
+        return numeroInt;
+    }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     public javax.swing.JButton jBtBuscarDirectorio;
     public javax.swing.JButton jBtGenerarPdf;

@@ -232,17 +232,9 @@ public class ControladorVerPrima implements ActionListener {
 
                         docPDF.close();
                         direcArchivo.close();
-                        PrinterJob job = PrinterJob.getPrinterJob();
 
-                        if (job.printDialog()) {
-                            try {
-                                job.print();
-                            } catch (PrinterException ex) {
-                                Logger.getLogger(FrmVerPrima.class.getName()).log(Level.SEVERE, null, ex);
-                            }
-                        } else {
-                            JOptionPane.showMessageDialog(fprima, "La impresión fue cancelada");
-                        }
+                        JOptionPane.showMessageDialog(fprima, "PDF creado de forma exitosa");
+                        fprima.dispose();
                     } catch (FileNotFoundException ex) {
                         Logger.getLogger(FrmVerPrima.class.getName()).log(Level.SEVERE, null, ex);
                     } catch (DocumentException | IOException ex) {

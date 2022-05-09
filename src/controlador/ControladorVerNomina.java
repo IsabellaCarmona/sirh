@@ -16,8 +16,6 @@ import com.itextpdf.text.Paragraph;
 import com.itextpdf.text.pdf.PdfWriter;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.print.PrinterException;
-import java.awt.print.PrinterJob;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -288,17 +286,8 @@ public class ControladorVerNomina implements ActionListener {
 
                         docPDF.close();
                         direcArchivo.close();
-                        PrinterJob job = PrinterJob.getPrinterJob();
-
-                        if (job.printDialog()) {
-                            try {
-                                job.print();
-                            } catch (PrinterException ex) {
-                                Logger.getLogger(FrmVerNomina.class.getName()).log(Level.SEVERE, null, ex);
-                            }
-                        } else {
-                            JOptionPane.showMessageDialog(fnomina, "La impresión fue cancelada");
-                        }
+                        JOptionPane.showMessageDialog(fnomina, "PDF creado de forma exitosa");
+                        fnomina.dispose();
                     } catch (FileNotFoundException ex) {
                         Logger.getLogger(FrmVerNomina.class.getName()).log(Level.SEVERE, null, ex);
                     } catch (DocumentException | IOException ex) {

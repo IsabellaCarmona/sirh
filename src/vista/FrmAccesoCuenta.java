@@ -136,7 +136,7 @@ public class FrmAccesoCuenta extends javax.swing.JFrame {
                             .addGap(17, 17, 17)))))
         );
 
-        getContentPane().add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 460, -1, -1));
+        getContentPane().add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 460, 840, -1));
 
         jPanel3.setBackground(new java.awt.Color(153, 153, 153));
 
@@ -195,7 +195,7 @@ public class FrmAccesoCuenta extends javax.swing.JFrame {
                 .addGap(33, 33, 33))
         );
 
-        getContentPane().add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 150, -1, -1));
+        getContentPane().add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 150, 840, -1));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents

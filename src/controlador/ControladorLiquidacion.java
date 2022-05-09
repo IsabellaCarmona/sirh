@@ -7,10 +7,8 @@ package controlador;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.print.PageFormat;
 import java.awt.print.PrinterException;
 import java.awt.print.PrinterJob;
-import java.sql.SQLException;
 import java.text.DecimalFormat;
 import java.util.Arrays;
 import java.util.logging.Level;
@@ -20,7 +18,6 @@ import modelo.Empleado;
 import modelo.EmpleadoDAO;
 import modelo.Salario;
 import vista.FrmLiquidacion;
-import vista.FrmVerNomina;
 
 /**
  *
@@ -102,42 +99,48 @@ public class ControladorLiquidacion implements ActionListener {
 
         if (e.getSource() == fliquidacion.jBtGenerarPDF) {
 
-            fliquidacion.jTxEmpleado.setEnabled(true);
-            fliquidacion.jTxDocumento.setEnabled(true);
-            fliquidacion.jTxCargo.setEnabled(true);
-            fliquidacion.jTxSalarioBase.setEnabled(true);
-            fliquidacion.jTxPrima.setEnabled(true);
-            fliquidacion.jTxInteresesCesan.setEnabled(true);
-            fliquidacion.jTxCesantias.setEnabled(true);
-            fliquidacion.jTxVacaciones.setEnabled(true);
-            fliquidacion.jTxTotalDevengado.setEnabled(true);
-            fliquidacion.jTxNetoPagar.setEnabled(true);
+            int respuesta = JOptionPane.showConfirmDialog(fliquidacion, "¿Está seguro de que desea generar el PDF?\n\n"
+                    + "No se podrán hacer cambios en la nómina cuando se genere el PDF", "Fin Nómina", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+            if (respuesta == JOptionPane.YES_OPTION) {
+                fliquidacion.jTxEmpleado.setEnabled(true);
+                fliquidacion.jTxDocumento.setEnabled(true);
+                fliquidacion.jTxCargo.setEnabled(true);
+                fliquidacion.jTxSalarioBase.setEnabled(true);
+                fliquidacion.jTxPrima.setEnabled(true);
+                fliquidacion.jTxInteresesCesan.setEnabled(true);
+                fliquidacion.jTxCesantias.setEnabled(true);
+                fliquidacion.jTxVacaciones.setEnabled(true);
+                fliquidacion.jTxTotalDevengado.setEnabled(true);
+                fliquidacion.jTxNetoPagar.setEnabled(true);
 
-            fliquidacion.jBtEditar.setVisible(false);
-            fliquidacion.jBtGenerarPDF.setVisible(false);
-            PrinterJob job = PrinterJob.getPrinterJob();
-            job.setPrintable(fliquidacion);
+                fliquidacion.jBtEditar.setVisible(false);
+                fliquidacion.jBtGenerarPDF.setVisible(false);
+                PrinterJob job = PrinterJob.getPrinterJob();
+                job.setPrintable(fliquidacion);
 
-            if (job.printDialog()) {
-                try {
-                    job.print();
-                } catch (PrinterException ex) {
-                    Logger.getLogger(FrmLiquidacion.class.getName()).log(Level.SEVERE, null, ex);
+                if (job.printDialog()) {
+                    try {
+                        job.print();
+                    } catch (PrinterException ex) {
+                        Logger.getLogger(FrmLiquidacion.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                    JOptionPane.showMessageDialog(fliquidacion, "PDF creado de forma exitosa.");
+                    fliquidacion.jTxEmpleado.setEnabled(false);
+                    fliquidacion.jTxDocumento.setEnabled(false);
+                    fliquidacion.jTxCargo.setEnabled(false);
+                    fliquidacion.jTxSalarioBase.setEnabled(false);
+                    fliquidacion.jTxPrima.setEnabled(false);
+                    fliquidacion.jTxInteresesCesan.setEnabled(false);
+                    fliquidacion.jTxCesantias.setEnabled(false);
+                    fliquidacion.jTxVacaciones.setEnabled(false);
+                    fliquidacion.jTxTotalDevengado.setEnabled(false);
+                    fliquidacion.jTxNetoPagar.setEnabled(false);
+                    fliquidacion.jBtEditar.setVisible(true);
+                    fliquidacion.jBtGenerarPDF.setVisible(true);
+                    fliquidacion.dispose();
+                } else {
+                    JOptionPane.showMessageDialog(fliquidacion, "La impresión fue cancelada");
                 }
-                fliquidacion.jTxEmpleado.setEnabled(false);
-                fliquidacion.jTxDocumento.setEnabled(false);
-                fliquidacion.jTxCargo.setEnabled(false);
-                fliquidacion.jTxSalarioBase.setEnabled(false);
-                fliquidacion.jTxPrima.setEnabled(false);
-                fliquidacion.jTxInteresesCesan.setEnabled(false);
-                fliquidacion.jTxCesantias.setEnabled(false);
-                fliquidacion.jTxVacaciones.setEnabled(false);
-                fliquidacion.jTxTotalDevengado.setEnabled(false);
-                fliquidacion.jTxNetoPagar.setEnabled(false);
-                fliquidacion.jBtEditar.setVisible(true);
-                fliquidacion.jBtGenerarPDF.setVisible(true);
-            } else {
-                JOptionPane.showMessageDialog(fliquidacion, "La impresión fue cancelada");
             }
         }
     }
